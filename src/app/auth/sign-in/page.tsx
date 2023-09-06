@@ -8,6 +8,7 @@ import { useState, Fragment } from "react";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 
+import AuthCheck from "../../components/auth/AuthCheck";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 
@@ -19,10 +20,11 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
 
   const submitForm = async (values: object) => {
-    setLoading(true);
-    const res = await apiFetch("auth/sign-in", "POST", values);
-    console.log(res);
-    setLoading(false);
+    // setLoading(true);
+    // const res = await apiFetch("auth/sign-in", "POST", values);
+    // console.log(res);
+    // setLoading(false);
+    console.log(values);
   };
 
   return (
@@ -39,7 +41,7 @@ export default function Page() {
           initialValues={{
             email: "jalopez@sismex.com",
             password: "Jalhsismex21*",
-            remember_me: 1,
+            rememberMe: false,
           }}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -63,6 +65,15 @@ export default function Page() {
                   value={values.password}
                   handleChange={handleChange}
                   errors={errors.password}
+                />
+              </Row>
+
+              <Row>
+                <AuthCheck
+                  text={"Recordarme"}
+                  name={"rememberMe"}
+                  handleChange={handleChange}
+                  errors={errors}
                 />
               </Row>
 

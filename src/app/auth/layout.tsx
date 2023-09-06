@@ -23,32 +23,5 @@ export default function AuthLayout({ children }) {
         </Col>
       </Row>
     </Container>
-
-    // <Container className="d-flex align-items-center justify-content-center">
-    //   <Row>
-    //     <Col
-    //       xs={6}
-    //       style={{
-    //         display: "flex",
-    //         flexDirection: "column",
-    //         padding: "68px 100px",
-    //         backgroundColor: "orange",
-    //       }}
-    //     >
-    //       {children}
-    //     </Col>
-    //     <Col xs={6} className="px-0 d-none d-sm-block">
-    //       <Image
-    //         style={{
-    //           width: "100%",
-    //           height: "100vh",
-    //           objectFit: "cover",
-    //           objectPosition: "left",
-    //         }}
-    //         src="https://demo.bootstrapdash.com/login-template-free-1/assets/images/login.jpg"
-    //       ></Image>
-    //     </Col>
-    //   </Row>
-    // </Container>
   );
 }
