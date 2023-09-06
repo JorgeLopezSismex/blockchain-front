@@ -13,4 +13,5 @@ export const apiFetch = async (
   });
 
   console.log(await res.json());
+  return await res.json();
 };

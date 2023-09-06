@@ -11,19 +11,11 @@ import Form from "react-bootstrap/Form";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 
-import { apiFetch } from "../../../helpers/api-fetch";
-import { signInSchema } from "../../../validations/validation-schemas";
+import { signUpSchema } from "@/validations/validation-schemas";
 
-export default function Page() {
+export default function ForgotPassword() {
   const { Formik } = formik;
   const [loading, setLoading] = useState(false);
-
-  const submitForm = async (values: object) => {
-    setLoading(true);
-    const res = await apiFetch("auth/sign-in", "POST", values);
-    console.log(res);
-    setLoading(false);
-  };
 
   return (
     <Fragment>
@@ -32,15 +24,15 @@ export default function Page() {
       </div>
 
       <div style={{ paddingTop: 24, paddingBottom: 24 }}>
-        <h1>Inicio de sesión</h1>
+        <h1>Olvide mi contraseña</h1>
         <Formik
-          onSubmit={submitForm}
-          validationSchema={signInSchema}
+          validationSchema={signUpSchema}
           initialValues={{
-            email: "jalopez@sismex.com",
-            password: "Jalhsismex21*",
+            email: "Mark",
+            password: "Otto",
             remember_me: 1,
           }}
+          onSubmit={() => alert("Hola mundo")}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
             <Form noValidate onSubmit={handleSubmit}>
@@ -56,23 +48,12 @@ export default function Page() {
               </Row>
 
               <Row className="mb-3">
-                <AuthInput
-                  type={"password"}
-                  label={"Contraseña"}
-                  name={"password"}
-                  value={values.password}
-                  handleChange={handleChange}
-                  errors={errors.password}
-                />
-              </Row>
-
-              <Row className="mb-3">
-                <AuthButton text={"Iniciar sesión"} loading={loading} />
+                <AuthButton text={"Cambiar contraseña"} loading={loading} />
               </Row>
             </Form>
           )}
         </Formik>
-        <Link href={"forgot-password"}>¿Olvidaste tu contraseña?</Link>
+        <Link href={"sign-in"}>¿Tienes una cuenta? - Iniciar sesión</Link>
         <br />
         <Link href={"sign-up"}>¿No tienes cuenta? - Registrate</Link>
       </div>
