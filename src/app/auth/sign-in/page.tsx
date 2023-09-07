@@ -11,6 +11,7 @@ import Form from "react-bootstrap/Form";
 import AuthCheck from "../../components/auth/AuthCheck";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
+import ActionToast from "../../components/main/ActionToast";
 
 import { apiFetch } from "../../../helpers/api-fetch";
 import { signInSchema } from "../../../validations/validation-schemas";
@@ -18,13 +19,24 @@ import { signInSchema } from "../../../validations/validation-schemas";
 export default function Page() {
   const { Formik } = formik;
   const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  const [toastTitle, setToastTitle] = useState("Título");
+  const [toastMessage, setToastMessage] = useState("Mensaje");
+  const [toastVariant, setToastVariant] = useState("success");
 
   const submitForm = async (values: object) => {
-    // setLoading(true);
-    // const res = await apiFetch("auth/sign-in", "POST", values);
-    // console.log(res);
-    // setLoading(false);
-    console.log(values);
+    setLoading(true);
+    const res = await apiFetch("auth/sign-in", "POST", values);
+
+    if (res.data == null) {
+      setShowToast(true);
+      setToastVariant("danger");
+      setToastTitle("Autenticación");
+      setToastMessage(res.message);
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -87,6 +99,14 @@ export default function Page() {
         <br />
         <Link href={"sign-up"}>¿No tienes cuenta? - Registrate</Link>
       </div>
+
+      <ActionToast
+        variant={toastVariant}
+        show={showToast}
+        title={toastTitle}
+        message={toastMessage}
+        onClose={() => setShowToast(false)}
+      />
     </Fragment>
   );
 }

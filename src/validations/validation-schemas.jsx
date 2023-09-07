@@ -21,4 +21,38 @@ export const signUpSchema = yup.object().shape({
     .email("Por favor, escribe una dirección de correo válida.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
     .max(150, "Por favor, no escribas más de 150 caracteres."),
+  password: yup
+    .string()
+    .required("Este campo es obligatorio.")
+    .min(8, "Por favor, no escribas menos de 8 caracteres.")
+    .max(16, "Por favor, no escribas más de 16 caracteres."),
+  repeatPassword: yup
+    .string()
+    .required("Este campo es obligatorio.")
+    .min(8, "Por favor, no escribas menos de 8 caracteres.")
+    .max(16, "Por favor, no escribas más de 16 caracteres.")
+    .oneOf([yup.ref("password"), null], "Las contraseñas no coinciden"),
+});
+
+export const forgotPassword = yup.object().shape({
+  email: yup
+    .string()
+    .required("Este campo es obligatorio.")
+    .email("Por favor, escribe una dirección de correo válida.")
+    .min(5, "Por favor, no escribas menos de 5 caracteres.")
+    .max(150, "Por favor, no escribas más de 150 caracteres."),
+});
+
+export const resetPassword = yup.object().shape({
+  password: yup
+    .string()
+    .required("Este campo es obligatorio.")
+    .min(8, "Por favor, no escribas menos de 8 caracteres.")
+    .max(16, "Por favor, no escribas más de 16 caracteres."),
+  repeatPassword: yup
+    .string()
+    .required("Este campo es obligatorio.")
+    .min(8, "Por favor, no escribas menos de 8 caracteres.")
+    .max(16, "Por favor, no escribas más de 16 caracteres.")
+    .oneOf([yup.ref("password"), null], "Las contraseñas no coinciden"),
 });

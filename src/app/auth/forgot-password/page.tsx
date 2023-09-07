@@ -48,7 +48,10 @@ export default function ForgotPassword() {
               </Row>
 
               <Row className="mb-3">
-                <AuthButton text={"Cambiar contraseña"} loading={loading} />
+                <AuthButton
+                  text={"Solicitar cambiar contraseña"}
+                  loading={loading}
+                />
               </Row>
             </Form>
           )}

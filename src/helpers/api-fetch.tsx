@@ -12,6 +12,5 @@ export const apiFetch = async (
     body: JSON.stringify(body),
   });
 
-  console.log(await res.json());
   return await res.json();
 };

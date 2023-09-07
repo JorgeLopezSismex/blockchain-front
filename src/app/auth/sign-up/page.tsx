@@ -20,7 +20,7 @@ export default function SignUp() {
   return (
     <Fragment>
       <div style={{ paddingTop: 7, paddingBottom: 8 }}>
-        <h1>hOLA MUNDO</h1>
+        <h1>Sismex - Blockchain</h1>
       </div>
 
       <div style={{ paddingTop: 24, paddingBottom: 24 }}>
@@ -30,7 +30,7 @@ export default function SignUp() {
           initialValues={{
             email: "jalopez@sismex.com",
             password: "Jalhsismex21*",
-            remember_me: 1,
+            repeatPassword: "fsdfsdf",
           }}
           onSubmit={() => alert("Hola mundo")}
         >
@@ -61,16 +61,16 @@ export default function SignUp() {
               <Row className="mb-3">
                 <AuthInput
                   type={"password"}
-                  label={"Contraseña"}
-                  name={"password"}
-                  value={values.password}
+                  label={"Repetir contraseña"}
+                  name={"repeatPassword"}
+                  value={values.repeatPassword}
                   handleChange={handleChange}
-                  errors={errors.password}
+                  errors={errors.repeatPassword}
                 />
               </Row>
 
               <Row className="mb-3">
-                <AuthButton text={"Re"} loading={loading} />
+                <AuthButton text={"Registrarse"} loading={loading} />
               </Row>
             </Form>
           )}
