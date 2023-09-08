@@ -18,7 +18,7 @@ function MainNav() {
   return (
     <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
       <Container fluid>
-        <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
+        <Navbar.Brand href="#" className="ms-3">Navbar Offcanvas</Navbar.Brand>
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-${expand}`}
@@ -36,7 +36,7 @@ function MainNav() {
               <Nav.Link href="#action2">Beneficios</Nav.Link>
               <Nav.Link href="#action2">Clientes</Nav.Link>
               <Nav.Link href="pricing">Precios</Nav.Link>
-              <Button variant="outline-success">Iniciar sesión</Button>
+              <Button className="mx-2" variant="outline-success">Iniciar sesión</Button>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
