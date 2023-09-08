@@ -1,11 +1,20 @@
 "use client";
+//Ventana de clientes (╯°□°）╯︵ ┻━┻
 
 import { Col, Container, Row } from "react-bootstrap";
-import Carousel from "react-bootstrap/Carousel";
-
-import Card from "react-bootstrap/Card";
-import CardGroup from "react-bootstrap/CardGroup";
+import ClientCarousel from '../../components/main/ClientCarousel';
 
 export default function Clients() {
-  return <h1>Testimonials</h1>;
+  return (
+    <div>
+      <Container>
+        <Row>
+          <Col><h1 style={{textAlign:'center'}}>Clientes</h1></Col>
+        </Row>
+        <Row>
+          <ClientCarousel/>
+        </Row>
+      </Container>
+    </div>
+  );
 }

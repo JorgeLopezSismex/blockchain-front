@@ -1,29 +1,17 @@
 import React from "react";
-
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
-
 function MainFoot(){
     return(
-        <div className="mainFoot">
-            <h3>Footer</h3>
-            <Row>
-                <Col>
-                    1
-                </Col>
-                <Col>
-                    2
-                </Col>
-                <Col>
-                    3
-                </Col>
-                <Col>
-                    4
-                </Col>
-            </Row>
-        </div>
+            <footer style={{backgroundColor: "#f5f7fa"}}>
+                <ul className="nav justify-content-center border-bottom pb-2 pt-4 mb-3 mt-5">
+                    <li className="nav-item mx-3 text-muted">
+                        <p>Telefono: Mty +52 (81) 8351 3861 y (81) 8351 3862</p>
+                    </li>
+                    <li className="nav-item mx-3 text-muted">
+                        <p>Email: contacto@sismex.com</p>
+                    </li>
+                </ul>
+                <p className="text-center text-muted pb-3">© SISMEX | Derechos Reservados</p>
+            </footer>
     );
 }
 export default MainFoot
