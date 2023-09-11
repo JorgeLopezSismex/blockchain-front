@@ -33,7 +33,7 @@ function MainNav() {
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
               <Nav.Link href="/main/about-us">Blockchain</Nav.Link>
-              <Nav.Link href="#action2">Beneficios</Nav.Link>
+              <Nav.Link href="/main/benefits">Beneficios</Nav.Link>
               <Nav.Link href="/main/clients">Clientes</Nav.Link>
               <Nav.Link href="/main/pricing">Precios</Nav.Link>
               <Button className="mx-2" variant="outline-success">Iniciar sesión</Button>
