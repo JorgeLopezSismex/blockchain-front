@@ -54,7 +54,7 @@ function ClientCarousel() {
           
           {clients.map((client) =>(
             <Carousel.Item>
-              <ClientCard xs={12} md={4}
+              <ClientCard
                 name= {client.name}
                 image= {client.image}
                 description= {client.description}
