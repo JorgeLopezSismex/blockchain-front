@@ -29,6 +29,13 @@ export default function Pricing() {
 
   return (
     <Container>
+      <Row className="py-1 px-1 mt-5 mb-2 mx-1" style={{textAlign:"center"}}>
+        <h1>Planes</h1>
+        <p>Conoce nuestros planes. Nos adaptamos a tus necesidades. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Nullam velit risus, dictum et nibh vel, pretium rhoncus est. Suspendisse id odio ac libero eleifend dapibus eget a leo. 
+        Sed aliquet metus nec est hendrerit, et viverra elit maximus.
+        </p>
+      </Row>
       <Row>
         {plans.map((plan) => (
           <Col xs={12} md={4}>

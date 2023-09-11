@@ -34,25 +34,23 @@ export default function Clients() {
                 ></Image>
             </Col>
         </Row>
-        <Row className="my-5">
+
+        <Row className="mt-5 mb-2">
             <Col>
                 <h3>Como obtener un número DUNS</h3>
                 <p>Para obtener un número D.U.N.S. (Data Universal Numbering System), generalmente necesitas seguir estos pasos:</p>
             </Col>
         </Row>
+
         <Row className="px-3 py-3">
             <Col>
                 <h5>1 Accede a la página web de Dun & Bradstreet (D&B)</h5>
-            </Col>
-            <Col className="mx-auto my-auto">
                 <p>Ve al sitio web oficial de Dun & Bradstreet (D&B), que es la empresa encargada de administrar el sistema D.U.N.S.</p>
             </Col>
         </Row>
         <Row className="px-3 py-3">
             <Col className="mx-auto my-auto">
                 <h5>2 Verifica si ya tienes un número D.U.N.S.</h5>
-            </Col>
-            <Col>
                 <p>Antes de solicitar un nuevo número D.U.N.S., verifica si tu empresa ya tiene uno. </p>
             </Col>
         </Row>

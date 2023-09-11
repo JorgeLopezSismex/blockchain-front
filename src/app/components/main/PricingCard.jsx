@@ -11,7 +11,15 @@ function PricingCard({ name, price, description }) {
         <Card.Title>
           <h1>${price}</h1>
         </Card.Title>
-        <Card.Text>{description}</Card.Text>
+        <Card.Text>
+          {description}
+          <ul>
+            <li>Something</li>
+            <li>Something more</li>
+            <li>Something else</li>
+            <li>Something important</li>
+          </ul>
+        </Card.Text>
         <Button variant="primary">Agregar al carrito</Button>
       </Card.Body>
     </Card>
