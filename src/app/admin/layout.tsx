@@ -12,29 +12,27 @@ import { Fragment } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import Button from "react-bootstrap/Button";
-
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import Form from "react-bootstrap/Form";
 
 import Alert from "react-bootstrap/Alert";
 
+import styles from "./styles.module.css";
+
+import AdminTable from "../components/admin/AdminTable";
+
 export default function AdminLayout({ children }) {
   return (
-    <Fragment>
-      <AdminNavBar />
-
-      <div>
+    <div className={styles.contentWrapper}>
+      <AdminNavBar></AdminNavBar>
+      <section className={styles.contentHeader}>
         <Container fluid>
-          <Row>
-            <Col xs={12} md={6}>
-              <h1>Invitaciones para estudiantes</h1>
+          <Row className="mb-2">
+            <Col sm={6}>
+              <h1>Invitaciones</h1>
             </Col>
-            <Col
-              xs={12}
-              md={6}
-              style={{ display: "flex", flexDirection: "row-reverse" }}
-            >
+
+            <Col sm={6} className={styles.contentBreadcrumb}>
               <Breadcrumb>
                 <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
                 <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
@@ -44,35 +42,44 @@ export default function AdminLayout({ children }) {
               </Breadcrumb>
             </Col>
           </Row>
+        </Container>
+      </section>
 
-          <Alert key="info" variant="info">
-            This is a info alert—check it out!
-          </Alert>
-
+      <section className={styles.contentMain}>
+        <Container fluid>
           <Row>
             <Col xs={12}>
-              <Card style={{ padding: "1.25rem", marginBottom: "1rem" }}>
-                <Row>
-                  <Col xs={12} md={6} style={{ marginBottom: 10 }}>
-                    <Button variant="primary">Nuevo</Button>
-                  </Col>
-                  <Col xs={12} md={6} style={{ marginBottom: 10 }}>
-                    <Form className="d-flex">
-                      <Form.Control
-                        type="search"
-                        placeholder="Search"
-                        className="me-2"
-                        aria-label="Search"
-                      />
-                    </Form>
-                  </Col>
-                </Row>
-                <Card.Body>{children}</Card.Body>
+              <Card>
+                <Card.Body className={styles.cardBody}>
+                  <div>
+                    {/* <Row>
+                      <Col sm={12} md={6}>
+                        <ButtonGroup
+                          className={styles.tableButtons}
+                          aria-label="Basic example"
+                        >
+                          <Button variant="primary">Nueva invitación</Button>
+                        </ButtonGroup>
+                      </Col>
+
+                      <Col sm={12} md={6}>
+                        <Form.Control
+                          type="search"
+                          placeholder="Buscar..."
+                          className="me-2"
+                          aria-label="Buscar..."
+                        />
+                      </Col>
+                    </Row> */}
+
+                    <AdminTable />
+                  </div>
+                </Card.Body>
               </Card>
             </Col>
           </Row>
         </Container>
-      </div>
-    </Fragment>
+      </section>
+    </div>
   );
 }
