@@ -9,9 +9,9 @@ import ClientCard from "../../components/main/ClientCard";
 export default function Clients() {
   return (
     <div>
-      <Container>
+      <Container className="d-flex flex-column min-vh-100">
         <Row>
-          <Col><h1 style={{textAlign:'center'}}>Clientes</h1></Col>
+          <Col className="my-4"><h1 style={{textAlign:'center'}}>Qué dicen los usuarios sobre nuestros</h1></Col>
         </Row>
         <Row>
           <Col className="md-12">
@@ -31,7 +31,7 @@ export default function Clients() {
                     date= {"Some day I don't remember"}
                   />
                   <ClientCard
-                    name= {"John Willis"}
+                    name= {"John Williams"}
                     image= {"https://portcities.net/web/image/10272/phone9.png"}
                     description= {"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."}
                     date= {"Some day I don't remember"}
