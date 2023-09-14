@@ -41,7 +41,7 @@ export default function Pricing() {
       </Row>
       <Row>
         {plans.map((plan) => (
-          <Col xs={12} md={4}>
+          <Col xs={4}>
             <PricingCard
               name={plan.name}
               price={plan.price}

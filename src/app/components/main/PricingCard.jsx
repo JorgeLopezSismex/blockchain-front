@@ -5,8 +5,8 @@ import Card from "react-bootstrap/Card";
 
 function PricingCard({ name, price, description }) {
   return (
-    <Card className="mx-4 my-3">
-      <Card.Header >{name}</Card.Header>
+    <Card className="mx-4 my-3 h-100">
+      <Card.Header>{name}</Card.Header>
       <Card.Body>
         <Card.Title>
           <h1>${price}</h1>
@@ -20,7 +20,13 @@ function PricingCard({ name, price, description }) {
             <li>Something important</li>
           </ul>
         </Card.Text>
-        <Button variant="primary">Agregar al carrito</Button>
+        <Button
+          className="mt-auto"
+          variant="primary"
+          style={{ display: "flex" }}
+        >
+          Agregar al carrito
+        </Button>
       </Card.Body>
     </Card>
   );
