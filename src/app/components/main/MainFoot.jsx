@@ -1,7 +1,7 @@
 import React from "react";
 function MainFoot(){
     return(
-            <footer style={{backgroundColor: "#f5f7fa"}}>
+            <footer style={{backgroundColor: "#f5f7fa"}} className="mt-auto">
                 <ul className="nav justify-content-center border-bottom pb-2 pt-4 mb-3 mt-5">
                     <li className="nav-item mx-3 text-muted">
                         <p>Telefono: Mty +52 (81) 8351 3861 y (81) 8351 3862</p>
