@@ -11,7 +11,19 @@ export default function AuthLayout({ children }) {
   return (
     <Container fluid>
       <Row>
-        <Col className="d-none d-md-block">Hola mundo1</Col>
+        <Col
+          md={4}
+          lg={6}
+          className="d-none d-md-flex d-md-block"
+          style={{
+            height: "100vh",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundImage: `url(
+              "https://media.licdn.com/dms/image/D4E22AQGkbIprz8KGXg/feedshare-shrink_800/0/1686639270349?e=2147483647&v=beta&t=tKD0ZE0U6R7thMOfgkAFqqgZtviQQ-0yArrOAqVeME8"
+            )`,
+          }}
+        ></Col>
         <Col md={8} lg={6}>
           <div className="login d-flex align-items-center py-5">
             <Container>

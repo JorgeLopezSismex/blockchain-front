@@ -18,7 +18,9 @@ function MainNav() {
   return (
     <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
       <Container fluid>
-        <Navbar.Brand href="/" className="ms-3">Navbar Offcanvas</Navbar.Brand>
+        <Navbar.Brand href="/" className="ms-3">
+          Sismex - Blockchain
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-${expand}`}
@@ -27,7 +29,7 @@ function MainNav() {
         >
           <Offcanvas.Header closeButton>
             <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-              Offcanvas 
+              Offcanvas
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
@@ -36,7 +38,13 @@ function MainNav() {
               <Nav.Link href="/main/benefits">Beneficios</Nav.Link>
               <Nav.Link href="/main/clients">Clientes</Nav.Link>
               <Nav.Link href="/main/pricing">Precios</Nav.Link>
-              <Button className="mx-2" variant="outline-success">Iniciar sesión</Button>
+              <Button
+                href="/auth/sign-in"
+                className="mx-2"
+                variant="outline-success"
+              >
+                Iniciar sesión
+              </Button>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
