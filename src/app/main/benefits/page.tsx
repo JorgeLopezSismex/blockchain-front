@@ -13,16 +13,9 @@ export default function AboutUs() {
               <div className="wrapper align-left">
                 <h2 style={{fontSize:'50px'}}>Por que deberias usar Blockchain</h2>
                 <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Nullam velit risus, dictum et nibh vel, pretium rhoncus est. 
-                Suspendisse id odio ac libero eleifend dapibus eget a leo. 
-                Sed aliquet metus nec est hendrerit, et viverra elit maximus. 
-                Nullam a nibh tristique, molestie lectus in, feugiat neque. 
-                Cras placerat ligula quis feugiat fermentum. 
-                Praesent posuere ac dui sit amet vehicula. 
-                Proin est orci, maximus nec gravida in, sagittis vestibulum neque. 
-                Proin nec posuere nunc, et pharetra ante. Morbi et orci mauris. 
-                Praesent mollis lacinia orci, a pulvinar diam pulvinar a.
+                Nuestros expertos en blockchain, educación y 
+                tecnología trabajan incansablemente para 
+                ofrecerte una solución de vanguardia. 
                 </p>
               </div>
             </Col>
@@ -34,6 +27,36 @@ export default function AboutUs() {
               ></Image>
             </Col>
 
+        </Row>
+        <Row>
+          <Col>
+            <h3>Seguridad inquebrantable</h3>
+            <p>
+              La tecnología blockchain asegura que tus certificados 
+              sean inmutables y a prueba de falsificaciones.
+            </p>
+          </Col>
+          <Col>
+            <h3>Verificación Instantánea</h3>
+            <p>
+              Valida la autenticidad de tus certificados en 
+              segundos, en cualquier lugar y en cualquier momento.
+            </p>
+          </Col>
+          <Col>
+            <h3>Sencillez en la Emisión</h3>
+            <p>
+              Emite certificados de forma rápida y eficiente, 
+              reduciendo la carga administrativa.
+            </p>
+          </Col>
+          <Col>
+            <h3>Transparencia Total</h3>
+            <p>
+              Todas las partes interesadas pueden rastrear el 
+              historial de emisión y verificación de certificados.
+            </p>
+          </Col>
         </Row>
       </Container>
     </section>

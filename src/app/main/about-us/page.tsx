@@ -20,16 +20,21 @@ export default function AboutUs() {
             <div className="wrapper align-left">
               <h2 style={{fontSize:'50px'}}>Blockchain</h2>
               <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Nullam velit risus, dictum et nibh vel, pretium rhoncus est. 
-              Suspendisse id odio ac libero eleifend dapibus eget a leo. 
-              Sed aliquet metus nec est hendrerit, et viverra elit maximus. 
-              Nullam a nibh tristique, molestie lectus in, feugiat neque. 
-              Cras placerat ligula quis feugiat fermentum. 
-              Praesent posuere ac dui sit amet vehicula. 
-              Proin est orci, maximus nec gravida in, sagittis vestibulum neque. 
-              Proin nec posuere nunc, et pharetra ante. Morbi et orci mauris. 
-              Praesent mollis lacinia orci, a pulvinar diam pulvinar a.
+                Nuestra historia comenzó con la visión de transformar 
+                la educación y la autenticación de documentos. 
+                Desde [año de fundación], hemos estado comprometidos 
+                en proporcionar una solución innovadora y segura 
+                basada en Ethereum.
+              </p>
+              <p>
+                Nuestra misión es empoderar a instituciones educativas,
+                empresas y particulares con herramientas que garanticen 
+                la integridad de sus certificados y documentos digitales.
+              </p>
+              <p>
+                Nuestros expertos en blockchain, educación y tecnología 
+                trabajan incansablemente para ofrecerte una solución de 
+                vanguardia.
               </p>
             </div>
           </Col>

@@ -34,28 +34,42 @@
     nombre: 'Tom Baker',
     puesto: 'Diseñadora Gráfica',
     ciudad: 'Madrid, España',
-    opinion: 'El mejor servicio que he utilizado, altamente recomendado.',
+    opinion: 'Han informado una reducción del 50% en el tiempo de incorporación.',
     imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
   },
   {
     nombre: 'Peter Davison',
     puesto: 'Gerente de Ventas',
     ciudad: 'Ciudad de México',
-    opinion: 'Excelente producto, muy satisfecho con los resultados.',
+    opinion: 'La empresa ABC ha simplificado la contratación al verificar de manera rápida y segura los antecedentes de los candidatos. ',
     imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
   },
   {
     nombre: 'Colin Baker',
     puesto: 'Diseñadora Gráfica',
     ciudad: 'Madrid, España',
-    opinion: 'El mejor servicio que he utilizado, altamente recomendado.',
+    opinion: 'Desde que implementaron nuestra solución, han experimentado un aumento del 30% en la verificación de certificados por parte de empleadores.',
     imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
   },
   {
     nombre: 'Sylvester McCoy',
     puesto: 'Diseñadora Gráfica',
     ciudad: 'Madrid, España',
-    opinion: 'El mejor servicio que he utilizado, altamente recomendado.',
+    opinion: 'Universidad XYZ ha mejorado la confianza en sus diplomas y títulos gracias a nuestra plataforma. ',
+    imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
+  },
+  {
+    nombre: 'Paul McGann',
+    puesto: 'Diseñadora Gráfica',
+    ciudad: 'Madrid, España',
+    opinion: 'Universidad XYZ ha mejorado la confianza en sus diplomas y títulos gracias a nuestra plataforma. ',
+    imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
+  },
+  {
+    nombre: 'Chris Eccleston',
+    puesto: 'Diseñadora Gráfica',
+    ciudad: 'Madrid, España',
+    opinion: 'Universidad XYZ ha mejorado la confianza en sus diplomas y títulos gracias a nuestra plataforma. ',
     imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
   },
   // Agrega más testimonios según sea necesario
@@ -66,6 +80,7 @@ export default function Clients() {
 
   return (
     <Container className='mt-5'>
+      <div className='my-5'><h1 style={{textAlign:'center'}}>Qué dicen nuestro usuarios sobre Blockchain.</h1></div>
       <Carousel>
         {testimonios.map((testimonial, index) => (
           index % itemsPerSlide === 0 ? (
