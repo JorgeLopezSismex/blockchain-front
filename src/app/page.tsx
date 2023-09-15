@@ -14,10 +14,12 @@ export default function Home() {
         <MainNav/>
         <Container>
           <Row className='py-3 px-3'>
-            <Col xs={12} md={6} className='mb-4'>
+            <Col xs={12} md={6} className='mb-4 align-items-center' style={{display:'flex'}}>
+            <div className="wrapper align-left">
               <h1>Emite, Gestiona y Verifica Certificados en Blockchain</h1>
               <p>La plataforma líder en Ethereum para certificados digitales seguros y verificables. Almacena de manera segura y siempre accesible.</p>
               <p>Bienvenido a nuestra plataforma de certificados en blockchain, donde la seguridad y la autenticidad se encuentran en el corazón de la educación digital. Descubre cómo nuestra tecnología blockchain revoluciona la emisión, gestión y verificación de certificados.</p>
+            </div>
             </Col>
             <Col xs={12} md={6}>
               <Image
@@ -35,10 +37,13 @@ export default function Home() {
               ></Image>
             </Col>
             <Col xs={12} md={6}>
-              <h1>Complementa con nuestra aplicación</h1>
+              <h1>Complementa con nuestra Aplicación Móvil</h1>
               <p>
-                Todos tus certificados al alcance de tu mano en todo momento. 
-                Utiliza nuestra aplicación para ver, compartir y verificar todos tus certificados.
+              Lleva todos tus certificados contigo, en cualquier 
+              lugar y en cualquier momento. Nuestra aplicación 
+              móvil te permite acceder, compartir y verificar 
+              fácilmente todos tus certificados digitales de 
+              manera rápida y conveniente.
               </p>
               <Image
                 style={{ width: "100%" }}
