@@ -12,6 +12,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import Link from "next/link";
 
 function MainNav() {
   const expand = "sm";
@@ -34,17 +35,27 @@ function MainNav() {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Nav.Link href="/main/about-us">Blockchain</Nav.Link>
-              <Nav.Link href="/main/benefits">Beneficios</Nav.Link>
-              <Nav.Link href="/main/clients">Clientes</Nav.Link>
-              <Nav.Link href="/main/pricing">Precios</Nav.Link>
-              <Button
-                href="/auth/sign-in"
-                className="mx-2"
-                variant="outline-success"
-              >
-                Iniciar sesión
-              </Button>
+              <Nav.Link>
+                <Link href="/main/about-us">Blockcerts</Link>
+              </Nav.Link>
+
+              <Nav.Link>
+                <Link href="/main/benefits">Beneficios</Link>
+              </Nav.Link>
+
+              <Nav.Link>
+                <Link href="/main/clients">Clientes</Link>
+              </Nav.Link>
+
+              <Nav.Link>
+                <Link href="/main/pricing">Precios</Link>
+              </Nav.Link>
+
+              <Link href="/auth/sign-in">
+                <Button className="mx-2" variant="outline-success">
+                  Iniciar sesión
+                </Button>
+              </Link>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>

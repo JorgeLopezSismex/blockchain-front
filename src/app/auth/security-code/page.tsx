@@ -8,17 +8,16 @@ import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 
 import AuthLink from "../../components/auth/AuthLink";
-import AuthCheck from "../../components/auth/AuthCheck";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 import ActionToast from "../../components/main/ActionToast";
 
 import { apiFetch } from "../../../helpers/api-fetch";
-import { signInSchema } from "../../../validations/validation-schemas";
+import { securityCode } from "../../../validations/validation-schemas";
 
 import styles from "../styles.module.css";
 
-export default function Page() {
+export default function SecurityCode() {
   const { Formik } = formik;
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -48,14 +47,12 @@ export default function Page() {
       </div>
 
       <div className={styles.authFormTitle}>
-        <h3>Inicio de sesión</h3>
+        <h3>Código de seguridad</h3>
         <Formik
           onSubmit={submitForm}
-          validationSchema={signInSchema}
+          validationSchema={securityCode}
           initialValues={{
-            email: "jalopez@sismex.com",
-            password: "Jalhsismex21*",
-            rememberMe: false,
+            securityCode: "123",
           }}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -63,42 +60,25 @@ export default function Page() {
               <Row className="mb-3">
                 <AuthInput
                   type={"text"}
-                  label={"Correo electrónico"}
-                  name={"email"}
-                  value={values.email}
+                  label={"Código para cambio de contraseña"}
+                  name={"securityCode"}
+                  value={values.securityCode}
                   handleChange={handleChange}
-                  errors={errors.email}
+                  errors={errors.securityCode}
                 />
               </Row>
 
               <Row className="mb-3">
-                <AuthInput
-                  type={"password"}
-                  label={"Contraseña"}
-                  name={"password"}
-                  value={values.password}
-                  handleChange={handleChange}
-                  errors={errors.password}
-                />
-              </Row>
-
-              <Row>
-                <AuthCheck
-                  text={"Recordarme"}
-                  name={"rememberMe"}
-                  handleChange={handleChange}
-                  errors={errors}
-                />
-              </Row>
-
-              <Row className="mb-3">
-                <AuthButton text={"Iniciar sesión"} loading={loading} />
+                <AuthButton text={"Verificar código"} loading={loading} />
               </Row>
             </Form>
           )}
         </Formik>
 
-        <AuthLink link={"forgot-password"} text={"¿Olvidaste tu contraseña?"} />
+        <AuthLink
+          link={"sign-in"}
+          text={"¿Ya tienes una cuenta? - Iniciar sesión"}
+        />
         <br />
         <AuthLink
           link={"sign-up"}

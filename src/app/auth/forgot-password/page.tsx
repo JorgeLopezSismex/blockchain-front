@@ -1,15 +1,18 @@
 "use client";
 
-import Link from "next/link";
 import * as formik from "formik";
-import "bootstrap/dist/css/bootstrap.css";
 import { useState, Fragment } from "react";
+
+import styles from "../styles.module.css";
+import "bootstrap/dist/css/bootstrap.css";
 
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 
+import AuthLink from "../../components/auth/AuthLink";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
+import ActionToast from "../../components/main/ActionToast";
 
 import { signUpSchema } from "@/validations/validation-schemas";
 
@@ -19,12 +22,12 @@ export default function ForgotPassword() {
 
   return (
     <Fragment>
-      <div style={{ paddingTop: 7, paddingBottom: 8 }}>
-        <h1>Sismex - Blockchain</h1>
+      <div className={styles.authTitle}>
+        <h2>Sismex - Blockchain</h2>
       </div>
 
-      <div style={{ paddingTop: 24, paddingBottom: 24 }}>
-        <h1>Olvide mi contraseña</h1>
+      <div className={styles.authFormTitle}>
+        <h3>Olvide mi contraseña</h3>
         <Formik
           validationSchema={signUpSchema}
           initialValues={{
@@ -56,9 +59,16 @@ export default function ForgotPassword() {
             </Form>
           )}
         </Formik>
-        <Link href={"sign-in"}>¿Tienes una cuenta? - Iniciar sesión</Link>
+
+        <AuthLink
+          link={"sign-in"}
+          text={"¿Ya tienes una cuenta? - Iniciar sesión"}
+        />
         <br />
-        <Link href={"sign-up"}>¿No tienes cuenta? - Registrate</Link>
+        <AuthLink
+          link={"sign-up"}
+          text={"¿No tienes cuenta? - Registrate aquí"}
+        />
       </div>
     </Fragment>
   );

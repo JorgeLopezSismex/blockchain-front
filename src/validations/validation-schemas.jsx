@@ -43,6 +43,13 @@ export const forgotPassword = yup.object().shape({
     .max(150, "Por favor, no escribas más de 150 caracteres."),
 });
 
+export const securityCode = yup.object().shape({
+  securityCode: yup
+    .string()
+    .required("Este campo es obligatorio.")
+    .length(6, "Por favor, escribe los 6 caracteres del código de seguridad."),
+});
+
 export const resetPassword = yup.object().shape({
   password: yup
     .string()

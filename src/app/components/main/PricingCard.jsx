@@ -7,7 +7,7 @@ function PricingCard({ name, price, description }) {
   return (
     <Card className="mx-4 my-3 h-100">
       <Card.Header>{name}</Card.Header>
-      <Card.Body>
+      <Card.Body className="d-flex flex-column">
         <Card.Title>
           <h1>${price}</h1>
         </Card.Title>
@@ -20,13 +20,16 @@ function PricingCard({ name, price, description }) {
             <li>Something important</li>
           </ul>
         </Card.Text>
-        <Button
-          className="mt-auto"
-          variant="primary"
-          style={{ display: "flex" }}
+        <a
+          href=""
+          data-target="#profileModal"
+          data-toggle="modal"
+          data-caption="Tammy"
+          data-src="./assets/images/pr-sample2.jpg"
+          class="btn btn-secondary btn-lg btn-block text-truncate mt-auto"
         >
-          Agregar al carrito
-        </Button>
+          View Profile
+        </a>
       </Card.Body>
     </Card>
   );

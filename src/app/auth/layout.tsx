@@ -20,7 +20,7 @@ export default function AuthLayout({ children }) {
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundImage: `url(
-              "https://media.licdn.com/dms/image/D4E22AQGkbIprz8KGXg/feedshare-shrink_800/0/1686639270349?e=2147483647&v=beta&t=tKD0ZE0U6R7thMOfgkAFqqgZtviQQ-0yArrOAqVeME8"
+              "https://images.unsplash.com/photo-1486520299386-6d106b22014b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Ymx1ZSUyMG1vdW50YWlufGVufDB8fDB8fHww&w=1000&q=80"
             )`,
           }}
         ></Col>
