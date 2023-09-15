@@ -1,222 +1,105 @@
 "use client";
 //Ventana de clientes (╯°□°）╯︵ ┻━┻
+ import 'bootstrap/dist/css/bootstrap.min.css';
+ import React from 'react';
+ import Carousel from 'react-bootstrap/Carousel';
+ import Card from 'react-bootstrap/Card';
+ import Container from 'react-bootstrap/Container';
+ import Row from 'react-bootstrap/Row';
+ import Col from 'react-bootstrap/Col';
 
-import { CardGroup, Col, Container, Row } from "react-bootstrap";
-import PricingCard from "../../components/main/PricingCard";
-//import ClientCarousel from '../../components/main/ClientCarousel';
-import Carousel from "react-bootstrap/Carousel";
-import ClientCard from "../../components/main/ClientCard";
-
-let plans = [
+ const testimonios = [
   {
-    id: 1,
-    name: "Cliente Uno",
-    price: "Cliente Uno",
-    description: "Free plan",
+    nombre: 'William Hartnell',
+    puesto: 'Gerente de Ventas',
+    ciudad: 'Ciudad de México',
+    opinion: 'Excelente producto, muy satisfecho con los resultados.',
+    imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
   },
   {
-    id: 2,
-    name: "Cliente 2",
-    price: "Cliente 2",
-    description: "Max plan",
+    nombre: 'Patrick Troughton',
+    puesto: 'Diseñadora Gráfica',
+    ciudad: 'Madrid, España',
+    opinion: 'El mejor servicio que he utilizado, altamente recomendado.',
+    imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
   },
   {
-    id: 3,
-    name: "Cliente 3",
-    price: "Cliente 3",
-    description: "Newer plan for users",
+    nombre: 'Jon Perwee',
+    puesto: 'Gerente de Ventas',
+    ciudad: 'Ciudad de México',
+    opinion: 'Excelente producto, muy satisfecho con los resultados.',
+    imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
   },
+  {
+    nombre: 'Tom Baker',
+    puesto: 'Diseñadora Gráfica',
+    ciudad: 'Madrid, España',
+    opinion: 'El mejor servicio que he utilizado, altamente recomendado.',
+    imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
+  },
+  {
+    nombre: 'Peter Davison',
+    puesto: 'Gerente de Ventas',
+    ciudad: 'Ciudad de México',
+    opinion: 'Excelente producto, muy satisfecho con los resultados.',
+    imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
+  },
+  {
+    nombre: 'Colin Baker',
+    puesto: 'Diseñadora Gráfica',
+    ciudad: 'Madrid, España',
+    opinion: 'El mejor servicio que he utilizado, altamente recomendado.',
+    imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
+  },
+  {
+    nombre: 'Sylvester McCoy',
+    puesto: 'Diseñadora Gráfica',
+    ciudad: 'Madrid, España',
+    opinion: 'El mejor servicio que he utilizado, altamente recomendado.',
+    imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
+  },
+  // Agrega más testimonios según sea necesario
 ];
 
 export default function Clients() {
+  const itemsPerSlide = 3; // Número de tarjetas a mostrar por diapositiva
+
   return (
-    <div>
-      <Container className="d-flex flex-column min-vh-100">
-        <Row>
-          <Col className="my-4">
-            <h1 style={{ textAlign: "center" }}>
-              Qué dicen los usuarios sobre nuestros
-            </h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="md-12">
-            <Carousel
-              className="align-items-center"
-              style={{ display: "flex" }}
-            >
-              <Carousel.Item>
-                <CardGroup>
-                  <ClientCard
-                    name={"John Doe"}
-                    image={"https://portcities.net/web/image/10272/phone9.png"}
-                    description={
-                      "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
-                    }
-                    date={"Some day I don't remember"}
-                  />
-                  <ClientCard
-                    name={"John Smith"}
-                    image={"https://portcities.net/web/image/10272/phone9.png"}
-                    description={
-                      "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
-                    }
-                    date={"Some day I don't remember"}
-                  />
-                  <ClientCard
-                    name={"John Williams"}
-                    image={"https://portcities.net/web/image/10272/phone9.png"}
-                    description={
-                      "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
-                    }
-                    date={"Some day I don't remember"}
-                  />
-                </CardGroup>
-              </Carousel.Item>
-              <Carousel.Item>
-                <CardGroup>
-                  <ClientCard
-                    name={"Paul McGann"}
-                    image={"https://portcities.net/web/image/10272/phone9.png"}
-                    description={
-                      "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
-                    }
-                    date={"Some day I don't remember"}
-                  />
-                  <ClientCard
-                    name={"Paul Bettany"}
-                    image={"https://portcities.net/web/image/10272/phone9.png"}
-                    description={
-                      "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
-                    }
-                    date={"Some day I don't remember"}
-                  />
-                  <ClientCard
-                    name={"Paul Rudd"}
-                    image={"https://portcities.net/web/image/10272/phone9.png"}
-                    description={
-                      "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
-                    }
-                    date={"Some day I don't remember"}
-                  />
-                </CardGroup>
-              </Carousel.Item>
-              <Carousel.Item className="mx-auto my-auto ">
-                <CardGroup>
-                  <ClientCard
-                    name={"Chris Evans"}
-                    image={"https://portcities.net/web/image/10272/phone9.png"}
-                    description={
-                      "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
-                    }
-                    date={"Some day I don't remember"}
-                  />
-                  <ClientCard
-                    name={"Chris Pratt"}
-                    image={"https://portcities.net/web/image/10272/phone9.png"}
-                    description={
-                      "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
-                    }
-                    date={"Some day I don't remember"}
-                  />
-                  <ClientCard
-                    name={"Chris Pine"}
-                    image={"https://portcities.net/web/image/10272/phone9.png"}
-                    description={
-                      "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
-                    }
-                    date={"Some day I don't remember"}
-                  />
-                </CardGroup>
-              </Carousel.Item>
-            </Carousel>
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
+    <Container className='mt-5'>
+      <Carousel>
+        {testimonios.map((testimonial, index) => (
+          index % itemsPerSlide === 0 ? (
+
+            <Carousel.Item key={index}>
+              <Row>
+                {testimonios.slice(index, index + itemsPerSlide).map((item, subIndex) => (
+                  <Col key={subIndex}>
+                    <Card>
+                      <Card.Img
+                        variant="top"
+                        src={item.imagen}
+                        alt={`Imagen de ${item.nombre}`}
+                      />
+                      <Card.Body>
+                        <Card.Title>{item.nombre}</Card.Title>
+                        <Card.Subtitle className="mb-2 text-muted">
+                          {item.puesto}
+                        </Card.Subtitle>
+                        <Card.Subtitle className="mb-2 text-muted">
+                          {item.ciudad}
+                        </Card.Subtitle>
+                        <Card.Text>{item.opinion}</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </Carousel.Item>
+            
+          ) : null
+        ))}
+      </Carousel>
+    </Container>
+     
+  ); 
 }
-
-
-// return (
-//   <div>
-//     <Container>
-//       <Row>
-//         <Col><h1 style={{textAlign:'center'}}>Clientes</h1></Col>
-//       </Row>
-//       <Row>
-//         <Col className="md-12">
-//           <Carousel className="align-items-center" style={{display: "flex"}}>
-//             <Carousel.Item>
-//               <CardGroup>
-//                 <ClientCard
-//                   name= {"John Doe"}
-//                   image= {"https://portcities.net/web/image/10272/phone9.png"}
-//                   description= {"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."}
-//                   date= {"Some day I don't remember"}
-//                 />
-//                 <ClientCard
-//                   name= {"John Smith"}
-//                   image= {"https://portcities.net/web/image/10272/phone9.png"}
-//                   description= {"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."}
-//                   date= {"Some day I don't remember"}
-//                 />
-//                 <ClientCard
-//                   name= {"John Willis"}
-//                   image= {"https://portcities.net/web/image/10272/phone9.png"}
-//                   description= {"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."}
-//                   date= {"Some day I don't remember"}
-//                 />
-//               </CardGroup>
-//             </Carousel.Item>
-//             <Carousel.Item>
-//               <CardGroup>
-//                 <ClientCard
-//                   name= {"Paul McGann"}
-//                   image= {"https://portcities.net/web/image/10272/phone9.png"}
-//                   description= {"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."}
-//                   date= {"Some day I don't remember"}
-//                 />
-//                 <ClientCard
-//                   name= {"Paul Bettany"}
-//                   image= {"https://portcities.net/web/image/10272/phone9.png"}
-//                   description= {"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."}
-//                   date= {"Some day I don't remember"}
-//                 />
-//                 <ClientCard
-//                   name= {"Paul Rudd"}
-//                   image= {"https://portcities.net/web/image/10272/phone9.png"}
-//                   description= {"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."}
-//                   date= {"Some day I don't remember"}
-//                 />
-//               </CardGroup>
-//             </Carousel.Item>
-//             <Carousel.Item className="mx-auto my-auto ">
-//               <CardGroup>
-//                 <ClientCard
-//                   name= {"Chris Evans"}
-//                   image= {"https://portcities.net/web/image/10272/phone9.png"}
-//                   description= {"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."}
-//                   date= {"Some day I don't remember"}
-//                 />
-//                 <ClientCard
-//                   name= {"Chris Pratt"}
-//                   image= {"https://portcities.net/web/image/10272/phone9.png"}
-//                   description= {"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."}
-//                   date= {"Some day I don't remember"}
-//                 />
-//                 <ClientCard
-//                   name= {"Chris Pine"}
-//                   image= {"https://portcities.net/web/image/10272/phone9.png"}
-//                   description= {"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."}
-//                   date= {"Some day I don't remember"}
-//                 />
-//               </CardGroup>
-//             </Carousel.Item>
-//           </Carousel>
-//         </Col>
-//       </Row>
-//     </Container>
-//   </div>
-// );
-
