@@ -41,14 +41,14 @@
     nombre: 'Peter Davison',
     puesto: 'Gerente de Ventas',
     ciudad: 'Ciudad de México',
-    opinion: 'La empresa ABC ha simplificado la contratación al verificar de manera rápida y segura los antecedentes de los candidatos. ',
+    opinion: 'La empresa ABC ha simplificado la contratación al verificar de manera rápida. ',
     imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
   },
   {
     nombre: 'Colin Baker',
     puesto: 'Diseñadora Gráfica',
     ciudad: 'Madrid, España',
-    opinion: 'Desde que implementaron nuestra solución, han experimentado un aumento del 30% en la verificación de certificados por parte de empleadores.',
+    opinion: 'Han experimentado un aumento del 30% en la verificación de certificados por parte de empleadores.',
     imagen: 'https://i.pinimg.com/564x/e2/0f/9c/e20f9ce9a516c6c91f6efef842a7d0a8.jpg',
   },
   {
