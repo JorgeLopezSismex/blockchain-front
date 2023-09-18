@@ -1,5 +1,6 @@
 "use client";
 //Ventana de clientes (╯°□°）╯︵ ┻━┻
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import Carousel from "react-bootstrap/Carousel";
@@ -7,6 +8,8 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
+import ClientCard from "../../components/main/ClientCard";
 
 const testimonios = [
   {
@@ -104,23 +107,7 @@ export default function Clients() {
                       sm={3}
                       style={{ display: "flex", justifyItems: "center" }}
                     >
-                      <Card>
-                        <Card.Img
-                          variant="top"
-                          src={item.imagen}
-                          alt={`Imagen de ${item.nombre}`}
-                        />
-                        <Card.Body>
-                          <Card.Title>{item.nombre}</Card.Title>
-                          <Card.Subtitle className="mb-2 text-muted">
-                            {item.puesto}
-                          </Card.Subtitle>
-                          <Card.Subtitle className="mb-2 text-muted">
-                            {item.ciudad}
-                          </Card.Subtitle>
-                          <Card.Text>{item.opinion}</Card.Text>
-                        </Card.Body>
-                      </Card>
+                      <ClientCard item={item} />
                     </Col>
                   ))}
               </Row>

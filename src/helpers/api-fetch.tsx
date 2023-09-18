@@ -4,7 +4,7 @@ export const apiFetch = async (
   body?: object
 ) => {
   const base = "https://localhost:5001/api/v1/";
-  const res = await fetch(base + url, {
+  const res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto", {
     method: method,
     headers: {
       "Content-Type": "application/json",
