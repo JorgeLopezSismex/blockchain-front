@@ -7,3 +7,9 @@
   padding-top: 24px;
   padding-bottom: 24px;
 }
+
+.authImage {
+  height: 100vh;
+  background-attachment: fixed;
+  background-image: url("https://images.unsplash.com/photo-1486520299386-6d106b22014b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Ymx1ZSUyMG1vdW50YWlufGVufDB8fDB8fHww&w=1000&q=80");
+}

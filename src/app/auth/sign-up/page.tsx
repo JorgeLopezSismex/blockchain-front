@@ -15,10 +15,33 @@ import AuthButton from "../../components/auth/AuthButton";
 import ActionToast from "../../components/main/ActionToast";
 
 import { signUpSchema } from "@/validations/validation-schemas";
+import { apiFetch } from "@/helpers/api-fetch";
 
 export default function SignUp() {
   const { Formik } = formik;
+
   const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastTitle, setToastTitle] = useState("Título");
+  const [toastMessage, setToastMessage] = useState("Mensaje.");
+  const [toastVariant, setToastVariant] = useState("success");
+
+  const signUp = async (values: object) => {
+    setLoading(true);
+    const res = await apiFetch("auth/sign-in", "POST", values);
+
+    setLoading(false);
+    if (res.data == null) {
+      setShowToast(true);
+      setToastVariant("danger");
+      setToastTitle("Autenticación");
+      setToastMessage(res.message);
+
+      return;
+    }
+
+    console.log(values);
+  };
 
   return (
     <Fragment>
@@ -29,13 +52,13 @@ export default function SignUp() {
       <div className={styles.authFormTitle}>
         <h3>Crear cuenta</h3>
         <Formik
+          onSubmit={signUp}
           validationSchema={signUpSchema}
           initialValues={{
-            email: "jalopez@sismex.com",
-            password: "Jalhsismex21*",
-            repeatPassword: "fsdfsdf",
+            email: "",
+            password: "",
+            repeatPassword: "",
           }}
-          onSubmit={() => alert("Hola mundo")}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
             <Form noValidate onSubmit={handleSubmit}>
@@ -45,6 +68,7 @@ export default function SignUp() {
                   label={"Correo electrónico"}
                   name={"email"}
                   value={values.email}
+                  placeholder={"ejemplo@gmail.com"}
                   handleChange={handleChange}
                   errors={errors.email}
                 />
@@ -56,6 +80,7 @@ export default function SignUp() {
                   label={"Contraseña"}
                   name={"password"}
                   value={values.password}
+                  placeholder={"Micontraseña123*"}
                   handleChange={handleChange}
                   errors={errors.password}
                 />
@@ -67,6 +92,7 @@ export default function SignUp() {
                   label={"Repetir contraseña"}
                   name={"repeatPassword"}
                   value={values.repeatPassword}
+                  placeholder={"Micontraseña123*"}
                   handleChange={handleChange}
                   errors={errors.repeatPassword}
                 />

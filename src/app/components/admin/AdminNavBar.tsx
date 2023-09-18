@@ -10,9 +10,15 @@ export default function AdminNavBar() {
   const expand = "md";
 
   return (
-    <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
+    <Navbar
+      bg="primary"
+      key={expand}
+      expand={expand}
+      data-bs-theme="dark"
+      // className="bg-body-tertiary mb-3"
+    >
       <Container fluid>
-        <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
+        <Navbar.Brand href="#">Blockchain - Admin</Navbar.Brand>
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-${expand}`}
@@ -26,31 +32,19 @@ export default function AdminNavBar() {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Nav.Link href="#action1">Home</Nav.Link>
-              <Nav.Link href="#action2">Link</Nav.Link>
+              <Nav.Link href="#action1">Invitaciones</Nav.Link>
+              <Nav.Link href="#action2">Certificados</Nav.Link>
               <NavDropdown
-                title="Dropdown"
+                title="jalopez@sismex.com"
                 id={`offcanvasNavbarDropdown-expand-${expand}`}
               >
-                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
-                  Another action
-                </NavDropdown.Item>
+                <NavDropdown.Item href="#action3">Mi perfil</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action5">
-                  Something else here
+                  Cerrar sesión
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>

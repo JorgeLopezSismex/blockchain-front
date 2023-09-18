@@ -13,7 +13,7 @@ import { usePagination } from "@table-library/react-table-library/pagination";
 const nodes = [
   {
     id: "0",
-    name: "Shopping List",
+    name: "Jorge",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -21,7 +21,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Alberto",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -29,7 +29,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Yadira",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -37,7 +37,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Elizabeth",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -45,7 +45,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Brando",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -53,7 +53,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Emmanuel",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -61,7 +61,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Johan",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -69,7 +69,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Gerardo",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -77,7 +77,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Juan",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -85,7 +85,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Alberto",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -93,7 +93,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Pedro",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -101,7 +101,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Eduardo",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -109,7 +109,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Gustavo",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -117,7 +117,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "Jaime",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -125,7 +125,7 @@ const nodes = [
   },
   {
     id: "0",
-    name: "Shopping List",
+    name: "123",
     deadline: new Date(2020, 1, 15),
     type: "TASK",
     isComplete: true,
@@ -237,7 +237,7 @@ const nodes = [
   },
 ];
 
-const COLUMNS = [
+const columns = [
   { label: "Task", renderCell: (item) => item.name },
   {
     label: "Deadline",
@@ -319,17 +319,18 @@ export default function AdminTable() {
   return (
     <div>
       <Row>
-        <Col sm={12} md={6}>
-          <ButtonGroup
-            // className={styles.tableButtons}
-            aria-label="Basic example"
-          >
-            <Button variant="primary">Nueva invitación</Button>
+        <Col sm={12} md={6} style={{ marginBottom: 20 }}>
+          <ButtonGroup style={{}} aria-label="Basic example">
             <Button variant="primary">Nueva invitación</Button>
           </ButtonGroup>
         </Col>
 
-        <Col sm={12} md={6}>
+        <Col
+          sm={12}
+          md={6}
+          style={{ marginBottom: 20 }}
+          className="d-flex justify-content-end"
+        >
           <Form.Control
             id="search"
             type="text"
@@ -337,19 +338,19 @@ export default function AdminTable() {
             className="me-2"
             aria-label="Buscar..."
             placeholder="Buscar..."
+            style={{ width: "50%" }}
             onChange={handleSearch}
           />
         </Col>
       </Row>
 
-      <CompactTable columns={COLUMNS} data={data} pagination={pagination} />
+      <CompactTable columns={columns} data={data} pagination={pagination} />
 
       <Row>
-        <Col sm={12} md={6}>
-          <h1>ssdfdsgdfd</h1>
-        </Col>
-
-        <Col sm={12} md={6}>
+        <Col sm={12} className="d-flex justify-content-end">
+          <h6 style={{ float: "left" }}>
+            {currentPage + 1} - {totalPages} de {totalPages}
+          </h6>
           <Pagination>
             <Pagination.First
               onClick={toFirstPage}
@@ -370,31 +371,6 @@ export default function AdminTable() {
           </Pagination>
         </Col>
       </Row>
-
-      <br />
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <span>Total Pages: {pagination.state.getTotalPages(data.nodes)}</span>
-        <span>Estamos en la página: {pagination.state.page}</span>
-
-        {/* <span>
-          Page:{" "}
-          {pagination.state.getPages(data.nodes).map((_, index) => (
-            if(index <)
-            <button
-              key={index}
-              type="button"
-              style={{
-                fontWeight: pagination.state.page === index ? "bold" : "normal",
-              }}
-              onClick={() => pagination.fns.onSetPage(index)}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </span> */}
-      </div>
-
-      <br />
     </div>
   );
 }

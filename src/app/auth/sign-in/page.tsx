@@ -2,7 +2,7 @@
 
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
-import { useState, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
@@ -13,32 +13,37 @@ import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 import ActionToast from "../../components/main/ActionToast";
 
-import { apiFetch } from "../../../helpers/api-fetch";
+import { apiFetch } from "@/helpers/api-fetch";
 import { signInSchema } from "../../../validations/validation-schemas";
 
 import styles from "../styles.module.css";
 
 export default function Page() {
   const { Formik } = formik;
+
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
-
   const [toastTitle, setToastTitle] = useState("Título");
-  const [toastMessage, setToastMessage] = useState("Mensaje");
+  const [toastMessage, setToastMessage] = useState("Mensaje.");
   const [toastVariant, setToastVariant] = useState("success");
 
-  const submitForm = async (values: object) => {
+  useEffect(() => {
+    // To do: Verificar si hay una sesíon iniciada.
+  }, []);
+
+  const signIn = async (values: object) => {
     setLoading(true);
     const res = await apiFetch("auth/sign-in", "POST", values);
 
+    setLoading(false);
     if (res.data == null) {
       setShowToast(true);
       setToastVariant("danger");
       setToastTitle("Autenticación");
       setToastMessage(res.message);
-    }
 
-    setLoading(false);
+      return;
+    }
   };
 
   return (
@@ -50,11 +55,11 @@ export default function Page() {
       <div className={styles.authFormTitle}>
         <h3>Inicio de sesión</h3>
         <Formik
-          onSubmit={submitForm}
+          onSubmit={signIn}
           validationSchema={signInSchema}
           initialValues={{
-            email: "jalopez@sismex.com",
-            password: "Jalhsismex21*",
+            email: "",
+            password: "",
             rememberMe: false,
           }}
         >
@@ -66,6 +71,7 @@ export default function Page() {
                   label={"Correo electrónico"}
                   name={"email"}
                   value={values.email}
+                  placeholder={"ejemplo@gmail.com"}
                   handleChange={handleChange}
                   errors={errors.email}
                 />
@@ -77,6 +83,7 @@ export default function Page() {
                   label={"Contraseña"}
                   name={"password"}
                   value={values.password}
+                  placeholder={"Micontraseña123*"}
                   handleChange={handleChange}
                   errors={errors.password}
                 />

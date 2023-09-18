@@ -7,6 +7,7 @@ export default function AuthInput({
   type,
   label,
   name,
+  placeholder,
   value,
   handleChange,
   errors,
@@ -19,6 +20,7 @@ export default function AuthInput({
           type={type}
           name={name}
           value={value}
+          placeholder={placeholder}
           onChange={handleChange}
           isInvalid={!!errors}
         />

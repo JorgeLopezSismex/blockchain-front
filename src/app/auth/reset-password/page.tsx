@@ -3,11 +3,16 @@
 import * as formik from "formik";
 import { useState, Fragment } from "react";
 
+import styles from "../styles.module.css";
+import "bootstrap/dist/css/bootstrap.css";
+
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 
+import AuthLink from "../../components/auth/AuthLink";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
+import ActionToast from "../../components/main/ActionToast";
 
 import { resetPassword } from "@/validations/validation-schemas";
 
@@ -17,12 +22,12 @@ export default function ResetPassword() {
 
   return (
     <Fragment>
-      <div style={{ paddingTop: 7, paddingBottom: 8 }}>
-        <h1>Sismex - Blockchain</h1>
+      <div className={styles.authTitle}>
+        <h2>Sismex - Blockchain</h2>
       </div>
 
-      <div style={{ paddingTop: 24, paddingBottom: 24 }}>
-        <h1>Nueva contraseña</h1>
+      <div className={styles.authFormTitle}>
+        <h3>Nueva contraseña</h3>
         <Formik
           validationSchema={resetPassword}
           initialValues={{
@@ -61,6 +66,16 @@ export default function ResetPassword() {
             </Form>
           )}
         </Formik>
+
+        <AuthLink
+          link={"sign-in"}
+          text={"¿Ya tienes una cuenta? - Iniciar sesión"}
+        />
+        <br />
+        <AuthLink
+          link={"sign-up"}
+          text={"¿No tienes cuenta? - Registrate aquí"}
+        />
       </div>
     </Fragment>
   );

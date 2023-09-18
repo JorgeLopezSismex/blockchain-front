@@ -1,3 +1,5 @@
+type loadingFunction = (status: boolean) => void;
+
 export const apiFetch = async (
   url: string,
   method = "GET" as string,
