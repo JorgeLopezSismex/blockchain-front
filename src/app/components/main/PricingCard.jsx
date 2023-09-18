@@ -1,35 +1,29 @@
 import React from "react";
 
+import "bootstrap/dist/css/bootstrap.css";
+
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-function PricingCard({ name, price, description }) {
+function PricingCard({ membership }) {
   return (
-    <Card className="mx-4 my-3 h-100">
-      <Card.Header>{name}</Card.Header>
+    <Card className="mx-4 my-3 h-100" style={{ margin: 10 }}>
+      <Card.Header>{membership.membershipName}</Card.Header>
       <Card.Body className="d-flex flex-column">
         <Card.Title>
-          <h1>${price}</h1>
+          <h1>$12</h1>
         </Card.Title>
         <Card.Text>
-          {description}
+          {membership.membershipDescription}
           <ul>
-            <li>Something</li>
-            <li>Something more</li>
-            <li>Something else</li>
-            <li>Something important</li>
+            {membership.membershipFeatureDescription.map((fueature) => (
+              <li>{fueature.membershipFeatureDescription}</li>
+            ))}
           </ul>
         </Card.Text>
-        <a
-          href=""
-          data-target="#profileModal"
-          data-toggle="modal"
-          data-caption="Tammy"
-          data-src="./assets/images/pr-sample2.jpg"
-          class="btn btn-secondary btn-lg btn-block text-truncate mt-auto"
-        >
-          View Profile
-        </a>
+        <Button href="#" className="btn-lg btn-block text-truncate mt-auto">
+          Añadir al carrito
+        </Button>
       </Card.Body>
     </Card>
   );

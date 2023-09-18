@@ -3,29 +3,53 @@
 import PricingCard from "../../components/main/PricingCard";
 import { Col, Container, Row } from "react-bootstrap";
 
-export default function Pricing() {
-  let plans = [
-    {
-      id: 1,
-      name: "free",
-      price: 10,
-      description: "Free plan",
-    },
-    {
-      id: 2,
-      name: "Free Max",
-      price: 25,
-      description: "Max plan",
-    },
-    {
-      id: 3,
-      name: "Super plan",
-      price: 50,
-      description: "Newer plan for users",
-    },
-  ];
+import { useEffect, useState } from "react";
+import { apiFetch } from "@/helpers/api-fetch";
 
-  console.log(plans);
+export default function Pricing() {
+  let response = {
+    data: [
+      {
+        membershipId: 0,
+        membershipName: "Free",
+        membershipDescription: "Free membership",
+        membershipFeatureDescription: [
+          {
+            membershipFeatureDescription: "New feature",
+          },
+        ],
+      },
+      {
+        membershipId: 1,
+        membershipName: "Single",
+        membershipDescription: "Single membership",
+        membershipFeatureDescription: [],
+      },
+      {
+        membershipId: 2,
+        membershipName: "Tiered",
+        membershipDescription: "E-commerce businesses can benefit",
+        membershipFeatureDescription: [],
+      },
+      {
+        membershipId: 3,
+        membershipName: "Pay-As-You-Go",
+        membershipDescription:
+          "Cloud service providers often use a pay-as-you-go model. ",
+        membershipFeatureDescription: [],
+      },
+      {
+        membershipId: 4,
+        membershipName: "Premium",
+        membershipDescription: "Many mobile apps offer a freemium model",
+        membershipFeatureDescription: [],
+      },
+    ],
+    status: 200,
+  };
+
+  const [loading, setLoading] = useState(false);
+  const [memberships, setMemberships] = useState([]);
 
   return (
     <Container>
@@ -39,14 +63,10 @@ export default function Pricing() {
           viverra elit maximus.
         </p>
       </Row>
-      <Row>
-        {plans.map((plan) => (
-          <Col xs={4}>
-            <PricingCard
-              name={plan.name}
-              price={plan.price}
-              description={plan.description}
-            />
+      <Row className="d-flex justify-content-center">
+        {response.data.map((membership) => (
+          <Col xs={12} md={6} lg={4} style={{ marginBottom: 30 }}>
+            <PricingCard membership={membership} />
           </Col>
         ))}
       </Row>

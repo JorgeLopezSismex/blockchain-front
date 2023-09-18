@@ -1,11 +1,9 @@
-type loadingFunction = (status: boolean) => void;
-
 export const apiFetch = async (
   url: string,
   method = "GET" as string,
   body?: object
 ) => {
-  const base = "http://localhost/reserva-tu-lugar/api/";
+  const base = "https://localhost:5001/api/v1/";
   const res = await fetch(base + url, {
     method: method,
     headers: {

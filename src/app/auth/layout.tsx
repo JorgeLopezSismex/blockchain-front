@@ -13,7 +13,6 @@ export default function AuthLayout({ children }) {
   return (
     <Container fluid>
       <Row>
-        + "d-none d-md-flex d-md-block auth"
         <Col md={4} lg={6} className={styles.authImage}></Col>
         <Col md={8} lg={6}>
           <div className="login d-flex align-items-center py-5">
