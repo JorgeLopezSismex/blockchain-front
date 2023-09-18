@@ -1,14 +1,14 @@
 "use client";
 //Ventana About us (*/ω＼*)
-import { Col, Container, Row } from "react-bootstrap";
-import Image from "react-bootstrap/Image";
+import { Col, Container, Row } from 'react-bootstrap';
+import Image from 'react-bootstrap/Image';
+import BenefitsCard from "../../components/main/BenefitsCard";
 
 export default function AboutUs() {
   return (
     <section>
-      <Container>
-        <Row>
-
+      <Container fluid>
+        <Row className='px-5'>
           <Col xs={12} lg={5} className="px-3 py-3">
             <Image
               style={{ width: "100%" }}
@@ -20,21 +20,75 @@ export default function AboutUs() {
             <div className="wrapper align-left">
               <h2 style={{fontSize:'50px'}}>Blockchain</h2>
               <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Nullam velit risus, dictum et nibh vel, pretium rhoncus est. 
-              Suspendisse id odio ac libero eleifend dapibus eget a leo. 
-              Sed aliquet metus nec est hendrerit, et viverra elit maximus. 
-              Nullam a nibh tristique, molestie lectus in, feugiat neque. 
-              Cras placerat ligula quis feugiat fermentum. 
-              Praesent posuere ac dui sit amet vehicula. 
-              Proin est orci, maximus nec gravida in, sagittis vestibulum neque. 
-              Proin nec posuere nunc, et pharetra ante. Morbi et orci mauris. 
-              Praesent mollis lacinia orci, a pulvinar diam pulvinar a.
+                Nuestra historia comenzó con la visión de transformar 
+                la educación y la autenticación de documentos. 
+                Desde [año de fundación], hemos estado comprometidos 
+                en proporcionar una solución innovadora y segura 
+                basada en Ethereum.
+              </p>
+              <p>
+                Nuestra misión es empoderar a instituciones educativas,
+                empresas y particulares con herramientas que garanticen 
+                la integridad de sus certificados y documentos digitales.
+              </p>
+              <p>
+                Nuestros expertos en blockchain, educación y tecnología 
+                trabajan incansablemente para ofrecerte una solución de 
+                vanguardia.
               </p>
             </div>
           </Col>
 
         </Row>
+        
+        {/* Mision/Vision */}
+        <Row className='py-5 px-5 mt-5' style={{textAlign:'center', backgroundColor:'#F8F9FA'}}>
+          <Col xm={12} md={6} className='my-5'>
+            <h2>Nuestra Misión</h2>
+            <p className='px-5 mx-5'>
+              Nuestra misión es revolucionar la forma en que se emiten y verifican los certificados,
+              brindando seguridad, confiabilidad y transparencia a cada paso del proceso.
+            </p>
+          </Col>
+          <Col xm={12} md={6} className='my-5'>
+            <h2>Nuestra Visión</h2>
+            <p className='px-5 mx-5'>
+              Buscamos construir un mundo donde cada logro, habilidad y logro pueda ser certificado de manera inmutable en la blockchain    Ethereum,
+              proporcionando a las personas y organizaciones una forma infalible de demostrar su autenticidad.
+            </p>
+          </Col>
+        </Row>
+
+          {/* Valores */}
+          <Row className='py-5 px-5 mt-5 mb-3'>
+          <h2 className='mb-5' style={{textAlign:'center', fontSize:'40px'}}>Nuestros Valores</h2>
+          <Col className='my-3' xs={12} md={6} lg={3}>
+            <BenefitsCard
+              titulo="Integridad"
+              contenido="Creemos en la honestidad y la integridad en todo lo que hacemos."
+            />
+          </Col>
+          <Col className='my-3' xs={12} md={6} lg={3}>
+            <BenefitsCard
+              titulo="Innovación"
+              contenido="Nos esforzamos por estar a la vanguardia de la tecnología blockchain y la seguridad digital."
+            />
+          </Col>
+          <Col className='my-3' xs={12} md={6} lg={3}>
+            <BenefitsCard
+              titulo="Colaboración"
+              contenido="Fomentamos la colaboración y el trabajo en equipo para alcanzar nuestros objetivos."
+            />
+          </Col>
+          <Col className='my-3' xs={12} md={6} lg={3}>
+            <BenefitsCard
+              titulo="Transparencia"
+              contenido="Mantenemos una total transparencia en nuestros procesos y operaciones."
+            />
+          </Col>
+          
+        </Row>
+
       </Container>
     </section>
   );
