@@ -19,22 +19,12 @@ export default function AboutUs() {
           <Col xs={12} lg={7} className="px-5 py-3 align-items-center" style={{display:'flex'}}>
             <div className="wrapper align-left">
               <h2 style={{fontSize:'50px'}}>Blockchain</h2>
-              <p>
+              <p style={{fontSize:'30px'}}>
                 Nuestra historia comenzó con la visión de transformar 
                 la educación y la autenticación de documentos. 
                 Desde [año de fundación], hemos estado comprometidos 
                 en proporcionar una solución innovadora y segura 
                 basada en Ethereum.
-              </p>
-              <p>
-                Nuestra misión es empoderar a instituciones educativas,
-                empresas y particulares con herramientas que garanticen 
-                la integridad de sus certificados y documentos digitales.
-              </p>
-              <p>
-                Nuestros expertos en blockchain, educación y tecnología 
-                trabajan incansablemente para ofrecerte una solución de 
-                vanguardia.
               </p>
             </div>
           </Col>
@@ -45,14 +35,14 @@ export default function AboutUs() {
         <Row className='py-5 px-5 mt-5' style={{textAlign:'center', backgroundColor:'#F8F9FA'}}>
           <Col xm={12} md={6} className='my-5'>
             <h2>Nuestra Misión</h2>
-            <p className='px-5 mx-5'>
+            <p style={{fontSize:'20px'}} className='px-5 mx-5'>
               Nuestra misión es revolucionar la forma en que se emiten y verifican los certificados,
               brindando seguridad, confiabilidad y transparencia a cada paso del proceso.
             </p>
           </Col>
           <Col xm={12} md={6} className='my-5'>
             <h2>Nuestra Visión</h2>
-            <p className='px-5 mx-5'>
+            <p style={{fontSize:'18px'}} className='px-5 mx-3'>
               Buscamos construir un mundo donde cada logro, habilidad y logro pueda ser certificado de manera inmutable en la blockchain    Ethereum,
               proporcionando a las personas y organizaciones una forma infalible de demostrar su autenticidad.
             </p>
