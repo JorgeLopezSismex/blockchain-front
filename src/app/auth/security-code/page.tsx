@@ -63,6 +63,7 @@ export default function SecurityCode() {
                   label={"Código para cambio de contraseña"}
                   name={"securityCode"}
                   value={values.securityCode}
+                  placeholder={"Código"}
                   handleChange={handleChange}
                   errors={errors.securityCode}
                 />

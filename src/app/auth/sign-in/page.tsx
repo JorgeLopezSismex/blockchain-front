@@ -1,8 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState, useEffect, Fragment } from "react";
+
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
-import { useState, useEffect, Fragment } from "react";
 
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
@@ -20,6 +22,7 @@ import styles from "../styles.module.css";
 
 export default function Page() {
   const { Formik } = formik;
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -33,17 +36,20 @@ export default function Page() {
 
   const signIn = async (values: object) => {
     setLoading(true);
-    const res = await apiFetch("auth/sign-in", "POST", values);
+    const res = await apiFetch("authorization/login", "POST", values);
 
-    setLoading(false);
-    if (res.data == null) {
+    if (!res.success) {
+      setLoading(false);
       setShowToast(true);
+
       setToastVariant("danger");
       setToastTitle("Autenticación");
       setToastMessage(res.message);
-
       return;
     }
+
+    router.replace("/admin");
+    return;
   };
 
   return (

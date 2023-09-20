@@ -6,7 +6,11 @@ import AdminNavBar from "../components/admin/AdminNavBar";
 import styles from "./styles.module.css";
 import { Container } from "react-bootstrap";
 
-export default function AdminLayout({ children }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className={styles.contentWrapper}>
       <AdminNavBar></AdminNavBar>

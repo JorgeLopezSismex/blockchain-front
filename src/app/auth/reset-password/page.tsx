@@ -44,6 +44,7 @@ export default function ResetPassword() {
                   label={"Contraseña"}
                   name={"password"}
                   value={values.password}
+                  placeholder={"Micontraseña"}
                   handleChange={handleChange}
                   errors={errors.password}
                 />
@@ -55,6 +56,7 @@ export default function ResetPassword() {
                   label={"Repetir contraseña"}
                   name={"repeatPassword"}
                   value={values.repeatPassword}
+                  placeholder={"Micontraseña123"}
                   handleChange={handleChange}
                   errors={errors.repeatPassword}
                 />

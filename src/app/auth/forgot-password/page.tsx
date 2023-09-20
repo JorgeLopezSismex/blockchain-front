@@ -31,7 +31,7 @@ export default function ForgotPassword() {
         <Formik
           validationSchema={signUpSchema}
           initialValues={{
-            email: "Mark",
+            email: "",
             password: "Otto",
             remember_me: 1,
           }}
@@ -45,6 +45,7 @@ export default function ForgotPassword() {
                   label={"Correo electrónico"}
                   name={"email"}
                   value={values.email}
+                  placeholder={"ejemplo@gmail.com"}
                   handleChange={handleChange}
                   errors={errors.email}
                 />

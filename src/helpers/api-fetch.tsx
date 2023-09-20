@@ -3,8 +3,7 @@ export const apiFetch = async (
   method = "GET" as string,
   body?: object
 ) => {
-  const base = "https://localhost:5001/api/v1/";
-  const res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto", {
+  const res = await fetch("http://68.178.207.49:8109/api/v1/" + url, {
     method: method,
     headers: {
       "Content-Type": "application/json",
@@ -14,3 +13,5 @@ export const apiFetch = async (
 
   return await res.json();
 };
+
+// http://68.178.207.49:8109/api/v1/

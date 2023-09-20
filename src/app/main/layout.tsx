@@ -9,12 +9,16 @@ import Row from "react-bootstrap/Row";
 import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 
-export default function MainLayout({ children }) {
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <>
       <MainNav />
       {children}
-      <MainFoot/>
+      <MainFoot />
     </>
   );
 }
