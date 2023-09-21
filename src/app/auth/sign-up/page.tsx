@@ -1,9 +1,9 @@
 "use client";
 
-import * as formik from "formik";
-import { useState, Fragment } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect, Fragment } from "react";
 
-import styles from "../styles.module.css";
+import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
 
 import Row from "react-bootstrap/Row";
@@ -14,8 +14,10 @@ import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 import ActionToast from "../../components/main/ActionToast";
 
-import { signUpSchema } from "@/validations/validation-schemas";
 import { apiFetch } from "@/helpers/api-fetch";
+import { signUpSchema } from "@/validations/validation-schemas";
+
+import styles from "../styles.module.css";
 
 export default function SignUp() {
   const { Formik } = formik;
@@ -28,15 +30,16 @@ export default function SignUp() {
 
   const signUp = async (values: object) => {
     setLoading(true);
-    const res = await apiFetch("auth/sign-in", "POST", values);
+    const res = await apiFetch("authorization/register-user", "POST", values);
 
     setLoading(false);
-    if (res.data == null) {
+    if (!res.success) {
+      setLoading(false);
       setShowToast(true);
+
       setToastVariant("danger");
       setToastTitle("Autenticación");
       setToastMessage(res.message);
-
       return;
     }
 

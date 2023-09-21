@@ -3,7 +3,7 @@ export const apiFetch = async (
   method = "GET" as string,
   body?: object
 ) => {
-  const res = await fetch("http://68.178.207.49:8109/api/v1/" + url, {
+  const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + url, {
     method: method,
     headers: {
       "Content-Type": "application/json",
@@ -13,5 +13,3 @@ export const apiFetch = async (
 
   return await res.json();
 };
-
-// http://68.178.207.49:8109/api/v1/

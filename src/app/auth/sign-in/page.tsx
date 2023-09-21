@@ -20,7 +20,7 @@ import { signInSchema } from "../../../validations/validation-schemas";
 
 import styles from "../styles.module.css";
 
-export default function Page() {
+export default function SignIn() {
   const { Formik } = formik;
   const router = useRouter();
 
