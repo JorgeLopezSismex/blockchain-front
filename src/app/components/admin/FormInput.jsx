@@ -1,20 +1,33 @@
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form"
-import InputGroup from "react-bootstrap/InputGroup";
+import { InputGroup } from "react-bootstrap";
 
-export default function FormInput(props){
+export default function FormInput({
+  label,
+  type,
+  name,
+  placeholder,
+  controlId,
+  sm,
+  md,
+  value,
+  handleChange,
+  errors,
+}){
     return(
-        <Form.Group as={Col} md="12" controlId="exampleForm.ControlInput1">
-          <Form.Label>{props.label}</Form.Label>
+      <Form.Group as={Col} sm={sm} md={md} controlId={controlId} className="mb-3">
+        <Form.Label>{label}</Form.Label>
+        <InputGroup hasValidation>
           <Form.Control
-            type={props.type}
-            name={props.name}
-            // value={props.value}
-            placeholder={props.placeholder}
-            // onChange={handleChange}
-            // isInvalid={!!props.errors}
+            type={type}
+            name={name}
+            value={value}
+            placeholder={placeholder}
+            onChange={handleChange}
+            isInvalid={!!errors}
           />
-          <Form.Control.Feedback type="invalid">{props.errors}</Form.Control.Feedback>
-        </Form.Group>
+        <Form.Control.Feedback type="invalid">{errors}</Form.Control.Feedback>
+        </InputGroup>
+      </Form.Group>
     );
 }

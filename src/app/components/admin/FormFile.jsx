@@ -1,10 +1,19 @@
+import { InputGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form"
+import Col from "react-bootstrap/Col";
 
-export default function FormFile(props){
+export default function FormFile({
+    label,
+    sm,
+    md,
+    controlId,
+}){
     return(
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>{props.label}</Form.Label>
-            <Form.Control type="file" />
+        <Form.Group as={Col} sm={sm} md={md} className="mb-3" controlId={controlId}>
+          <Form.Label>{label}</Form.Label>
+            <InputGroup>
+                <Form.Control type="file" />
+            </InputGroup>
         </Form.Group>
     );
 }

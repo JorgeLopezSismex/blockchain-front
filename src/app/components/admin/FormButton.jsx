@@ -4,26 +4,14 @@ import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
 
-export default function FormButton(props /*, loading*/){
+export default function FormButton({
+    label
+}){
     return(
         <Form.Group>
-            <div className="d-grid gap-2">
+            <div style={{display:'flex', alignContent:'center', justifyContent:'center'}}>
                 <Button type="submit" variant="primary" /*disabled={loading}*/ size="lg">
-                    {props.text}
-                    {/* {!loading ? (
-                        text
-                    ) : (
-                        <Fragment>
-                            <Spinner
-                             as="span"
-                             animation="border"
-                             size="sm"
-                             role="status"
-                             aria-hidden="true"
-                            />
-                            <span>Cargando...</span>
-                        </Fragment>
-                    )} */}
+                    {label}
                 </Button>
             </div>
         </Form.Group>
