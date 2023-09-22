@@ -7,6 +7,7 @@ export default function ActionToast({
   title,
   message,
   onClose,
+  delay
 }) {
   return (
     <ToastContainer
@@ -14,7 +15,7 @@ export default function ActionToast({
       style={{ zIndex: 1 }}
       position="bottom-start"
     >
-      <Toast bg={variant} show={show} onClose={onClose} delay={3000} autohide>
+      <Toast bg={variant} show={show} onClose={onClose} delay={delay} autohide>
         <Toast.Header>
           <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
           <strong className="me-auto">{title}</strong>

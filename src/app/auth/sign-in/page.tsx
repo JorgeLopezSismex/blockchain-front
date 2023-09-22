@@ -36,7 +36,7 @@ export default function SignIn() {
 
   const signIn = async (values: object) => {
     setLoading(true);
-    const res = await apiFetch("authorization/login", "POST", values);
+    const res = await apiFetch("authorization/sign-in", "POST", values);
 
     if (!res.success) {
       setLoading(false);
@@ -125,6 +125,7 @@ export default function SignIn() {
         title={toastTitle}
         message={toastMessage}
         onClose={() => setShowToast(false)}
+        delay={3000}
       />
     </Fragment>
   );

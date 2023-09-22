@@ -19,8 +19,19 @@ import { signUpSchema } from "@/validations/validation-schemas";
 
 import styles from "../styles.module.css";
 
+interface SignUpData {
+  name: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+  phone: string;
+  address: string;
+  stateID: number;
+}
+
 export default function SignUp() {
   const { Formik } = formik;
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -28,11 +39,15 @@ export default function SignUp() {
   const [toastMessage, setToastMessage] = useState("Mensaje.");
   const [toastVariant, setToastVariant] = useState("success");
 
-  const signUp = async (values: object) => {
-    setLoading(true);
-    const res = await apiFetch("authorization/register-user", "POST", values);
+  const signUp = async (values: SignUpData) => {
+    values.name = "";
+    values.phone = "";
+    values.address = "";
+    values.stateID = 0;
 
-    setLoading(false);
+    setLoading(true);
+    const res = await apiFetch("authorization/sign-up", "POST", values);
+
     if (!res.success) {
       setLoading(false);
       setShowToast(true);
@@ -43,7 +58,18 @@ export default function SignUp() {
       return;
     }
 
-    console.log(values);
+    setLoading(false);
+    setShowToast(true);
+
+    setToastVariant("success");
+    setToastTitle("Autenticación");
+    setToastMessage(res.message);
+
+    setTimeout(() => {
+      router.replace("/auth/sign-in");
+    }, 6000);
+
+    return;
   };
 
   return (
@@ -58,9 +84,13 @@ export default function SignUp() {
           onSubmit={signUp}
           validationSchema={signUpSchema}
           initialValues={{
+            name: "",
             email: "",
             password: "",
             repeatPassword: "",
+            phone: "",
+            address: "",
+            stateID: 0,
           }}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -115,6 +145,15 @@ export default function SignUp() {
           text={"¿Ya tienes una cuenta? - Iniciar sesión"}
         />
       </div>
+
+      <ActionToast
+        variant={toastVariant}
+        show={showToast}
+        title={toastTitle}
+        message={toastMessage}
+        onClose={() => setShowToast(false)}
+        delay={6000}
+      />
     </Fragment>
   );
 }
