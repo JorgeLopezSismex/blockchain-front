@@ -67,20 +67,7 @@ const issuers = [
     },
 ];
 
-const columns = [
-    {
-        label: "Name", renderCell: (item: any) => item.name
-    },
-    {
-        label: "Mail", renderCell: (item: any) => item.mail
-    },
-    {
-        label: "Phone", renderCell: (item: any) => item.phone
-    },
-    {
-        label: "Address", renderCell: (item: any) => item.address
-    },
-];
+
 //⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙
 export default function RequestTable(){
     let data = { issuers };
