@@ -1,9 +1,10 @@
 "use client";
 
-import * as formik from "formik";
-import { useState, Fragment } from "react";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useState, Fragment, useEffect } from "react";
 
-import styles from "../styles.module.css";
+import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
 
 import Row from "react-bootstrap/Row";
@@ -14,27 +15,50 @@ import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 import ActionToast from "../../components/main/ActionToast";
 
-import { resetPassword } from "@/validations/validation-schemas";
+import { apiFetch } from "@/helpers/api-fetch";
+import { ResetPasswordData } from "@/types/auth";
+import { resetPasswordSchema } from "@/validations/validation-schemas";
+
+import styles from "../styles.module.css";
 
 export default function ResetPassword() {
   const { Formik } = formik;
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
+
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
+  useEffect(() => {
+    if (token == null || token == "" || token == undefined) {
+      router.replace("no-token");
+      return;
+    }
+
+    // Enviar peticion para validar token
+  }, []);
+
+  const resetPassword = async (values: ResetPasswordData) => {
+    alert("Se resetea la contraseña");
+  };
 
   return (
     <Fragment>
       <div className={styles.authTitle}>
+        <p>Search: {token}</p>
         <h2>Sismex - Blockchain</h2>
       </div>
 
       <div className={styles.authFormTitle}>
         <h3>Nueva contraseña</h3>
         <Formik
-          validationSchema={resetPassword}
+          onSubmit={resetPassword}
+          validationSchema={resetPasswordSchema}
           initialValues={{
             password: "",
             repeatPassword: "",
           }}
-          onSubmit={() => alert("Hola mundo")}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
             <Form noValidate onSubmit={handleSubmit}>

@@ -50,7 +50,7 @@ export const signUpSchema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "Las contraseñas no coinciden"),
 });
 
-export const forgotPassword = yup.object().shape({
+export const forgotPasswordSchema = yup.object().shape({
   email: yup
     .string()
     .required("Este campo es obligatorio.")
@@ -59,19 +59,16 @@ export const forgotPassword = yup.object().shape({
     .max(150, "Por favor, no escribas más de 150 caracteres."),
 });
 
-export const securityCode = yup.object().shape({
-  securityCode: yup
-    .string()
-    .required("Este campo es obligatorio.")
-    .length(6, "Por favor, escribe los 6 caracteres del código de seguridad."),
-});
-
-export const resetPassword = yup.object().shape({
+export const resetPasswordSchema = yup.object().shape({
   password: yup
     .string()
     .required("Este campo es obligatorio.")
     .min(8, "Por favor, no escribas menos de 8 caracteres.")
-    .max(16, "Por favor, no escribas más de 16 caracteres."),
+    .max(16, "Por favor, no escribas más de 50 caracteres.")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!*]).{8,}$/,
+      "Por favor, la contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial."
+    ),
   repeatPassword: yup
     .string()
     .required("Este campo es obligatorio.")

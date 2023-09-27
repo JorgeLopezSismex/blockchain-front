@@ -14,20 +14,11 @@ import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 import ActionToast from "../../components/main/ActionToast";
 
+import { SignUpData } from "@/types/auth";
 import { apiFetch } from "@/helpers/api-fetch";
 import { signUpSchema } from "@/validations/validation-schemas";
 
 import styles from "../styles.module.css";
-
-interface SignUpData {
-  name: string;
-  email: string;
-  password: string;
-  repeatPassword: string;
-  phone: string;
-  address: string;
-  stateID: number;
-}
 
 export default function SignUp() {
   const { Formik } = formik;

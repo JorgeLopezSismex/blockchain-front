@@ -1,9 +1,8 @@
 "use client";
 
-import * as formik from "formik";
 import { useState, Fragment } from "react";
 
-import styles from "../styles.module.css";
+import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
 
 import Row from "react-bootstrap/Row";
@@ -14,11 +13,35 @@ import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 import ActionToast from "../../components/main/ActionToast";
 
-import { signUpSchema } from "@/validations/validation-schemas";
+import { apiFetch } from "@/helpers/api-fetch";
+import { ForgotPasswordData } from "@/types/auth";
+import { forgotPasswordSchema } from "@/validations/validation-schemas";
+
+import styles from "../styles.module.css";
 
 export default function ForgotPassword() {
   const { Formik } = formik;
+
   const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastTitle, setToastTitle] = useState("Título");
+  const [toastMessage, setToastMessage] = useState("Mensaje.");
+  const [toastVariant, setToastVariant] = useState("success");
+
+  const forgotPassword = async (values: ForgotPasswordData) => {
+    setLoading(true);
+    const res = await apiFetch("authorization/reset-password", "POST", values);
+
+    if (res.success) {
+      setLoading(false);
+      setShowToast(true);
+
+      setToastVariant("success");
+      setToastTitle("Autenticación");
+      setToastMessage(res.message);
+      return;
+    }
+  };
 
   return (
     <Fragment>
@@ -29,13 +52,11 @@ export default function ForgotPassword() {
       <div className={styles.authFormTitle}>
         <h3>Olvide mi contraseña</h3>
         <Formik
-          validationSchema={signUpSchema}
+          onSubmit={forgotPassword}
+          validationSchema={forgotPasswordSchema}
           initialValues={{
             email: "",
-            password: "Otto",
-            remember_me: 1,
           }}
-          onSubmit={() => alert("Hola mundo")}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
             <Form noValidate onSubmit={handleSubmit}>
@@ -71,6 +92,15 @@ export default function ForgotPassword() {
           text={"¿No tienes cuenta? - Registrate aquí"}
         />
       </div>
+
+      <ActionToast
+        variant={toastVariant}
+        show={showToast}
+        title={toastTitle}
+        message={toastMessage}
+        onClose={() => setShowToast(false)}
+        delay={6000}
+      />
     </Fragment>
   );
 }
