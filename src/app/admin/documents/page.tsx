@@ -20,21 +20,36 @@ import FormFile from "../../components/admin/FormFile";
 import FormButton from "../../components/admin/FormButton";
 
 import { documentScheme } from "../../../validations/documents-validation";
+// import { apiFetch } from "@/helpers/api-fetch";
 
 export default function Documents() {
   const { Formik } = formik;
+  // const router = useRouter();
+
   const [validated, setValidated] = useState(false);
+  // const [enterTitle, setEnterTitle]=useState("");
+  // const [enterDescription, setEnterDescription]=useState("");
+  // const [enterEmail, setEnterEmail]=useState("");
+  // const [enterMails, setEnterMails]=useState(null);
+  // const [enterLogo, setEnterLogo]=useState(null);
+  // const [enterSign, setEnterSign]=useState(null);
+  const [archivos, setArchivos] = useState(null);
+
+  const subirArchivos = (e : any) => {
+    setArchivos(e);
+  }
+
+  const insertarArchivos = async() => {
+    const f = new FormData();
+    console.log(f);
+    // const res = await apiFetch("admin/algo", "POST", f);
+    //⬆ hace fetch con la api
+  }
 
   //Asi no es :v
   const createDocuments = async (values: any) => {
     console.log(values);
-    // const form = event.currentTarget;
-    // if (form.checkValidity() === false) {
-    //   event.preventDefault();
-    //   event.stopPropagation();
-    // }
-
-    // setValidated(true);
+    // const res = await apiFetch("authorization/sign-in", "POST", values);
   };
 
   return (
@@ -58,15 +73,18 @@ export default function Documents() {
           <Row xs={12}>
             <Card style={{ marginBottom: 60 }}>
               <Card.Body className={styles.cardBody}>
-                <h2>Titulo</h2>
+                <h2>Carga de documentos</h2>
                 <p>Por favor llene los campos que se le indican</p>
                 <Formik
-                  onSubmit={createDocuments}
+                  onSubmit={createDocuments} //Este deberia cambiar
                   validationSchema={documentScheme}
                   initialValues={{
                     title: "",
                     description: "",
                     email: "",
+                    mails: "undefined",
+                    logo: "undefined",
+                    sign: "undefined",
                   }}
                 >
                   {({ handleSubmit, handleChange, values, errors }) => (
@@ -124,6 +142,9 @@ export default function Documents() {
                           md={6}
                           sm={12}
                           controlId={"controlFileEmail"}
+                          name={"mails"}
+                          value={values.mails}
+                          handleChange={handleChange}
                         />
                       </Row>
                       <Row>
@@ -137,12 +158,18 @@ export default function Documents() {
                           md={6}
                           sm={12}
                           controlId={"controlFileLogo"}
+                          name={"logo"}
+                          value={values.logo}
+                          handleChange={handleChange}
                         />
                         <FormFile
                           label={"Firma"}
                           md={6}
                           sm={12}
                           controlId={"controlFileSign"}
+                          name={"sign"}
+                          value={values.sign}
+                          handleChange={handleChange}
                         />
                       </Row>
                       <Row

@@ -7,12 +7,20 @@ export default function FormFile({
     sm,
     md,
     controlId,
+    name,
+    value,
+    handleChange,
 }){
     return(
         <Form.Group as={Col} sm={sm} md={md} className="mb-3" controlId={controlId}>
           <Form.Label>{label}</Form.Label>
             <InputGroup>
-                <Form.Control type="file" />
+                <Form.Control 
+                    type="file" 
+                    name={name}
+                    value={value}
+                    onChange={handleChange}
+                />
             </InputGroup>
         </Form.Group>
     );
