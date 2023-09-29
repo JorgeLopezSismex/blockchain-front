@@ -37,9 +37,9 @@ export const signUpSchema = yup.object().shape({
     .string()
     .required("Este campo es obligatorio.")
     .min(8, "Por favor, no escribas menos de 8 caracteres.")
-    .max(16, "Por favor, no escribas más de 50 caracteres.")
+    .max(16, "Por favor, no escribas más de 16 caracteres.")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!*]).{8,}$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!*/-_.¿?]).{8,}$/,
       "Por favor, la contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial."
     ),
   repeatPassword: yup
@@ -64,9 +64,9 @@ export const resetPasswordSchema = yup.object().shape({
     .string()
     .required("Este campo es obligatorio.")
     .min(8, "Por favor, no escribas menos de 8 caracteres.")
-    .max(16, "Por favor, no escribas más de 50 caracteres.")
+    .max(16, "Por favor, no escribas más de 16 caracteres.")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!*]).{8,}$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!*/-_.¿?]).{8,}$/,
       "Por favor, la contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial."
     ),
   repeatPassword: yup
