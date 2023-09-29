@@ -14,12 +14,13 @@ import { Fragment } from "react";
 import Card from "react-bootstrap/Card";
 // import RequestTable from "../../components/admin/RequestTable";
 import AdminTable from "@/app/components/admin/AdminTable";
+import { apiFetch } from "@/helpers/api-fetch";
 
 const columns = [
   { label: "Nombre", renderCell: (item: any) => item.name },
   {
     label: "Correo electrónico",
-    renderCell: (item: any) => item.mail,
+    renderCell: (item: any) => item.email,
   },
   { label: "Teléfono", renderCell: (item: any) => item.phone },
   {
@@ -28,7 +29,7 @@ const columns = [
   },
   {
     label: "Estado de verificación",
-    renderCell: (item: any) => item.verification.name,
+    renderCell: (item: any) => item.issuerVerificationStatusName,
   },
 ];
 
@@ -90,11 +91,22 @@ const nodes = [
 ];
 
 export default function Requests() {
-  const [data, setData] = useState([{}]);
+  const [issuers, setIssuers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Hacer peticion al servicio
+    getIssuers();
   }, []);
+
+  const getIssuers = async () => {
+    setLoading(true);
+    const res = await apiFetch("issuers");
+
+    if (res.success) {
+      setLoading(false);
+      setIssuers(res.data);
+    }
+  };
 
   return (
     <Fragment>
@@ -118,7 +130,7 @@ export default function Requests() {
             <Card style={{ marginBottom: 60 }}>
               <Card.Body>
                 <div>
-                  <AdminTable columns={columns} nodes={nodes} />
+                  <AdminTable columns={columns} nodes={issuers} />
                 </div>
               </Card.Body>
             </Card>
