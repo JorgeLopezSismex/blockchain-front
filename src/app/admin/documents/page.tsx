@@ -1,54 +1,38 @@
 "use client";
-import { useState } from "react";
+
+import { useRouter } from "next/navigation";
+import { useState, useEffect, Fragment } from "react";
+
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
 
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-
-import { Fragment } from "react";
-
-import styles from "../styles.module.css";
-
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 
 import FormInput from "../../components/admin/FormInput";
-import FormFile from "../../components/admin/FormFile";
-import FormButton from "../../components/admin/FormButton";
+import FormInputFile from "../../components/admin/FormInputFile";
 
-import { documentScheme } from "../../../validations/documents-validation";
-// import { apiFetch } from "@/helpers/api-fetch";
+import { apiFetch } from "@/helpers/api-fetch";
+import { uploadDocumentsSchema } from "../../../validations/documents-validation";
+
+import styles from "../styles.module.css";
 
 export default function Documents() {
   const { Formik } = formik;
-  // const router = useRouter();
+  const router = useRouter();
 
-  const [validated, setValidated] = useState(false);
-  // const [enterTitle, setEnterTitle]=useState("");
-  // const [enterDescription, setEnterDescription]=useState("");
-  // const [enterEmail, setEnterEmail]=useState("");
-  // const [enterMails, setEnterMails]=useState(null);
-  // const [enterLogo, setEnterLogo]=useState(null);
-  // const [enterSign, setEnterSign]=useState(null);
-  const [archivos, setArchivos] = useState(null);
+  useEffect(() => {
+    // To do: Consultar si hay docuementos cargados y llenar el formulario.
+  }, []);
 
-  const subirArchivos = (e : any) => {
-    setArchivos(e);
-  }
-
-  const insertarArchivos = async() => {
-    const f = new FormData();
-    console.log(f);
-    // const res = await apiFetch("admin/algo", "POST", f);
-    //⬆ hace fetch con la api
-  }
-
-  //Asi no es :v
-  const createDocuments = async (values: any) => {
+  const uploadDocuments = async (values: any) => {
     console.log(values);
+    // To do: Enviar valores al servicio y esperar respuesta.
     // const res = await apiFetch("authorization/sign-in", "POST", values);
   };
 
@@ -76,56 +60,57 @@ export default function Documents() {
                 <h2>Carga de documentos</h2>
                 <p>Por favor llene los campos que se le indican</p>
                 <Formik
-                  onSubmit={createDocuments} //Este deberia cambiar
-                  validationSchema={documentScheme}
+                  onSubmit={uploadDocuments}
+                  validationSchema={uploadDocumentsSchema}
                   initialValues={{
-                    title: "",
+                    degree: "",
                     description: "",
-                    email: "",
-                    mails: "undefined",
-                    logo: "undefined",
-                    sign: "undefined",
+                    emails: null,
+                    signature: null,
+                    logo: null,
                   }}
                 >
-                  {({ handleSubmit, handleChange, values, errors }) => (
+                  {({
+                    handleSubmit,
+                    setFieldValue,
+                    handleChange,
+                    values,
+                    errors,
+                  }) => (
                     <Form noValidate onSubmit={handleSubmit}>
-                      <Row>
-                        <h5 className="text-muted">Informacion general</h5>
-                        <p>
-                          Por favor ingrese la informacion pgeneral para el
-                          certificado
-                        </p>
+                      <Row className="mb-3">
                         <FormInput
-                          label={"Titulo"}
+                          md={6}
+                          sm={12}
                           type={"text"}
-                          name={"title"}
-                          placeholder={"Diplomado en negocios"}
+                          name={"degree"}
+                          value={values.degree}
+                          errors={errors.degree}
+                          label={"Grado obtenido"}
                           controlId={"controlTitle"}
-                          md={6}
-                          sm={12}
-                          value={values.title}
                           handleChange={handleChange}
-                          errors={errors.title}
+                          placeholder={"Ingeniero en sistemas"}
                         />
+
                         <FormInput
-                          label={"Descripcion"}
-                          type={"text"}
-                          name={"description"}
-                          placeholder={
-                            "El siguiente certificado es otorgado por..."
-                          }
-                          controlId={"controlDescription"}
                           md={6}
                           sm={12}
+                          type="text"
+                          name="description"
+                          label="Descripcion"
                           value={values.description}
                           handleChange={handleChange}
                           errors={errors.description}
+                          controlId="controlDescription"
+                          placeholder="El siguiente certificado es otorgado por..."
                         />
                       </Row>
+
                       <Row>
                         <h5 className="text-muted">Beneficiarios</h5>
                         <p>Utilice una de las siguientes dos opciones</p>
-                        <FormInput
+
+                        {/* <FormInput
                           label={"Correo"}
                           type={"text"}
                           name={"email"}
@@ -136,51 +121,68 @@ export default function Documents() {
                           value={values.email}
                           handleChange={handleChange}
                           errors={errors.email}
-                        />
-                        <FormFile
-                          label={"Correos"}
-                          md={6}
+                        /> */}
+
+                        <FormInputFile
+                          md={12}
                           sm={12}
-                          controlId={"controlFileEmail"}
-                          name={"mails"}
-                          value={values.mails}
-                          handleChange={handleChange}
+                          accept="*"
+                          name="emails"
+                          label="Correos"
+                          controlId="emails"
+                          value={values.emails}
+                          errors={errors.emails}
+                          setFieldValue={setFieldValue}
                         />
                       </Row>
+
                       <Row>
                         <h5 className="text-muted">Multimedia</h5>
                         <p>
                           Por favor cargue la imagen del logo y firma para el
                           certificado
                         </p>
-                        <FormFile
-                          label={"Logo"}
+                        <FormInputFile
                           md={6}
                           sm={12}
-                          controlId={"controlFileLogo"}
-                          name={"logo"}
+                          accept="*"
+                          name="logo"
+                          label="Logotipo"
+                          controlId="logo"
                           value={values.logo}
-                          handleChange={handleChange}
+                          errors={errors.logo}
+                          setFieldValue={setFieldValue}
                         />
-                        <FormFile
-                          label={"Firma"}
-                          md={6}
+
+                        <FormInputFile
                           sm={12}
-                          controlId={"controlFileSign"}
-                          name={"sign"}
-                          value={values.sign}
-                          handleChange={handleChange}
+                          md={12}
+                          accept="*"
+                          name="signature"
+                          controlId="signature"
+                          label="Firma del emisor"
+                          value={values.signature}
+                          errors={errors.signature}
+                          setFieldValue={setFieldValue}
                         />
                       </Row>
-                      <Row
-                        className="mb-3 mt-4"
+
+                      <div
                         style={{
                           display: "flex",
                           flexDirection: "row-reverse",
                         }}
                       >
-                        <FormButton label={"Crear"} type={"submit"} />
-                      </Row>
+                        <Button type="submit" variant="primary">
+                          Guardar
+                        </Button>
+                        <Button
+                          variant="outline-secondary"
+                          style={{ marginInline: 10 }}
+                        >
+                          Atrás
+                        </Button>
+                      </div>
                     </Form>
                   )}
                 </Formik>
@@ -191,119 +193,4 @@ export default function Documents() {
       </section>
     </Fragment>
   );
-}
-
-{
-  /* <Fragment>
-      <Container fluid className="px-5 pt-4">
-        <Row className="mb2">
-          <Col className="pb-4">
-            <h1>Carga de documentos</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <Card className="py-4 px-5" style={{ marginBottom: 50 }}>
-              <Card.Body>
-                <Row>
-                  <h2>Titulo</h2>
-                  <p>Por favor llene los campos que se le indican</p>
-                  <Formik
-                    onSubmit={handleSubmit}
-                    validationSchema={documentScheme}
-                    initialValues={{
-                      title: "",
-                      description: "",
-                      email: "",
-                    }}
-                  >
-                    {({ handleSubmit, handleChange, values, errors }) => (
-                      <Form noValidate onSubmit={handleChange}>
-                        <Row>
-                          <h5 className="text-muted">Informacion general</h5>
-                          <p>
-                            Por favor ingrese la informacion pgeneral para el
-                            certificado
-                          </p>
-                          <FormInput
-                            label={"Titulo"}
-                            type={"text"}
-                            name={"title"}
-                            placeholder={"Diplomado en negocios"}
-                            controlId={"controlTitle"}
-                            md={6}
-                            sm={12}
-                            value={values.title}
-                            handleChange={handleChange}
-                            errors={errors.title}
-                          />
-                          <FormInput
-                            label={"Descripcion"}
-                            type={"text"}
-                            name={"description"}
-                            placeholder={
-                              "El siguiente certificado es otorgado por..."
-                            }
-                            controlId={"controlDescription"}
-                            md={6}
-                            sm={12}
-                            value={values.description}
-                            handleChange={handleChange}
-                            errors={errors.description}
-                          />
-                        </Row>
-                        <Row>
-                          <h5 className="text-muted">Beneficiarios</h5>
-                          <p>Utilice una de las siguientes dos opciones</p>
-                          <FormInput
-                            label={"Correo"}
-                            type={"text"}
-                            name={"email"}
-                            placeholder={"example@email.com"}
-                            controlId={"controlEmail"}
-                            md={6}
-                            sm={12}
-                            value={values.email}
-                            handleChange={handleChange}
-                            errors={errors.email}
-                          />
-                          <FormFile
-                            label={"Correos"}
-                            md={6}
-                            sm={12}
-                            controlId={"controlFileEmail"}
-                          />
-                        </Row>
-                        <Row>
-                          <h5 className="text-muted">Multimedia</h5>
-                          <p>
-                            Por favor cargue la imagen del logo y firma para el
-                            certificado
-                          </p>
-                          <FormFile
-                            label={"Logo"}
-                            md={6}
-                            sm={12}
-                            controlId={"controlFileLogo"}
-                          />
-                          <FormFile
-                            label={"Firma"}
-                            md={6}
-                            sm={12}
-                            controlId={"controlFileSign"}
-                          />
-                        </Row>
-                        <Row className="mb-3 mt-4">
-                          <FormButton label={"Crear"} />
-                        </Row>
-                      </Form>
-                    )}
-                  </Formik>
-                </Row>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </Fragment> */
 }

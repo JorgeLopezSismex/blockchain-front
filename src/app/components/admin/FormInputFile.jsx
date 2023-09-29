@@ -2,30 +2,40 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import { InputGroup } from "react-bootstrap";
 
-export default function FormInput({
+export default function FormInputFile({
   sm,
   md,
-  type,
   name,
   label,
   value,
+  accept,
   errors,
   controlId,
-  placeholder,
-  handleChange,
+  setFieldValue,
 }) {
   return (
     <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={controlId}>
       <Form.Label>{label}</Form.Label>
       <InputGroup hasValidation>
         <Form.Control
-          type={type}
+          type="file"
           name={name}
-          value={value}
+          accept={accept}
           isInvalid={!!errors}
-          onChange={handleChange}
-          placeholder={placeholder}
+          onChange={(e) => {
+            if (!e.target.files) {
+              return;
+            }
+
+            const file = e.target.files[0];
+            if (file == undefined || file == null) {
+              return;
+            }
+
+            setFieldValue(name, e.target.files[0]);
+          }}
         />
+
         <Form.Control.Feedback type="invalid">{errors}</Form.Control.Feedback>
       </InputGroup>
     </Form.Group>

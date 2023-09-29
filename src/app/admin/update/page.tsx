@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
 import FormInput from '../../components/admin/FormInput';
-import FormFile from '../../components/admin/FormFile';
+import FormInputFile from '../../components/admin/FormFileInput';
 import FormButton from '../../components/admin/FormButton';
 
 export default function Update(){
@@ -57,17 +57,17 @@ export default function Update(){
                             />
                           </Col>
                           <Col lg={6}>
-                            <FormFile
+                            <FormInputFile
                               label='Correos'
                             />
                           </Col>
                           <Col lg={6}>
-                            <FormFile
+                            <FormInputFile
                               label='Logo'
                             />
                           </Col>
                           <Col lg={6}>
-                            <FormFile
+                            <FormInputFile
                               label='Firma'
                             />
                           </Col>
