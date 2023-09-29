@@ -30,13 +30,13 @@ function MainNav() {
         >
           <Offcanvas.Header closeButton>
             <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-              Offcanvas
+            Sismex - Blockchain
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
               <Nav.Link>
-                <Link href="/main/about-us">Blockcerts</Link>
+                <Link href="/main/about-us" >Blockcerts</Link>
               </Nav.Link>
 
               <Nav.Link>
