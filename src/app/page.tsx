@@ -8,14 +8,15 @@ import Button from "react-bootstrap/Button";
 import MainNav from "./components/main/MainNav";
 import MainFoot from "./components/main/MainFoot";
 import Accordion from "react-bootstrap/Accordion";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div>
+    <>
       <MainNav />
       <Container fluid>
         {/* Inicio */}
-        <Row className="py-3 px-5 mx-5">
+        <Row className="py-3 mx-5">
           <Col
             xs={12}
             md={6}
@@ -43,11 +44,11 @@ export default function Home() {
 
         {/* Que es blockchain */}
         <Row
-          className="px-5 py-5"
+          className="py-5"
           style={{ backgroundColor: "#F8F9FA", textAlign: "center" }}
         >
           <Col>
-            <div className="px-5 mx-5">
+            <div className="px-5 mx-2">
               <h2 className="mb-4">¿Qué es Blockchain?</h2>
               <p style={{ fontSize: "18px" }}>
                 Bloackchain es una innovadora plataforma que te permite crear y
@@ -60,9 +61,13 @@ export default function Home() {
               </p>
             </div>
 
-            <Button variant="secondary" className="my-3">
-              Empezar
-            </Button>
+            <Link href={"/auth/sign-up"}>
+              <Button variant="secondary" className="my-3">
+                Empezar
+              </Button>
+            </Link>
+
+            
           </Col>
         </Row>
 
@@ -96,7 +101,7 @@ export default function Home() {
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Available_on_the_App_Store_%28black%29.png/799px-Available_on_the_App_Store_%28black%29.png"
                   alt="Descargar en AppStore"
-                  className="img-fluid mx-3"
+                  className="img-fluid px-3 py-1"
                   style={{ width: "200px", height: "auto" }}
                 />
               </a>
@@ -105,12 +110,12 @@ export default function Home() {
                 href="https://play.google.com/store/apps?hl=es_MX&gl=US"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-3"
+                className="ml-3 mb-1"
               >
                 <img
                   src="https://texttofloss.com/wp-content/uploads/2021/01/Google-Play-Store-Button.png"
                   alt="Descargar en PlayStore"
-                  className="img-fluid mx-3"
+                  className="img-fluid px-3 py-1"
                   style={{ width: "200px", height: "auto" }}
                 />
               </a>
@@ -211,6 +216,6 @@ export default function Home() {
       </Container>
 
       <MainFoot />
-    </div>
+    </>
   );
 }

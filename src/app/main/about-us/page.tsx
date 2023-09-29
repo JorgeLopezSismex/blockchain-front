@@ -16,7 +16,7 @@ export default function AboutUs() {
             ></Image>
           </Col>
 
-          <Col xs={12} lg={7} className="px-5 py-3 align-items-center" style={{display:'flex'}}>
+          <Col xs={12} lg={7} className="px-3 py-3 align-items-center" style={{display:'flex'}}>
             <div className="wrapper align-left">
               <h2 style={{fontSize:'50px'}}>Blockchain</h2>
               <p style={{fontSize:'30px'}}>
@@ -32,17 +32,17 @@ export default function AboutUs() {
         </Row>
         
         {/* Mision/Vision */}
-        <Row className='py-5 px-5 mt-5' style={{textAlign:'center', backgroundColor:'#F8F9FA'}}>
+        <Row className='py-3 px-3 mt-5' style={{textAlign:'center', backgroundColor:'#F8F9FA'}}>
           <Col xm={12} md={6} className='my-5'>
             <h2>Nuestra Misión</h2>
-            <p style={{fontSize:'20px'}} className='px-5 mx-5'>
+            <p style={{fontSize:'18px'}} className='px-5 mx-2'>
               Nuestra misión es revolucionar la forma en que se emiten y verifican los certificados,
               brindando seguridad, confiabilidad y transparencia a cada paso del proceso.
             </p>
           </Col>
           <Col xm={12} md={6} className='my-5'>
             <h2>Nuestra Visión</h2>
-            <p style={{fontSize:'18px'}} className='px-5 mx-3'>
+            <p style={{fontSize:'18px'}} className='px-5 mx-2'>
               Buscamos construir un mundo donde cada logro, habilidad y logro pueda ser certificado de manera inmutable en la blockchain    Ethereum,
               proporcionando a las personas y organizaciones una forma infalible de demostrar su autenticidad.
             </p>

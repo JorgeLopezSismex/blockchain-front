@@ -108,7 +108,7 @@ export default function Documents() {
 
                       <Row>
                         <h5 className="text-muted">Beneficiarios</h5>
-                        <p>Utilice una de las siguientes dos opciones</p>
+                        <p>Archivo con la lista de beneficiarios.</p>
 
                         {/* <FormInput
                           label={"Correo"}
@@ -156,7 +156,7 @@ export default function Documents() {
 
                         <FormInputFile
                           sm={12}
-                          md={12}
+                          md={6}
                           accept="*"
                           name="signature"
                           controlId="signature"

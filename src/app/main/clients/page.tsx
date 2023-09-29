@@ -94,7 +94,7 @@ export default function Clients() {
           Qué dicen nuestro usuarios sobre Blockchain.
         </h1>
       </div>
-      <Carousel>
+      <Carousel indicators={false} touch={true}>
         {testimonios.map((testimonial, index) =>
           index % itemsPerSlide === 0 ? (
             <Carousel.Item key={index}>
