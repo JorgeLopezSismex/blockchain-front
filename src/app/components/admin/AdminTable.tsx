@@ -73,12 +73,7 @@ export default function AdminTable({ columns, nodes }) {
   return (
     <div>
       <Row>
-        <Col sm={12} md={6} style={{ marginBottom: 20 }}>
-          <ButtonGroup style={{}} aria-label="Basic example">
-            <Button variant="primary">Nueva invitación</Button>
-          </ButtonGroup>
-        </Col>
-
+        <Col sm={12} md={6}></Col>
         <Col
           sm={12}
           md={6}
@@ -102,7 +97,7 @@ export default function AdminTable({ columns, nodes }) {
 
       <Row>
         <Col sm={12} className="d-flex justify-content-end">
-          <h6 style={{ float: "left" }}>
+          <h6 style={{ float: "left" }} className="px-2 pt-2">
             {currentPage + 1} - {totalPages} de {totalPages}
           </h6>
           <Pagination>

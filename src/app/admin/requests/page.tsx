@@ -2,7 +2,6 @@
 //Página de solicitudes ☆⌒(*＾-゜)v
 
 import { useState, useEffect } from "react";
-
 import "bootstrap/dist/css/bootstrap.css";
 
 import Row from "react-bootstrap/Row";
@@ -12,20 +11,19 @@ import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Fragment } from "react";
 
 import Card from "react-bootstrap/Card";
-// import RequestTable from "../../components/admin/RequestTable";
 import AdminTable from "@/app/components/admin/AdminTable";
 import { apiFetch } from "@/helpers/api-fetch";
 
 const columns = [
-  { label: "Nombre", renderCell: (item: any) => item.name },
+  { label: "Nombre", renderCell: (item: any) => item.name == "" || item.name == null ? "Nombre no especificado" : item.name },
   {
     label: "Correo electrónico",
     renderCell: (item: any) => item.email,
   },
-  { label: "Teléfono", renderCell: (item: any) => item.phone },
+  { label: "Teléfono", renderCell: (item: any) => item.phone == "" || item.phone == null ? "Telefono sin especificar" : item.phone },
   {
     label: "Dirección",
-    renderCell: (item: any) => item.address,
+    renderCell: (item: any) => item.address == "" || item.address == null ? "Dirección no especificada" : item.address,
   },
   {
     label: "Estado de verificación",
@@ -33,62 +31,6 @@ const columns = [
   },
 ];
 
-const nodes = [
-  {
-    emiterId: "1",
-    name: "Jorge Alberto",
-    mail: "jalopez@sismex.com",
-    phone: "231231231",
-    address: "asdasda",
-    stateId: 1,
-    verification: {
-      id: 1,
-      name: "sin verificar",
-      description: "description",
-    },
-    profile: {
-      id: 1,
-      name: "emisor",
-      description: "sdfsdfsfsdf",
-    },
-  },
-  {
-    emiterId: "2",
-    name: "Brando Francisco",
-    mail: "bfrancisco@sismex.com",
-    phone: "0123456789",
-    address: "su casa",
-    stateId: 2,
-    verification: {
-      id: 2,
-      name: "sin verificar",
-      description: "description",
-    },
-    profile: {
-      id: 2,
-      name: "emisor",
-      description: "sdfsdfsfsdf",
-    },
-  },
-  {
-    emiterId: "3",
-    name: "Yadira Ayala",
-    mail: "yayala@sismex.com",
-    phone: "9876543210",
-    address: "cachamia",
-    stateId: 3,
-    verification: {
-      id: 3,
-      name: "sin verificar",
-      description: "description",
-    },
-    profile: {
-      id: 3,
-      name: "emisor",
-      description: "sdfsdfsfsdf",
-    },
-  },
-];
 
 export default function Requests() {
   const [issuers, setIssuers] = useState([]);
@@ -115,7 +57,7 @@ export default function Requests() {
           <Col sm={6}>
             <h1 style={{ fontSize: "1.8rem", margin: 0 }}>Solicitudes</h1>
           </Col>
-          <Col sm={6}>
+          <Col sm={6} className="d-flex justify-content-end">
             <Breadcrumb>
               <Breadcrumb.Item href="#">Inicio</Breadcrumb.Item>
               <Breadcrumb.Item active>Documentos</Breadcrumb.Item>
