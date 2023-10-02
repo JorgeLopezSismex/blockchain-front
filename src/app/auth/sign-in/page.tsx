@@ -31,8 +31,25 @@ export default function SignIn() {
   const [toastVariant, setToastVariant] = useState("success");
 
   useEffect(() => {
-    // To do: Verificar si hay una sesíon iniciada.
+    const token = localStorage.getItem("token");
+    if (token != null) {
+      checkSignIn(token);
+    }
   }, []);
+
+  const checkSignIn = async (token: string) => {
+    const res = await apiFetch("authorization/check-sign-in", "POST", {
+      token: token,
+    });
+
+    if (!res.success) {
+      localStorage.removeItem("token");
+      return;
+    }
+
+    router.replace("/admin");
+    return;
+  };
 
   const signIn = async (values: object) => {
     setLoading(true);
@@ -48,6 +65,7 @@ export default function SignIn() {
       return;
     }
 
+    localStorage.setItem("token", res.token);
     router.replace("/admin");
     return;
   };
@@ -74,33 +92,33 @@ export default function SignIn() {
               <Row className="mb-3">
                 <AuthInput
                   type={"text"}
-                  label={"Correo electrónico"}
                   name={"email"}
                   value={values.email}
-                  placeholder={"ejemplo@gmail.com"}
-                  handleChange={handleChange}
                   errors={errors.email}
+                  handleChange={handleChange}
+                  label={"Correo electrónico"}
+                  placeholder={"ejemplo@gmail.com"}
                 />
               </Row>
 
               <Row className="mb-3">
                 <AuthInput
                   type={"password"}
-                  label={"Contraseña"}
                   name={"password"}
+                  label={"Contraseña"}
                   value={values.password}
-                  placeholder={"Micontraseña123*"}
-                  handleChange={handleChange}
                   errors={errors.password}
+                  handleChange={handleChange}
+                  placeholder={"Micontraseña123*"}
                 />
               </Row>
 
               <Row>
                 <AuthCheck
+                  errors={errors}
                   text={"Recordarme"}
                   name={"rememberMe"}
                   handleChange={handleChange}
-                  errors={errors}
                 />
               </Row>
 
@@ -120,12 +138,12 @@ export default function SignIn() {
       </div>
 
       <ActionToast
-        variant={toastVariant}
+        delay={3000}
         show={showToast}
         title={toastTitle}
         message={toastMessage}
+        variant={toastVariant}
         onClose={() => setShowToast(false)}
-        delay={3000}
       />
     </Fragment>
   );

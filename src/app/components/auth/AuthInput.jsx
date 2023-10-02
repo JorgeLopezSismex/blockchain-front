@@ -13,7 +13,7 @@ export default function AuthInput({
   errors,
 }) {
   return (
-    <Form.Group as={Col} md="12" controlId="email">
+    <Form.Group as={Col} md="12" controlId={name}>
       <Form.Label>{label}</Form.Label>
       <InputGroup hasValidation>
         <Form.Control

@@ -13,11 +13,10 @@ import AuthButton from "../../components/auth/AuthButton";
 import ActionToast from "../../components/main/ActionToast";
 
 import { apiFetch } from "../../../helpers/api-fetch";
-import { securityCode } from "../../../validations/validation-schemas";
 
 import styles from "../styles.module.css";
 
-export default function SecurityCode() {
+export default function Expired() {
   const { Formik } = formik;
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -47,34 +46,11 @@ export default function SecurityCode() {
       </div>
 
       <div className={styles.authFormTitle}>
-        <h3>Código de seguridad</h3>
-        <Formik
-          onSubmit={submitForm}
-          validationSchema={securityCode}
-          initialValues={{
-            securityCode: "123",
-          }}
-        >
-          {({ handleSubmit, handleChange, values, touched, errors }) => (
-            <Form noValidate onSubmit={handleSubmit}>
-              <Row className="mb-3">
-                <AuthInput
-                  type={"text"}
-                  label={"Código para cambio de contraseña"}
-                  name={"securityCode"}
-                  value={values.securityCode}
-                  placeholder={"Código"}
-                  handleChange={handleChange}
-                  errors={errors.securityCode}
-                />
-              </Row>
-
-              <Row className="mb-3">
-                <AuthButton text={"Verificar código"} loading={loading} />
-              </Row>
-            </Form>
-          )}
-        </Formik>
+        <h3>Enlace expirado</h3>
+        <p>
+          La dirrección a la que intenta acceder no es válida, ha expirado ó ya
+          no esta disponible.
+        </p>
 
         <AuthLink
           link={"sign-in"}
@@ -85,15 +61,9 @@ export default function SecurityCode() {
           link={"sign-up"}
           text={"¿No tienes cuenta? - Registrate aquí"}
         />
+        <br />
+        <AuthLink link={"forgot-password"} text={"¿Olvidaste tu contraseña?"} />
       </div>
-
-      <ActionToast
-        variant={toastVariant}
-        show={showToast}
-        title={toastTitle}
-        message={toastMessage}
-        onClose={() => setShowToast(false)}
-      />
     </Fragment>
   );
 }

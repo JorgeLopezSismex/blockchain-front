@@ -30,7 +30,7 @@ export default function ForgotPassword() {
 
   const forgotPassword = async (values: ForgotPasswordData) => {
     setLoading(true);
-    const res = await apiFetch("authorization/reset-password", "POST", values);
+    const res = await apiFetch("authorization/forgot-password", "POST", values);
 
     if (res.success) {
       setLoading(false);
@@ -39,8 +39,17 @@ export default function ForgotPassword() {
       setToastVariant("success");
       setToastTitle("Autenticación");
       setToastMessage(res.message);
-      return;
+      return true;
     }
+
+    setLoading(false);
+    setShowToast(true);
+
+    setToastVariant("danger");
+    setToastTitle("Autenticación");
+    setToastMessage(res.message);
+
+    return false;
   };
 
   return (
@@ -52,10 +61,19 @@ export default function ForgotPassword() {
       <div className={styles.authFormTitle}>
         <h3>Olvide mi contraseña</h3>
         <Formik
-          onSubmit={forgotPassword}
           validationSchema={forgotPasswordSchema}
           initialValues={{
             email: "",
+          }}
+          onSubmit={async (values, { resetForm }) => {
+            let res = await forgotPassword(values);
+            if (res) {
+              resetForm({
+                values: {
+                  email: "",
+                },
+              });
+            }
           }}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -63,19 +81,19 @@ export default function ForgotPassword() {
               <Row className="mb-3">
                 <AuthInput
                   type={"text"}
-                  label={"Correo electrónico"}
                   name={"email"}
                   value={values.email}
-                  placeholder={"ejemplo@gmail.com"}
-                  handleChange={handleChange}
                   errors={errors.email}
+                  handleChange={handleChange}
+                  label={"Correo electrónico"}
+                  placeholder={"ejemplo@gmail.com"}
                 />
               </Row>
 
               <Row className="mb-3">
                 <AuthButton
-                  text={"Solicitar cambiar contraseña"}
                   loading={loading}
+                  text={"Solicitar cambiar contraseña"}
                 />
               </Row>
             </Form>
@@ -94,12 +112,12 @@ export default function ForgotPassword() {
       </div>
 
       <ActionToast
-        variant={toastVariant}
+        delay={8000}
         show={showToast}
         title={toastTitle}
         message={toastMessage}
+        variant={toastVariant}
         onClose={() => setShowToast(false)}
-        delay={6000}
       />
     </Fragment>
   );

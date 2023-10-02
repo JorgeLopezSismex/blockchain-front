@@ -26,63 +26,118 @@ export default function ResetPassword() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastTitle, setToastTitle] = useState("Título");
+  const [toastMessage, setToastMessage] = useState("Mensaje.");
+  const [toastVariant, setToastVariant] = useState("success");
 
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
   useEffect(() => {
+    validateToken(token);
+  }, []);
+
+  const validateToken = async (token: string | null) => {
     if (token == null || token == "" || token == undefined) {
-      router.replace("no-token");
+      router.replace("expired");
+      return;
+    }
+    const res = await apiFetch("authorization/validate-token", "POST", {
+      token: token,
+    });
+
+    if (!res.success) {
+      router.replace("expired");
+      return;
+    }
+  };
+
+  const resetPassword = async (values: ResetPasswordData) => {
+    if (token == null || token == "" || token == undefined) {
+      router.replace("expired");
       return;
     }
 
-    // Enviar peticion para validar token
-  }, []);
+    values.token = token;
+    setLoading(true);
+    const res = await apiFetch("authorization/reset-password", "POST", values);
 
-  const resetPassword = async (values: ResetPasswordData) => {
-    alert("Se resetea la contraseña");
+    if (!res.success) {
+      setLoading(false);
+      setShowToast(true);
+
+      setToastVariant("danger");
+      setToastTitle("Cambiar contraseña");
+      setToastMessage(res.message);
+      return false;
+    }
+
+    setLoading(false);
+    setShowToast(true);
+
+    setToastVariant("success");
+    setToastTitle("Cambiar contraseña");
+    setToastMessage(res.message);
+
+    return true;
   };
 
   return (
     <Fragment>
       <div className={styles.authTitle}>
-        <p>Search: {token}</p>
         <h2>Sismex - Blockchain</h2>
       </div>
 
       <div className={styles.authFormTitle}>
         <h3>Nueva contraseña</h3>
         <Formik
-          onSubmit={resetPassword}
           validationSchema={resetPasswordSchema}
           initialValues={{
+            token: "",
             password: "",
             repeatPassword: "",
+          }}
+          onSubmit={async (values, { resetForm }) => {
+            let res = await resetPassword(values);
+            if (res) {
+              resetForm({
+                values: {
+                  token: "",
+                  password: "",
+                  repeatPassword: "",
+                },
+              });
+
+              setTimeout(() => {
+                router.replace("/auth/sign-in");
+              }, 6000);
+            }
           }}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
             <Form noValidate onSubmit={handleSubmit}>
               <Row className="mb-3">
                 <AuthInput
+                  name={"password"}
                   type={"password"}
                   label={"Contraseña"}
-                  name={"password"}
                   value={values.password}
-                  placeholder={"Micontraseña"}
-                  handleChange={handleChange}
                   errors={errors.password}
+                  handleChange={handleChange}
+                  placeholder={"MiNuevaContraseña1*"}
                 />
               </Row>
 
               <Row className="mb-3">
                 <AuthInput
                   type={"password"}
-                  label={"Repetir contraseña"}
                   name={"repeatPassword"}
-                  value={values.repeatPassword}
-                  placeholder={"Micontraseña123"}
                   handleChange={handleChange}
+                  label={"Repetir contraseña"}
+                  value={values.repeatPassword}
                   errors={errors.repeatPassword}
+                  placeholder={"MiNuevaContraseña1*"}
                 />
               </Row>
 
@@ -103,6 +158,15 @@ export default function ResetPassword() {
           text={"¿No tienes cuenta? - Registrate aquí"}
         />
       </div>
+
+      <ActionToast
+        delay={8000}
+        show={showToast}
+        title={toastTitle}
+        variant={toastVariant}
+        message={toastMessage}
+        onClose={() => setShowToast(false)}
+      />
     </Fragment>
   );
 }

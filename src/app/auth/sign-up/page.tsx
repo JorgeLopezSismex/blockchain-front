@@ -89,36 +89,36 @@ export default function SignUp() {
               <Row className="mb-3">
                 <AuthInput
                   type={"text"}
-                  label={"Correo electrónico"}
                   name={"email"}
                   value={values.email}
-                  placeholder={"ejemplo@gmail.com"}
-                  handleChange={handleChange}
                   errors={errors.email}
+                  handleChange={handleChange}
+                  label={"Correo electrónico"}
+                  placeholder={"ejemplo@gmail.com"}
                 />
               </Row>
 
               <Row className="mb-3">
                 <AuthInput
                   type={"password"}
-                  label={"Contraseña"}
                   name={"password"}
+                  label={"Contraseña"}
                   value={values.password}
-                  placeholder={"Micontraseña123*"}
-                  handleChange={handleChange}
                   errors={errors.password}
+                  handleChange={handleChange}
+                  placeholder={"Micontraseña123*"}
                 />
               </Row>
 
               <Row className="mb-3">
                 <AuthInput
                   type={"password"}
-                  label={"Repetir contraseña"}
                   name={"repeatPassword"}
-                  value={values.repeatPassword}
-                  placeholder={"Micontraseña123*"}
                   handleChange={handleChange}
+                  label={"Repetir contraseña"}
+                  value={values.repeatPassword}
                   errors={errors.repeatPassword}
+                  placeholder={"Micontraseña123*"}
                 />
               </Row>
 
@@ -138,12 +138,12 @@ export default function SignUp() {
       </div>
 
       <ActionToast
-        variant={toastVariant}
+        delay={6000}
         show={showToast}
         title={toastTitle}
+        variant={toastVariant}
         message={toastMessage}
         onClose={() => setShowToast(false)}
-        delay={6000}
       />
     </Fragment>
   );
