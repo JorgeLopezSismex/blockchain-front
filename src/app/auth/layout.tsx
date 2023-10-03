@@ -15,7 +15,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Container fluid>
+    <Container fluid style={{ height: "100vh" }}>
       <Row>
         <Col md={4} lg={6} className={styles.authImage}></Col>
         <Col md={8} lg={6}>
