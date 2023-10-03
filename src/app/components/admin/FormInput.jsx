@@ -13,6 +13,7 @@ export default function FormInput({
   controlId,
   placeholder,
   handleChange,
+  disabled,
 }) {
   return (
     <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={controlId}>
@@ -25,6 +26,7 @@ export default function FormInput({
           isInvalid={!!errors}
           onChange={handleChange}
           placeholder={placeholder}
+          disabled={disabled}
         />
         <Form.Control.Feedback type="invalid">{errors}</Form.Control.Feedback>
       </InputGroup>

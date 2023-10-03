@@ -110,19 +110,6 @@ export default function Documents() {
                         <h5 className="text-muted">Beneficiarios</h5>
                         <p>Archivo con la lista de beneficiarios.</p>
 
-                        {/* <FormInput
-                          label={"Correo"}
-                          type={"text"}
-                          name={"email"}
-                          placeholder={"example@email.com"}
-                          controlId={"controlEmail"}
-                          md={6}
-                          sm={12}
-                          value={values.email}
-                          handleChange={handleChange}
-                          errors={errors.email}
-                        /> */}
-
                         <FormInputFile
                           md={12}
                           sm={12}
