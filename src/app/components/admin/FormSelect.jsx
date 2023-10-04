@@ -11,10 +11,24 @@ const options = [
   { value: 'colonia3', label: 'Colonia 3' }
 ]
 
-export default function FormSelect(){
+export default function FormSelect({
+  sm,
+  md,
+  label,
+  isDisabled,
+}){
     return(
-        <>
-          <Select options={options} />
-        </>
+        <Form.Group className="mb-3" as={Col} sm={sm} md={md}>
+          <Form.Label>{label}</Form.Label>
+          <Select 
+            options={options}
+            defaultValue={options[0]}
+            classNamePrefix="Select"
+            isClearable={true}
+            isSearchable={true}
+            isDisabled={isDisabled}
+            name='suburb'
+          />
+        </Form.Group>
     );
 }

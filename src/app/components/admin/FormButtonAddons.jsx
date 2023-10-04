@@ -15,6 +15,7 @@ export default function FormInput({
     value,
     handleChange,
     errors,
+    handleClick,
 }) {
   return (
     <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={id}>
@@ -28,7 +29,7 @@ export default function FormInput({
             onChange={handleChange}
             isInvalid={!!errors}
         />
-        <Button variant="outline-secondary" id={btnid}>
+        <Button variant="outline-secondary" id={btnid} onClick={handleClick}>
             {btntext}
         </Button>
         <Form.Control.Feedback type="invalid">{errors}</Form.Control.Feedback>
