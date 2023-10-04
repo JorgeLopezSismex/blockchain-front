@@ -35,11 +35,17 @@ export default function AdminTable({ columns, nodes }) {
     console.log(action, state);
   }
 
-  data = {
-    nodes: data.nodes.filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase())
-    ),
-  };
+  // data = {
+  //   nodes: data.nodes.filter((item: any) => {
+  //     let value = item.name;
+  //     if (value == null) {
+  //       value = "";
+  //     }
+  //     console.log(value.toLowerCase().includes(search.toLowerCase()));
+
+  //     value.toLowerCase().includes(search.toLowerCase());
+  //   }),
+  // };
 
   /* ----------------------------- Pages Function ----------------------------- */
   const toFirstPage = () => {
