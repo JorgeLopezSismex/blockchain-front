@@ -1,8 +1,10 @@
 "use client";
 //Update
 //Por el momento se usara para un Form de solicitud de validacion para registro.
+import { useState } from "react";
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
+
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -19,8 +21,15 @@ import FormButtonAddon from "../../components/admin/FormButtonAddons";
 
 import {validationRequestScheme} from "../../../validations/validation_request";
 
+
 export default function Update(){
   const { Formik } = formik;
+  const [zipCodeState, setZipCodeState] = useState(true);
+
+  const handleZipCode = () =>{
+    //Cambiar los valores de  los campos country, state, city y suburb
+    setZipCodeState(false);
+  }
 
   const handleSubmit = async (values: any) => {
     console.log(values);
@@ -98,6 +107,7 @@ export default function Update(){
                                   value={values.zip_code }
                                   handleChange={handleChange}
                                   errors={errors.zip_code }
+                                  handleClick={handleZipCode}
                                 />
                               </Row>
 
@@ -146,7 +156,7 @@ export default function Update(){
                                   disabled={true}
                                 />
 
-                                <FormInput
+                                {/* <FormInput
                                   md={6}
                                   sm={12}
                                   type={"text"}
@@ -157,10 +167,14 @@ export default function Update(){
                                   controlId={"suburb"}
                                   handleChange={handleChange}
                                   placeholder={"Colonia"}
-                                  disabled={true}
-                                />
+                                  disabled={zipCodeState}
+                                /> */}
 
                                 <FormSelect
+                                  md={6}
+                                  sm={12}
+                                  label={"Colonia"}
+                                  isDisabled={zipCodeState}
                                 />
                               </Row>
                                 
