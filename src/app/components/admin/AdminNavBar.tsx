@@ -39,6 +39,7 @@ export default function AdminNavBar() {
                 id={`offcanvasNavbarDropdown-expand-${expand}`}
               >
                 <NavDropdown.Item href="#action3">Mi perfil</NavDropdown.Item>
+                <NavDropdown.Item href="#action3">Membresias</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action5">
                   Cerrar sesión
