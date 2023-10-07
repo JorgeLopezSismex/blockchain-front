@@ -90,6 +90,7 @@ export default function Documents() {
                           controlId={"controlTitle"}
                           handleChange={handleChange}
                           placeholder={"Ingeniero en sistemas"}
+                          disabled={false}
                         />
 
                         <FormInput
@@ -103,6 +104,7 @@ export default function Documents() {
                           errors={errors.description}
                           controlId="controlDescription"
                           placeholder="El siguiente certificado es otorgado por..."
+                          disabled={false}
                         />
                       </Row>
 
