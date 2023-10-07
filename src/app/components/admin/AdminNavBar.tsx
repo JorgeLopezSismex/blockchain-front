@@ -1,10 +1,11 @@
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
+import Link from "next/link";
 import Nav from "react-bootstrap/Nav";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 export default function AdminNavBar() {
   const expand = "md";
@@ -38,7 +39,11 @@ export default function AdminNavBar() {
                 title="jalopez@sismex.com"
                 id={`offcanvasNavbarDropdown-expand-${expand}`}
               >
-                <NavDropdown.Item href="#action3">Mi perfil</NavDropdown.Item>
+                <NavDropdown.Item href="#action3">
+                  <Link href="/admin/profile" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                    Mi perfil
+                  </Link>
+                </NavDropdown.Item>
                 <NavDropdown.Item href="#action3">Membresias</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action5">
