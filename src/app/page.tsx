@@ -5,8 +5,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
-import MainNav from "./components/main/MainNav";
-import MainFoot from "./components/main/MainFoot";
+import MainNav from "@/components/main/MainNav";
+import MainFoot from "@/components/main/MainFoot";
 import Accordion from "react-bootstrap/Accordion";
 import Link from "next/link";
 
@@ -66,8 +66,6 @@ export default function Home() {
                 Empezar
               </Button>
             </Link>
-
-            
           </Col>
         </Row>
 

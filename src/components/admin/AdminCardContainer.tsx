@@ -3,15 +3,17 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import { Container } from "react-bootstrap";
 
-export default function CardContainer({
+export default function AdminCardContainer({
   children,
+  xs,
 }: {
   children: React.ReactNode;
+  xs: number;
 }) {
   return (
     <Container fluid>
       <Row>
-        <Col xs={12}>
+        <Col xs={xs}>
           <Card style={{ marginBottom: 60 }}>
             <Card.Body>{children}</Card.Body>
           </Card>

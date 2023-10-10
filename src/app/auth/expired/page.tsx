@@ -7,12 +7,12 @@ import { useState, Fragment } from "react";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 
-import AuthLink from "../../components/auth/AuthLink";
-import AuthInput from "../../components/auth/AuthInput";
-import AuthButton from "../../components/auth/AuthButton";
-import ActionToast from "../../components/main/ActionToast";
+import AuthLink from "@/components/auth/AuthLink";
+import AuthInput from "@/components/auth/AuthInput";
+import AuthButton from "@/components/auth/AuthButton";
+import ActionToast from "@/components/main/ActionToast";
 
-import { apiFetch } from "../../../helpers/api-fetch";
+import { apiFetch } from "@/helpers/api-fetch";
 
 import styles from "../styles.module.css";
 

@@ -1,6 +1,6 @@
 "use client";
 //Ventana de precios (ง •_•)ง
-import PricingCard from "../../components/main/PricingCard";
+import PricingCard from "@/components/main/PricingCard";
 import { Col, Container, Row } from "react-bootstrap";
 
 import { useEffect, useState } from "react";

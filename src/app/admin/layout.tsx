@@ -1,7 +1,7 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.css";
 
-import AdminNavBar from "../components/admin/AdminNavBar";
+import AdminNavBar from "@/components/admin/AdminNavBar";
 
 import styles from "./styles.module.css";
 import { Container } from "react-bootstrap";

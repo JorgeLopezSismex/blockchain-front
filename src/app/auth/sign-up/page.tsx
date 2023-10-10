@@ -9,10 +9,10 @@ import "bootstrap/dist/css/bootstrap.css";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 
-import AuthLink from "../../components/auth/AuthLink";
-import AuthInput from "../../components/auth/AuthInput";
-import AuthButton from "../../components/auth/AuthButton";
-import ActionToast from "../../components/main/ActionToast";
+import AuthLink from "@/components/auth/AuthLink";
+import AuthInput from "@/components/auth/AuthInput";
+import AuthButton from "@/components/auth/AuthButton";
+import ActionToast from "@/components/main/ActionToast";
 
 import { SignUpData } from "@/types/auth";
 import { apiFetch } from "@/helpers/api-fetch";

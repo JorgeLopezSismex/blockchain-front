@@ -11,9 +11,15 @@ import FormInput from "@/components/form/FormInput";
 import FormSelect from "@/components/form/FormSelect";
 import FormTextarea from "@/components/form/FormTextarea";
 import FormInputFile from "@/components/form/FormInputFile";
-import CardContainer from "@/components/admin/CardContainer";
+import AdminCardContainer from "@/components/admin/AdminCardContainer";
 
+import AdminAlert from "@/components/admin/AdminAlert";
 import FormInputButtonAddon from "@/components/form/FormInputButtonAddon";
+import AdminPageHeader from "@/components/admin/AdminPageHeader";
+import Alert from "react-bootstrap/Alert";
+
+import Link from "next/link";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
 
 export default function Verification() {
   const { Formik } = formik;
@@ -45,7 +51,20 @@ export default function Verification() {
 
   return (
     <Fragment>
-      <CardContainer>
+      <AdminPageHeader title="Datos de verificación">
+        <Breadcrumb className="float-sm-right">
+          <Breadcrumb.Item>
+            <Link href={"/admin"} style={{ textDecoration: "none" }}>
+              Inicio
+            </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Datos de verificación</Breadcrumb.Item>
+        </Breadcrumb>
+      </AdminPageHeader>
+
+      <AdminAlert variant={"primary"} title={"fssfsdfds"} text={"sdfsdf"} />
+
+      <AdminCardContainer xs={12}>
         <Formik onSubmit={() => {}} initialValues={init}>
           {({ handleSubmit, handleChange, setFieldValue, values, errors }) => (
             <Form noValidate onSubmit={handleSubmit}>
@@ -299,7 +318,7 @@ export default function Verification() {
             </Form>
           )}
         </Formik>
-      </CardContainer>
+      </AdminCardContainer>
     </Fragment>
   );
 }

@@ -3,7 +3,7 @@
 import { Col, Container, Row } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Card from 'react-bootstrap/Card';
-import BenefitsCard from "../../components/main/BenefitsCard";
+import BenefitsCard from "@/components/main/BenefitsCard";
 
 export default function AboutUs() {
   return (

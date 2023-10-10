@@ -11,7 +11,7 @@ import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Fragment } from "react";
 
 import Card from "react-bootstrap/Card";
-import AdminTable from "@/app/components/admin/AdminTable";
+import AdminTable from "@/components/admin/AdminTable_old";
 import { apiFetch } from "@/helpers/api-fetch";
 import { Button } from "react-bootstrap";
 
@@ -61,7 +61,7 @@ const columns = [
   },
 ];
 
-export default function Requests() {
+export default function Issuers() {
   const [issuers, setIssuers] = useState([]);
   const [loading, setLoading] = useState(false);
 

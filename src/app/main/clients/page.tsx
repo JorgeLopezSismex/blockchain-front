@@ -9,7 +9,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import ClientCard from "../../components/main/ClientCard";
+import ClientCard from "@/components/main/ClientCard";
 
 const testimonios = [
   {

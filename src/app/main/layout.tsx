@@ -1,8 +1,8 @@
 "use client";
 
 import "bootstrap/dist/css/bootstrap.css";
-import MainNav from "../components/main/MainNav";
-import MainFoot from "../components/main/MainFoot";
+import MainNav from "@/components/main/MainNav";
+import MainFoot from "@/components/main/MainFoot";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
