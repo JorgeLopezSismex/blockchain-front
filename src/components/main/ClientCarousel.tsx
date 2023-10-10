@@ -1,6 +1,6 @@
 import React from "react";
 
-import ClientCard from "../main/ClientCard";
+import ClientCard from "./ClientCard";
 import Carousel from "react-bootstrap/Carousel";
 
 function ClientCarousel() {

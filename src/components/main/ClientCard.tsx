@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 
-function ClientCard({ item }) {
+function ClientCard({ item }:any) {
   return (
     <Card>
       <Card.Img

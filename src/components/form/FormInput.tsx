@@ -14,7 +14,7 @@ export default function FormInput({
   placeholder,
   handleChange,
   disabled,
-}) {
+}:any) {
   return (
     <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={controlId}>
       <Form.Label>{label}</Form.Label>

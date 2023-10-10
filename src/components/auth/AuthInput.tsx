@@ -1,37 +1,30 @@
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+
 import { InputGroup } from "react-bootstrap";
 
-export default function FormInputButtonAddon({
-  sm,
-  md,
-  id,
-  name,
-  value,
-  btnId,
+export default function AuthInput({
+  type,
   label,
-  errors,
-  btnText,
-  handleClick,
+  name,
   placeholder,
+  value,
   handleChange,
-}) {
+  errors,
+}:any) {
   return (
-    <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={id}>
+    <Form.Group as={Col} md="12" controlId={name}>
       <Form.Label>{label}</Form.Label>
       <InputGroup hasValidation>
-        <Button variant="outline-secondary" id={btnId} onClick={handleClick}>
-          {btnText}
-        </Button>
         <Form.Control
+          type={type}
           name={name}
           value={value}
-          isInvalid={!!errors}
-          onChange={handleChange}
-          aria-label={placeholder}
           placeholder={placeholder}
+          onChange={handleChange}
+          isInvalid={!!errors}
         />
+
         <Form.Control.Feedback type="invalid">{errors}</Form.Control.Feedback>
       </InputGroup>
     </Form.Group>

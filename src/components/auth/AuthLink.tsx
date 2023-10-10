@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function AuthLink({ link, text }) {
+export default function AuthLink({ link, text }:any) {
   return (
     <Link
       href={link}
