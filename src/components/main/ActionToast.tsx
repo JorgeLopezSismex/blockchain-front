@@ -8,7 +8,7 @@ export default function ActionToast({
   message,
   onClose,
   delay
-}) {
+}:any) {
   return (
     <ToastContainer
       className="p-3"

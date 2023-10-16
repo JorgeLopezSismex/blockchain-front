@@ -5,7 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 import Form from "react-bootstrap/Form";
 
-export default function AuthButton({ text, loading }) {
+export default function AuthButton({ text, loading }:any) {
   return (
     <Form.Group as={Col} md="12">
       <div className="d-grid gap-2">

@@ -12,7 +12,7 @@ export default function FormTextarea({
     errors,
     handleChange,
     placeholder,
-}){
+}:any){
     return(
         <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={id}>
           <Form.Label>{label}</Form.Label>

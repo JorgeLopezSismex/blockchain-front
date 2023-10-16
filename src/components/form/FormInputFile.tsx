@@ -12,7 +12,7 @@ export default function FormInputFile({
   errors,
   controlId,
   setFieldValue,
-}) {
+}:any) {
   return (
     <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={controlId}>
       <Form.Label>{label}</Form.Label>

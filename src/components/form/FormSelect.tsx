@@ -13,7 +13,7 @@ export default function FormSelect({
   options,
   disabled,
   defaultText,
-}) {
+}:any) {
   return (
     <Form.Group className="mb-3" as={Col} sm={sm} md={md}>
       <Form.Label>{label}</Form.Label>

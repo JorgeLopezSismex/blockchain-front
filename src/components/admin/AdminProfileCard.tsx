@@ -9,7 +9,7 @@ export default function AdminProfileCard({
   text2,
   action,
   link,
-}) {
+}:any) {
   return(
     <Card className='mb-2'>
         <Card.Body>

@@ -1,6 +1,6 @@
 import Form from "react-bootstrap/Form";
 
-export default function AuthCheck({ text, name, handleChange, errors }) {
+export default function AuthCheck({ text, name, handleChange, errors }:any) {
   return (
     <Form.Group className="mb-3">
       <Form.Check

@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-function PricingCard({ membership }) {
+function PricingCard({ membership }:any) {
   return (
     <Card className="mx-4 my-3 h-100" style={{ margin: 10 }}>
       <Card.Header>{membership.membershipName}</Card.Header>
@@ -16,7 +16,7 @@ function PricingCard({ membership }) {
         <Card.Text>
           {membership.membershipDescription}
           <ul>
-            {membership.membershipFeatureDescription.map((fueature) => (
+            {membership.membershipFeatureDescription.map((fueature : any) => (
               <li>{fueature.membershipFeatureDescription}</li>
             ))}
           </ul>
