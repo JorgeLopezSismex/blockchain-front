@@ -17,7 +17,7 @@ export default function AdminPriceCard() {
             <h1>$12</h1>
           </Card.Title>
           <Card.Text>sdfsdfsd</Card.Text>
-          <Link href={"/admin"}>
+          <Link href={"plans/checkout"}>
             <Button className="btn-lg btn-block text-truncate mt-auto">
               Añadir al carrito
             </Button>

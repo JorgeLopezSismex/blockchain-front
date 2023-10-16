@@ -14,8 +14,8 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 
-import FormInput from "../../components/admin/FormInput";
-import FormInputFile from "../../components/admin/FormInputFile";
+import FormInput from "@/components/form/FormInput";
+import FormInputFile from "@/components/form/FormInputFile";
 
 import { apiFetch } from "@/helpers/api-fetch";
 import { uploadDocumentsSchema } from "../../../validations/documents-validation";
