@@ -62,7 +62,13 @@ export default function Verification() {
         </Breadcrumb>
       </AdminPageHeader>
 
-      <AdminAlert variant={"primary"} title={"fssfsdfds"} text={"sdfsdf"} />
+      <AdminAlert
+        variant={"primary"}
+        title={"¿Como verificarme?"}
+        text={
+          "Completa los documentos necesarios y da clic en el botón Guardar para solicitar una verificación por parte de la administración del sistema."
+        }
+      />
 
       <AdminCardContainer xs={12}>
         <Formik onSubmit={() => {}} initialValues={init}>

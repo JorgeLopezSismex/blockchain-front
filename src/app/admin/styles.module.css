@@ -31,3 +31,10 @@
     position: initial;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .tableFilter {
+    text-align: center;
+    
+  }
+}

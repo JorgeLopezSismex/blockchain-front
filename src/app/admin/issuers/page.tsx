@@ -1,22 +1,32 @@
 "use client";
 
-import * as formik from "formik";
-
+import moment from "moment";
 import Link from "next/link";
+import * as formik from "formik";
 import { Fragment, useState, useEffect } from "react";
+import { createColumnHelper } from "@tanstack/react-table";
 
 import Row from "react-bootstrap/Row";
-import Spinner from "react-bootstrap/Spinner";
+import { Form } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import FormSelect from "@/components/form/FormSelect";
-import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
 import AdminTable from "@/components/admin/AdminTable";
+import FormDatePicker from "@/components/form/FormDatePicker";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
+import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
+import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
+import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 
+import { IssuerData } from "@/types/issuers";
 import { apiFetch } from "@/helpers/api-fetch";
-import { Form } from "react-bootstrap";
+import FormAsyncSelect from "@/components/form/FormAsyncSelect";
 
 export default function Issuers() {
   const suburbs = [
@@ -28,15 +38,42 @@ export default function Issuers() {
   const { Formik } = formik;
 
   const [issuers, setIssuers] = useState([]);
+  const [roles, setRoles] = useState([]);
+
   const [dataLoading, setDataLoading] = useState(true);
+  const columnHelper = createColumnHelper<IssuerData>();
 
   useEffect(() => {
+    loadRoles();
+
     getIssuers();
   }, []);
+
+  const loadRoles = async () => {
+    try {
+      const res = await apiFetch("roles");
+      if (res.data) {
+        const data = res.data;
+
+        const options = data.map((item) => ({
+          value: item.roleId,
+          label: item.name,
+        }));
+
+        return options;
+      }
+
+      return [];
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
 
   const getIssuers = async () => {
     setDataLoading(true);
     const res = await apiFetch("issuers");
+    alert("Termino la peticion de datos");
     console.log(res);
 
     if (res.success) {
@@ -44,6 +81,50 @@ export default function Issuers() {
       setIssuers(res.data);
     }
   };
+
+  const columns = [
+    columnHelper.accessor("issuerId", {
+      header: () => "Id",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("name", {
+      header: () => "Nombre",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("email", {
+      header: () => "Correo Electrónico",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("roleName", {
+      header: () => "Rol",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("createdAt", {
+      header: () => "Registro",
+      cell: (info) => moment(info.getValue()).format("DD/MM/YYYY"),
+    }),
+    columnHelper.accessor("issuerVerificationStatusName", {
+      header: () => "Verificación",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("lastValidationSubmit", {
+      header: () => "Última solicitud de verificación",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("actions", {
+      header: () => "Acciones",
+      cell: (info) => {
+        return (
+          <ButtonGroup aria-label="Basic example">
+            <AdminTableActionButton icon={faPencil} tooltip="Editar" />
+            <AdminTableActionButton icon={faTrash} tooltip="Borrar" />
+            <AdminTableActionButton icon={faCheck} tooltip="Verificar" />
+            <AdminTableActionButton icon={faXmark} tooltip="Rechazar" />
+          </ButtonGroup>
+        );
+      },
+    }),
+  ];
 
   return (
     <Fragment>
@@ -59,11 +140,49 @@ export default function Issuers() {
       </AdminPageHeader>
 
       <AdminFilterContainer>
-        <Formik onSubmit={() => {}} initialValues={{}}>
-          {({ handleChange, handleSubmit, values, errors }) => (
-            <Form>
+        <Formik
+          onSubmit={(values) => {
+            console.log(values);
+          }}
+          initialValues={{
+            role: "",
+          }}
+        >
+          {({ handleChange, setFieldValue, handleSubmit, values, errors }) => (
+            <Form noValidate onSubmit={handleSubmit}>
               <Row className="mb-3">
-                <h5>Rol y estado de verificación</h5>
+                <h6>Rol y estado de verificación</h6>
+                <FormAsyncSelect
+                  md={6}
+                  sm={12}
+                  name="roles"
+                  label="Rol"
+                  loadOptions={loadRoles}
+                  setFieldValue={setFieldValue}
+                />
+
+                <FormSelect
+                  md={6}
+                  sm={12}
+                  name={"suburb"}
+                  disabled={false}
+                  options={suburbs}
+                  label={"Estado de verificación"}
+                  defaultText={"fdfsd"}
+                />
+
+                <h6>Fecha de registro</h6>
+                <FormSelect
+                  md={6}
+                  sm={12}
+                  name={"suburb"}
+                  disabled={false}
+                  options={suburbs}
+                  label={"Estado de verificación"}
+                  defaultText={"fdfsd"}
+                />
+
+                <h6>Fecha de de última solicitud de validación</h6>
                 <FormSelect
                   md={6}
                   sm={12}
@@ -84,49 +203,7 @@ export default function Issuers() {
                   defaultText={"fdfsd"}
                 />
 
-                <h5>Fecha de registro</h5>
-                <FormSelect
-                  md={6}
-                  sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Rol asignado"}
-                  defaultText={"fdfsd"}
-                />
-
-                <FormSelect
-                  md={6}
-                  sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Estado de verificación"}
-                  defaultText={"fdfsd"}
-                />
-
-                <h5>Fecha de de última solicitud de validación</h5>
-                <FormSelect
-                  md={6}
-                  sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Rol asignado"}
-                  defaultText={"fdfsd"}
-                />
-
-                <FormSelect
-                  md={6}
-                  sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Estado de verificación"}
-                  defaultText={"fdfsd"}
-                />
-
-                <h5>Fecha de validación</h5>
+                <h6>Fecha de validación</h6>
                 <FormSelect
                   md={6}
                   sm={12}
@@ -147,6 +224,8 @@ export default function Issuers() {
                   defaultText={"fdfsd"}
                 />
               </Row>
+
+              <button type="submit">Hola mundo</button>
             </Form>
           )}
         </Formik>
@@ -154,11 +233,11 @@ export default function Issuers() {
 
       <AdminCardContainer xs={12}>
         {dataLoading ? (
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+          <AdminTableSpinner />
         ) : (
-          <AdminTable />
+          <AdminTable columns={columns} defaultData={issuers}>
+            <Button variant="primary">Nuevo</Button>
+          </AdminTable>
         )}
       </AdminCardContainer>
     </Fragment>
