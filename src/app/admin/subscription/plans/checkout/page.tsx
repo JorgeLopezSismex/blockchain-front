@@ -156,12 +156,12 @@ export default function PlanCheckout() {
                     Serás redirigido al procesador de pago Paddle para completar
                     tu pago con PayPal.
                   </p>
-                  <Wallet
+                  {/* <Wallet
                     customization={customization}
                     onSubmit={onSubmit}
                     onReady={onReady}
                     onError={onError}
-                  />
+                  /> */}
                 </Accordion.Body>
               </Accordion.Item>
 
