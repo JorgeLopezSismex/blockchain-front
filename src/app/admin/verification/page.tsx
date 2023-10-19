@@ -64,7 +64,7 @@ export default function Verification() {
 
       <AdminAlert
         variant={"primary"}
-        title={"¿Como verificarme?"}
+        title={"Cómo verificarme?"}
         text={
           "Completa los documentos necesarios y da clic en el botón Guardar para solicitar una verificación por parte de la administración del sistema."
         }
@@ -125,7 +125,7 @@ export default function Verification() {
                   label={"País"}
                   disabled={true}
                   name={"country"}
-                  placeholder={"Páis"}
+                  placeholder={"País"}
                   controlId={"country"}
                   value={values.country}
                   errors={errors.country}
@@ -219,7 +219,7 @@ export default function Verification() {
                   name={"email"}
                   value={values.email}
                   errors={errors.email}
-                  label={"Correo electronico"}
+                  label={"Correo electrónico"}
                   controlId={"email"}
                   handleChange={handleChange}
                   placeholder={"example@mail.com"}
@@ -269,7 +269,7 @@ export default function Verification() {
                 <FormTextarea
                   md={12}
                   sm={12}
-                  label={"Descripcion"}
+                  label={"Descripción"}
                   id={"description"}
                   name={"description"}
                   value={values.description}
@@ -328,3 +328,6 @@ export default function Verification() {
     </Fragment>
   );
 }
+
+
+
