@@ -96,7 +96,8 @@ export default function Invitations(){
       header: () => "Beneficiario",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("actions", {
+    columnHelper.display({
+      id: "actions",
       header: () => "Acciones",
       cell: (info) => {
         return (

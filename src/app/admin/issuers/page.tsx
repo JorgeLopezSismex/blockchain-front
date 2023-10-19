@@ -55,7 +55,7 @@ export default function Issuers() {
       if (res.data) {
         const data = res.data;
 
-        const options = data.map((item) => ({
+        const options = data.map((item : any) => ({
           value: item.roleId,
           label: item.name,
         }));
@@ -111,7 +111,8 @@ export default function Issuers() {
       header: () => "Última solicitud de verificación",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("actions", {
+    columnHelper.display({
+      id: "actions",
       header: () => "Acciones",
       cell: (info) => {
         return (
