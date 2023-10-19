@@ -22,20 +22,21 @@ export default function FormAsyncSelect({
   const [selectedOption, setSelectedOption] = useState(null);
 
   return (
-    <Form.Group className="mb-3" as={Col} sm={sm} md={md}>
-      <Form.Label>{label}</Form.Label>
-      <AsyncSelect
-        id={name}
-        name={name}
-        isClearable
-        cacheOptions
-        defaultOptions
-        loadOptions={loadOptions}
-        onChange={(option) => {
-          setFieldValue({ name }, option.value);
-          return setSelectedOption(option);
-        }}
-      />
-    </Form.Group>
+    // <Form.Group className="mb-3" as={Col} sm={sm} md={md}>
+    //   <Form.Label>{label}</Form.Label>
+    //   <AsyncSelect
+    //     id={name}
+    //     name={name}
+    //     isClearable
+    //     cacheOptions
+    //     defaultOptions
+    //     loadOptions={loadOptions}
+    //     onChange={(option) => {
+    //       setFieldValue({ name }, option.value);
+    //       return setSelectedOption(option);
+    //     }}
+    //   />
+    // </Form.Group>
+    <h1>Hola :v</h1>
   );
 }
