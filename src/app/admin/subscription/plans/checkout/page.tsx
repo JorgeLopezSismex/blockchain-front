@@ -16,6 +16,7 @@ import AdminPaymentMethodCard from "@/components/admin/AdminPaymentMethodCard";
 
 import { initMercadoPago } from "@mercadopago/sdk-react";
 import { Wallet } from "@mercadopago/sdk-react";
+import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 
 initMercadoPago("TEST-ed1c9a26-e46a-4135-8690-6d234ed43e78");
 
@@ -42,6 +43,8 @@ function CustomToggle({
 }
 
 export default function PlanCheckout() {
+
+
   const onSubmit = async () => {
     // callback llamado al hacer clic en Wallet Brick
     // esto es posible porque el Brick es un botón
@@ -117,7 +120,13 @@ export default function PlanCheckout() {
           <Col xs={12} md={6} className="order-md-2">
             <h5>Resumen del pedido</h5>
             <Card style={{ marginBottom: 60 }}>
-              <Card.Body>Información de la compra</Card.Body>
+              <Card.Body>
+                <p>Información de la compra</p>
+                <p>Plan básico </p>
+                <h6>Impuestos añadidos:</h6>
+                <p> Mexico VAT 16% MX$25.44h6</p>
+                <h3 className="d-flex flex-row-reverse">Total MX$184.44</h3>
+              </Card.Body>
             </Card>
           </Col>
           <Col xs={12} md={6} className="order-md-1">
@@ -126,7 +135,7 @@ export default function PlanCheckout() {
               <Accordion.Item eventKey="0">
                 <Accordion.Header>
                   <p style={{ margin: 0, padding: 0, fontWeight: "bold" }}>
-                    Paypal
+                    Tarjeta de credito o debito
                   </p>
                 </Accordion.Header>
                 <Accordion.Body>
@@ -144,10 +153,34 @@ export default function PlanCheckout() {
               <Accordion.Item eventKey="1">
                 <Accordion.Header>
                   <p style={{ margin: 0, padding: 0, fontWeight: "bold" }}>
+                    Paypal
+                  </p>
+                </Accordion.Header>
+                <Accordion.Body>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </Accordion.Body>
+              </Accordion.Item>
+
+              <Accordion.Item
+                eventKey="2"
+                onClick={() => alert("se hizo click")}
+              >
+                <Accordion.Header>
+                  <p style={{ margin: 0, padding: 0, fontWeight: "bold" }}>
                     Mercado Pago
                   </p>
                 </Accordion.Header>
                 <Accordion.Body>
+                  <AdminTableSpinner />
+                  <p>CARGANDO MERCAGO pAGO</p>
+
                   <p>
                     Los servicios se basan en una suscripción y se renovarán
                     automáticamente hasta que los canceles. Consulta los
@@ -162,24 +195,6 @@ export default function PlanCheckout() {
                     onReady={onReady}
                     onError={onError}
                   />
-                </Accordion.Body>
-              </Accordion.Item>
-
-              <Accordion.Item eventKey="2">
-                <Accordion.Header>
-                  <p style={{ margin: 0, padding: 0, fontWeight: "bold" }}>
-                    Stripe
-                  </p>
-                </Accordion.Header>
-                <Accordion.Body>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>

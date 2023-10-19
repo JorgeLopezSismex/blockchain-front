@@ -92,7 +92,7 @@ export default function Invitations(){
   const getIssuers = async () => {
     setDataLoading(true);
     const res = await apiFetch("issuers");
-    alert("Termino la peticion de datos");
+    // alert("Termino la peticion de datos");
     console.log(res);
 
     if (res.success) {

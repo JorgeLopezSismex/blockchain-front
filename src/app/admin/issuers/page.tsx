@@ -73,7 +73,7 @@ export default function Issuers() {
   const getIssuers = async () => {
     setDataLoading(true);
     const res = await apiFetch("issuers");
-    alert("Termino la peticion de datos");
+    // alert("Termino la peticion de datos");
     console.log(res);
 
     if (res.success) {
@@ -111,7 +111,8 @@ export default function Issuers() {
       header: () => "Última solicitud de verificación",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("actions", {
+    columnHelper.display({
+      id: "actions",
       header: () => "Acciones",
       cell: (info) => {
         return (
@@ -178,7 +179,17 @@ export default function Issuers() {
                   name={"suburb"}
                   disabled={false}
                   options={suburbs}
-                  label={"Estado de verificación"}
+                  label={"Registrado del"}
+                  defaultText={"fdfsd"}
+                />
+
+                <FormSelect
+                  md={6}
+                  sm={12}
+                  name={"suburb"}
+                  disabled={false}
+                  options={suburbs}
+                  label={"Registrado hasta"}
                   defaultText={"fdfsd"}
                 />
 
@@ -189,7 +200,7 @@ export default function Issuers() {
                   name={"suburb"}
                   disabled={false}
                   options={suburbs}
-                  label={"Rol asignado"}
+                  label={"Solicitud enviada del"}
                   defaultText={"fdfsd"}
                 />
 
@@ -199,7 +210,7 @@ export default function Issuers() {
                   name={"suburb"}
                   disabled={false}
                   options={suburbs}
-                  label={"Estado de verificación"}
+                  label={"Solicitud enviada hasta"}
                   defaultText={"fdfsd"}
                 />
 
@@ -210,7 +221,7 @@ export default function Issuers() {
                   name={"suburb"}
                   disabled={false}
                   options={suburbs}
-                  label={"Rol asignado"}
+                  label={"Último envio de documentos del"}
                   defaultText={"fdfsd"}
                 />
 
@@ -220,12 +231,15 @@ export default function Issuers() {
                   name={"suburb"}
                   disabled={false}
                   options={suburbs}
-                  label={"Estado de verificación"}
+                  label={"Último envio de documentos hasta"}
                   defaultText={"fdfsd"}
                 />
               </Row>
 
-              <button type="submit">Hola mundo</button>
+              {/* <button type="submit">Hola mundo</button> */}
+              <div className="d-flex justify-content-end">
+                <Button>Filtrar</Button>
+              </div>
             </Form>
           )}
         </Formik>

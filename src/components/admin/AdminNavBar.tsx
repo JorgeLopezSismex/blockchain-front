@@ -46,26 +46,13 @@ export default function AdminNavBar() {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="">
-              <Nav.Link>
-                <Link
-                  href={"/admin/issuers"}
-                  onClick={() => {
-                    toggleOffCanvas();
-                  }}
-                >
-                  <p
-                    // style={{ fontSize: 22, fontWeight: "bold" }}
-                    className="d-flex align-items-center"
-                  >
-                    {/* <EnvelopeFill style={{ marginRight: 10 }} /> */}
-                    Emisores
-                  </p>
-                </Link>
-              </Nav.Link>
-              <Nav.Link href="#action1">Bitácora</Nav.Link>
-              <Nav.Link href="#action1">Invitaciones</Nav.Link>
-              <Nav.Link href="#action2">Certificados</Nav.Link>
-              <NavDropdown
+              <Link href={"/../admin/issuers"}>Emisores</Link>
+              <Link href={"/../admin/invitations"}>Invitaciones</Link>
+              <Link href={"/../admin/certificates"}>Certificados</Link>
+              <Link href={"/../admin/log"}>Bitácora</Link>
+              <Link href={"/../admin/profile"}>Perfil</Link>
+
+              {/* <NavDropdown
                 title="jalopez@sismex.com"
                 id={`offcanvasNavbarDropdown-expand-${expand}`}
               >
@@ -84,11 +71,19 @@ export default function AdminNavBar() {
                 <NavDropdown.Item href="#action5">
                   Cerrar sesión
                 </NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>
     </Navbar>
   );
+}
+
+{
+  /*
+  
+
+  
+  */
 }
