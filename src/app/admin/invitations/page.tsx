@@ -15,8 +15,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
-import AdminModal from "@/components/admin/AdminModal";
-
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -26,33 +24,6 @@ import { createColumnHelper } from "@tanstack/react-table";
 
 import Form from 'react-bootstrap/Form';
 import FormInputFile from "@/components/form/FormInputFile";
-
-function MyVerticallyCenteredModal(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Nueva invitación
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p>Por favor ingrese su archivo Excel con los correos a los que desea enviar una invitación.</p>
-        <Form>
-          <FormInputFile/>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Enviar</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
-
 
 
 export default function Invitations(){
@@ -74,7 +45,7 @@ export default function Invitations(){
       if (res.data) {
         const data = res.data;
 
-        const options = data.map((item) => ({
+        const options = data.map((item : any) => ({
           value: item.roleId,
           label: item.name,
         }));
@@ -123,7 +94,8 @@ export default function Invitations(){
       header: () => "Beneficiario",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("actions", {
+    columnHelper.display({
+      id: "actions",
       header: () => "Acciones",
       cell: (info) => {
         return (
@@ -161,15 +133,9 @@ export default function Invitations(){
               Nuevo
             </Button> */}
 
-        <Button variant="primary" onClick={() => setModalShow(true)}>
+        <Button variant="primary">
           Nuevo
         </Button>
-
-        <MyVerticallyCenteredModal
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-        />
-
           </AdminTable>
         )}
       </AdminCardContainer>

@@ -55,7 +55,7 @@ export default function Issuers() {
       if (res.data) {
         const data = res.data;
 
-        const options = data.map((item) => ({
+        const options = data.map((item : any) => ({
           value: item.roleId,
           label: item.name,
         }));

@@ -22,18 +22,18 @@ export default function FormInputFile({
           name={name}
           accept={accept}
           isInvalid={!!errors}
-          onChange={(e) => {
-            if (!e.target.files) {
-              return;
-            }
+          // onChange={(e) => {
+          //   if (!e.target.files) {
+          //     return;
+          //   }
 
-            const file = e.target.files[0];
-            if (file == undefined || file == null) {
-              return;
-            }
+          //   const file = e.target.files[0];
+          //   if (file == undefined || file == null) {
+          //     return;
+          //   }
 
-            setFieldValue(name, e.target.files[0]);
-          }}
+          //   setFieldValue(name, e.target.files[0]);
+          // }}
         />
 
         <Form.Control.Feedback type="invalid">{errors}</Form.Control.Feedback>
