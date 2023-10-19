@@ -15,8 +15,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
-import AdminModal from "@/components/admin/AdminModal";
-
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
