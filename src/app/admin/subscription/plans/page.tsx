@@ -47,7 +47,7 @@ export default function AdminSubscriptionPlans() {
 
   return (
     <Fragment>
-      <AdminPageHeader title="Planes de pago">
+      <AdminPageHeader title="Nuestros planes">
         <Breadcrumb className="float-sm-right">
           <Breadcrumb.Item href="/"></Breadcrumb.Item>
 
@@ -61,22 +61,41 @@ export default function AdminSubscriptionPlans() {
             {loadingData ? (
               <AdminTableSpinner />
             ) : (
-              <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+              <Tab.Container
+                id="left-tabs-example"
+                defaultActiveKey="monthly-plans"
+              >
                 <Row style={{ marginBottom: 20 }}>
                   <Col sm={12} className="d-flex justify-content-center">
                     <Nav variant="pills" className="">
                       <Nav.Item>
-                        <Nav.Link eventKey="first">Planes mensuales</Nav.Link>
+                        <Nav.Link eventKey="monthly-plans">
+                          Planes mensuales
+                        </Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="second">Planes anuales</Nav.Link>
+                        <Nav.Link eventKey="annual-plans">
+                          Planes anuales
+                        </Nav.Link>
                       </Nav.Item>
                     </Nav>
                   </Col>
                 </Row>
 
                 <Tab.Content>
-                  <Tab.Pane eventKey="first">
+                  <Tab.Pane eventKey="monthly-plans">
+                    <Row className="d-flex justify-content-center">
+                      {monthlyPlans.map((plan: any) => {
+                        return (
+                          <Col key={plan.id} xs={12} md={4}>
+                            <AdminPriceCard plan={plan} />
+                          </Col>
+                        );
+                      })}
+                    </Row>
+                  </Tab.Pane>
+
+                  <Tab.Pane eventKey="annual-plans">
                     <Row className="d-flex justify-content-center">
                       {monthlyPlans.map((plan: any) => {
                         return (

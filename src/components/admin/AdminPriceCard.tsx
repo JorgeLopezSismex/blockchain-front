@@ -29,11 +29,11 @@ export default function AdminPriceCard({ plan }: { plan: any }) {
       </Card.Body>
 
       <Link
-        href={"admin"}
         className="btn btn-primary"
+        href={`plans/checkout?plan=${plan.key}`}
         style={{ marginLeft: 20, marginRight: 20, marginBottom: 20 }}
       >
-        Conseguir plan {plan.name}
+        Suscríbete a {plan.name}
       </Link>
     </Card>
   );
