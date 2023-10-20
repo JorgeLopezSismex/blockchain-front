@@ -10,7 +10,11 @@ import FormInputFile from "@/components/form/FormInputFile";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 
+import React, { useRef } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
+
 export default function SendInvitation(){
+  
   return(
     <>
       <AdminPageHeader title="Envio de invitaciones">
@@ -25,7 +29,7 @@ export default function SendInvitation(){
       </AdminPageHeader>
 
       <Row>
-        <Col lg={6} sm={12}>
+        <Col lg={5} sm={12}>
           <AdminCardContainer xs={12}>
             <p>Por favor ingrese el archivo excel con los correos a los que desea enviar invitaciones.</p>
             <Form>
@@ -36,10 +40,30 @@ export default function SendInvitation(){
             </Form>
           </AdminCardContainer>
         </Col>
-        <Col lg={6} sm={12}>
-          <p>El editor de correo debería ir aquí.</p>
+        <Col lg={7} sm={12}>
+          <Editor
+          apiKey='4id6oio7kmtapurdds49ame637qwnn4dj2f4r1oc1kf8io74'
+          initialValue="<p>This is the initial content of the editor.</p>"
+          
+          init={{
+            height: 500,
+            menubar: false,
+            plugins: [
+              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+              'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | blocks | ' +
+              'bold italic forecolor | alignleft aligncenter ' +
+              'alignright alignjustify | bullist numlist outdent indent | ' +
+              'removeformat | help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+          }}
+          />
         </Col>
       </Row>
+
+      
     </>
   );
 }
