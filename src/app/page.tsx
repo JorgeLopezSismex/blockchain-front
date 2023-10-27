@@ -51,7 +51,7 @@ export default function Home() {
             <div className="px-5 mx-2">
               <h2 className="mb-4">¿Qué es Blockchain?</h2>
               <p style={{ fontSize: "18px" }}>
-                Bloackchain es una innovadora plataforma que te permite crear y
+                Blockchain es una innovadora plataforma que te permite crear y
                 validar certificados de manera segura en la blockchain de
                 Ethereum. Con Blockchain, tus logros académicos y profesionales
                 son inmutables y accesibles en cualquier momento y lugar.
@@ -162,7 +162,7 @@ export default function Home() {
               <b>Respuesta: </b>Utiliza nuestra aplicación móvil para escanear
               el código QR del certificado. Nuestra plataforma verificará
               instantáneamente la autenticidad del certificado y te
-              proporcionará la información necesaria. en la blockchain.
+              proporcionará la información necesaria en la blockchain.
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="3">

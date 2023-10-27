@@ -1,32 +1,25 @@
-"use client";
-//Invitaciones o(TヘTo)
+"use client"
+//Certificados ο(=•ω＜=)ρ⌒☆
 import moment from "moment";
 import Link from "next/link";
 import { Fragment, useState, useEffect } from "react";
 
+import Button from 'react-bootstrap/Button';
 import Breadcrumb from "react-bootstrap/Breadcrumb";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 import AdminTable from "@/components/admin/AdminTable";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-
-import { faEye, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faTrash, faXmark, faShare } from "@fortawesome/free-solid-svg-icons";
 
 import { IssuerData } from "@/types/issuers";
 import { apiFetch } from "@/helpers/api-fetch";
 import { createColumnHelper } from "@tanstack/react-table";
 
-import Form from "react-bootstrap/Form";
-import FormInputFile from "@/components/form/FormInputFile";
-
-export default function Invitations() {
-  const [modalShow, setModalShow] = useState(false);
-
+export default function Certificate(){
   const [issuers, setIssuers] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
   const columnHelper = createColumnHelper<IssuerData>();
@@ -43,7 +36,7 @@ export default function Invitations() {
       if (res.data) {
         const data = res.data;
 
-        const options = data.map((item: any) => ({
+        const options = data.map((item : any) => ({
           value: item.roleId,
           label: item.name,
         }));
@@ -75,10 +68,6 @@ export default function Invitations() {
       header: () => "Id",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("email", {
-      header: () => "Correo",
-      cell: (info) => info.getValue(),
-    }), 
     columnHelper.accessor("name", {
       header: () => "Receptor",
       cell: (info) => info.getValue(),
@@ -97,7 +86,8 @@ export default function Invitations() {
       cell: (info) => {
         return (
           <ButtonGroup aria-label="Basic example"> 
-            <AdminTableActionButton icon={faEye} tooltip="Detalles"/>
+            <AdminTableActionButton icon={faEye} tooltip="Ver"/>
+            <AdminTableActionButton icon={faShare} tooltip="Compartir"/>
             <AdminTableActionButton icon={faTrash} tooltip="Borrar"/>
             <AdminTableActionButton icon={faXmark} tooltip="Cancelar"/>
           </ButtonGroup>
@@ -106,16 +96,16 @@ export default function Invitations() {
     }),
   ];
 
-  return (
+  return(
     <Fragment>
-      <AdminPageHeader title="Invitaciones">
+      <AdminPageHeader title="Certificados">
         <Breadcrumb className="float-sm-right">
           <Breadcrumb.Item>
             <Link href={"/admin"} style={{ textDecoration: "none" }}>
               Inicio
             </Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item active>Invitaciones</Breadcrumb.Item>
+          <Breadcrumb.Item active>Certificados</Breadcrumb.Item>
         </Breadcrumb>
       </AdminPageHeader>
 
@@ -125,7 +115,7 @@ export default function Invitations() {
         ) : (
           <AdminTable columns={columns} defaultData={issuers}>
 
-        <Link href={"/admin/invitations/send-invitation"}>
+        <Link href={"/admin/certificates/create-certificate"}>
           <Button variant="primary">
             Nuevo
           </Button>
