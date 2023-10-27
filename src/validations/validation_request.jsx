@@ -52,3 +52,41 @@ import * as yup from "yup";
     constitutive_act: yup.mixed().required("Este campo es obligatorio."),
     tax_situation_statement: yup.mixed().required("Este campo es obligatorio."),
  });
+
+ //Esquema de validación para añadir casos de clientes
+ const supportedImageTypes = ['image/jpeg', 'image/png']; 
+ export const clientAddSchema = yup.object().shape({
+    name: yup
+      .string()
+      .required("Este campo es obligatorio.")
+      .min(5, "Por favor, no escribas menos de 5 caracteres.")
+      .max(150, "Por favor, no escribas más de 150 caracteres."),
+    job: yup
+      .string()
+      .required("Este campo es obligatorio.")
+      .min(5, "Por favor, no escribas menos de 5 caracteres.")
+      .max(100, "Por favor, no escribas más de 150 caracteres."),
+    city: yup
+      .string()
+      .required("Este campo es obligatorio.")
+      .min(5, "Por favor, no escribas menos de 5 caracteres.")
+      .max(150, "Por favor, no escribas más de 150 caracteres."),
+    text: yup
+      .string()
+      .required("Es necesaria una descripción.")
+      .min(8, "Por favor, no escribas menos de 8 caracteres.")
+      .max(250, "Por favor, no escribas más de 16 caracteres."),
+    // image: yup.mixed().required("Este campo es obligatorio."),
+    image: yup
+      .mixed()
+      .test('fileRequired', 'Debes subir una imagen', (value) => {
+        return value instanceof File;
+      })
+      .test('fileType', 'El archivo debe ser una imagen', (value) => {
+        if (value) {
+          return supportedImageTypes.includes(value.type);
+        }
+        return true; // Permite que el campo sea nulo (sin archivo)
+      })
+      .required('Este campo es obligatorio'),
+ });
