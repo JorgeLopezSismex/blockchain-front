@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Fragment } from "react";
 import * as formik from "formik";
 
@@ -13,13 +14,11 @@ import FormTextarea from "@/components/form/FormTextarea";
 import FormInputFile from "@/components/form/FormInputFile";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 
-import AdminAlert from "@/components/admin/AdminAlert";
-import FormInputButtonAddon from "@/components/form/FormInputButtonAddon";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import Alert from "react-bootstrap/Alert";
-
-import Link from "next/link";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
+import AdminAlert from "@/components/admin/AdminAlert";
+import AdminPageHeader from "@/components/admin/AdminPageHeader";
+import FormInputButtonAddon from "@/components/form/FormInputButtonAddon";
 
 export default function Verification() {
   const { Formik } = formik;
