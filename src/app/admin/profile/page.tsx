@@ -18,14 +18,14 @@ export default function Profile() {
   return (
     <Fragment>
       <AdminPageHeader title="Mi perfil">
-        <Breadcrumb className="float-sm-right">
+        {/* <Breadcrumb className="float-sm-right">
           <Breadcrumb.Item>
             <Link href={"/admin"} style={{ textDecoration: "none" }}>
               Inicio
             </Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Mi perfil</Breadcrumb.Item>
-        </Breadcrumb>
+        </Breadcrumb> */}
       </AdminPageHeader>
       <Container fluid>
         <Row>

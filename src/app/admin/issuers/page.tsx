@@ -24,51 +24,23 @@ import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
 import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 
+import { getRoles } from "@/utils/select-options/roles";
+
 import { IssuerData } from "@/types/issuers";
 import { apiFetch } from "@/helpers/api-fetch";
 import FormAsyncSelect from "@/components/form/FormAsyncSelect";
+import { Concert_One } from "next/font/google";
 
 export default function Issuers() {
-  const suburbs = [
-    { value: "colinia1", label: "Colonia 1" },
-    { value: "colonia2", label: "Colonia 2" },
-    { value: "colonia3", label: "Colonia 3" },
-  ];
-
   const { Formik } = formik;
 
   const [issuers, setIssuers] = useState([]);
-  const [roles, setRoles] = useState([]);
-
   const [dataLoading, setDataLoading] = useState(true);
   const columnHelper = createColumnHelper<IssuerData>();
 
   useEffect(() => {
-    loadRoles();
-
     getIssuers();
   }, []);
-
-  const loadRoles = async () => {
-    try {
-      const res = await apiFetch("roles");
-      if (res.data) {
-        const data = res.data;
-
-        const options = data.map((item : any) => ({
-          value: item.roleId,
-          label: item.name,
-        }));
-
-        return options;
-      }
-
-      return [];
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  };
 
   const getIssuers = async () => {
     setDataLoading(true);
@@ -83,10 +55,6 @@ export default function Issuers() {
   };
 
   const columns = [
-    columnHelper.accessor("issuerId", {
-      header: () => "Id",
-      cell: (info) => info.getValue(),
-    }),
     columnHelper.accessor("name", {
       header: () => "Nombre",
       cell: (info) => info.getValue(),
@@ -108,36 +76,40 @@ export default function Issuers() {
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("lastValidationSubmit", {
-      header: () => "Última solicitud de verificación",
+      header: () => "Últ. solicitud de verif.",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.display({
-      id: "actions",
-      header: () => "Acciones",
-      cell: (info) => {
-        return (
-          <ButtonGroup aria-label="Basic example">
-            <AdminTableActionButton icon={faPencil} tooltip="Editar" />
-            <AdminTableActionButton icon={faTrash} tooltip="Borrar" />
-            <AdminTableActionButton icon={faCheck} tooltip="Verificar" />
-            <AdminTableActionButton icon={faXmark} tooltip="Rechazar" />
-          </ButtonGroup>
-        );
-      },
-    }),
+    // columnHelper.display({
+    //   id: "actions",
+    //   header: () => "Acciones",
+    //   cell: (info) => {
+    //     console.log(info.row.original);
+
+    //     const row = info.row.original;
+
+    //     return (
+    //       <ButtonGroup aria-label="Basic example">
+    //         <AdminTableActionButton icon={faPencil} tooltip="Editar" />
+    //         <AdminTableActionButton icon={faTrash} tooltip="Borrar" />
+    //         <AdminTableActionButton icon={faCheck} tooltip="Verificar" />
+    //         <AdminTableActionButton icon={faXmark} tooltip="Rechazar" />
+    //       </ButtonGroup>
+    //     );
+    //   },
+    // }),
   ];
 
   return (
     <Fragment>
       <AdminPageHeader title="Emisores">
-        <Breadcrumb className="float-sm-right">
+        {/* <Breadcrumb className="float-sm-right">
           <Breadcrumb.Item>
             <Link href={"/admin"} style={{ textDecoration: "none" }}>
               Inicio
             </Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Emisores</Breadcrumb.Item>
-        </Breadcrumb>
+        </Breadcrumb> */}
       </AdminPageHeader>
 
       <AdminFilterContainer>
@@ -146,99 +118,100 @@ export default function Issuers() {
             console.log(values);
           }}
           initialValues={{
-            role: "",
+            name: null,
+            role: null,
+            signUpDateFrom: null,
+            signUpDateTo: null,
+            latestVerificationRequestDateFrom: null,
+            latestVerificationRequestDateTo: null,
+            verificationDateFrom: null,
+            verificationDateTo: null,
           }}
         >
           {({ handleChange, setFieldValue, handleSubmit, values, errors }) => (
             <Form noValidate onSubmit={handleSubmit}>
               <Row className="mb-3">
-                <h6>Rol y estado de verificación</h6>
                 <FormAsyncSelect
-                  md={6}
                   sm={12}
-                  name="roles"
+                  md={6}
+                  name="role"
                   label="Rol"
-                  loadOptions={loadRoles}
+                  getOptions={getRoles}
                   setFieldValue={setFieldValue}
                 />
 
-                <FormSelect
-                  md={6}
+                <FormAsyncSelect
                   sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Estado de verificación"}
-                  defaultText={"fdfsd"}
+                  md={6}
+                  name="role2"
+                  label="Estado de verificación"
+                  getOptions={getRoles}
+                  setFieldValue={setFieldValue}
                 />
 
-                <h6>Fecha de registro</h6>
-                <FormSelect
+                <FormDatePicker
                   md={6}
                   sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Registrado del"}
-                  defaultText={"fdfsd"}
+                  name="signUpDateFrom"
+                  setFieldValue={setFieldValue}
+                  label="Fecha de registro mínima"
+                  placeholder="Selecciona una feacha"
+                  maxDate={moment(values.signUpDateTo)}
                 />
 
-                <FormSelect
+                <FormDatePicker
                   md={6}
                   sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Registrado hasta"}
-                  defaultText={"fdfsd"}
+                  name="signUpDateTo"
+                  setFieldValue={setFieldValue}
+                  label="Fecha de registro máxima"
+                  placeholder="Selecciona una fecha"
+                  minDate={moment(values.signUpDateFrom)}
                 />
 
-                <h6>Fecha de de última solicitud de validación</h6>
-                <FormSelect
+                <FormDatePicker
                   md={6}
                   sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Solicitud enviada del"}
-                  defaultText={"fdfsd"}
+                  setFieldValue={setFieldValue}
+                  placeholder="Selecciona una fecha"
+                  name="latestVerificationRequestDateFrom"
+                  label="Fecha de última solicitud de verificación mínima"
+                  maxDate={moment(values.latestVerificationRequestDateTo)}
                 />
 
-                <FormSelect
+                <FormDatePicker
                   md={6}
                   sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Solicitud enviada hasta"}
-                  defaultText={"fdfsd"}
+                  setFieldValue={setFieldValue}
+                  placeholder="Selecciona una fecha"
+                  name="latestVerificationRequestDateTo"
+                  label="Fecha de última solicitud de verificación máxima"
+                  minDate={moment(values.latestVerificationRequestDateFrom)}
                 />
 
-                <h6>Fecha de validación</h6>
-                <FormSelect
+                <FormDatePicker
                   md={6}
                   sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Último envio de documentos del"}
-                  defaultText={"fdfsd"}
+                  setFieldValue={setFieldValue}
+                  placeholder="Selecciona una fecha"
+                  name="verificationDateFrom"
+                  label="Fecha de verificación mínima"
+                  maxDate={moment(values.verificationDateTo)}
                 />
 
-                <FormSelect
+                <FormDatePicker
                   md={6}
                   sm={12}
-                  name={"suburb"}
-                  disabled={false}
-                  options={suburbs}
-                  label={"Último envio de documentos hasta"}
-                  defaultText={"fdfsd"}
+                  setFieldValue={setFieldValue}
+                  placeholder="Selecciona una fecha"
+                  name="verificationDateTo"
+                  label="Fecha de verificación máxima"
+                  minDate={moment(values.verificationDateFrom)}
                 />
               </Row>
 
-              {/* <button type="submit">Hola mundo</button> */}
               <div className="d-flex justify-content-end">
-                <Button>Filtrar</Button>
+                <Button type="submit">Filtrar</Button>
               </div>
             </Form>
           )}

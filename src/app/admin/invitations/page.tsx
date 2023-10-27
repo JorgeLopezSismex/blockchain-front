@@ -1,4 +1,4 @@
-"use client"
+"use client";
 //Invitaciones o(TヘTo)
 import moment from "moment";
 import Link from "next/link";
@@ -11,8 +11,8 @@ import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -22,11 +22,10 @@ import { IssuerData } from "@/types/issuers";
 import { apiFetch } from "@/helpers/api-fetch";
 import { createColumnHelper } from "@tanstack/react-table";
 
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 import FormInputFile from "@/components/form/FormInputFile";
 
-
-export default function Invitations(){
+export default function Invitations() {
   const [modalShow, setModalShow] = useState(false);
 
   const [issuers, setIssuers] = useState([]);
@@ -45,7 +44,7 @@ export default function Invitations(){
       if (res.data) {
         const data = res.data;
 
-        const options = data.map((item : any) => ({
+        const options = data.map((item: any) => ({
           value: item.roleId,
           label: item.name,
         }));
@@ -110,7 +109,7 @@ export default function Invitations(){
     }),
   ];
 
-  return(
+  return (
     <Fragment>
       <AdminPageHeader title="Invitaciones">
         <Breadcrumb className="float-sm-right">
@@ -128,14 +127,12 @@ export default function Invitations(){
           <AdminTableSpinner />
         ) : (
           <AdminTable columns={columns} defaultData={issuers}>
-
             {/* <Button variant="primary" onClick={() => setShow(true)}>
               Nuevo
             </Button> */}
 
-        <Button variant="primary">
-          Nuevo
-        </Button>
+            <Button variant="primary">Nuevo</Button>
+            <Button variant="primary">Plantillas</Button>
           </AdminTable>
         )}
       </AdminCardContainer>

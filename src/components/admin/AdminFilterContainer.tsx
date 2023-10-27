@@ -13,7 +13,7 @@ export default function AdminFilterContainer({
     <Container fluid>
       <Row>
         <Col>
-          <Accordion defaultActiveKey="0" style={{ marginBottom: 20 }}>
+          <Accordion style={{ marginBottom: 20 }}>
             <Accordion.Item eventKey="0">
               <Accordion.Header>Filtros</Accordion.Header>
               <Accordion.Body>{children}</Accordion.Body>

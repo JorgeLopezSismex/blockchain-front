@@ -49,9 +49,16 @@ export default function AdminSubscriptionPlans() {
     <Fragment>
       <AdminPageHeader title="Nuestros planes">
         <Breadcrumb className="float-sm-right">
-          <Breadcrumb.Item href="/"></Breadcrumb.Item>
-
-          <Breadcrumb.Item active>Planes de pago</Breadcrumb.Item>
+          <Link className="breadcrumb-item" href={"../admin"}>
+            Inicio
+          </Link>
+          <Link className="breadcrumb-item" href={"../admin/profile"}>
+            Perfil
+          </Link>
+          <Link className="breadcrumb-item" href={"../admin/subscription"}>
+            Subscripción
+          </Link>
+          <Breadcrumb.Item active>Planes</Breadcrumb.Item>
         </Breadcrumb>
       </AdminPageHeader>
 

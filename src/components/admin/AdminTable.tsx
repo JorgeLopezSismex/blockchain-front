@@ -2,12 +2,8 @@ import { Fragment, useState } from "react";
 
 import "bootstrap/dist/css/bootstrap.css";
 
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Form from "react-bootstrap/Form";
-import Table from "react-bootstrap/Table";
-import Pagination from "react-bootstrap/Pagination";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
+import { Col, Row, Form } from "react-bootstrap";
+import { Table, Pagination, ButtonGroup } from "react-bootstrap";
 
 import {
   flexRender,
@@ -45,6 +41,7 @@ export default function AdminTable({
       sorting: sorting,
       globalFilter: filtering,
     },
+    initialState: {},
   });
 
   return (
@@ -67,7 +64,7 @@ export default function AdminTable({
         </Col>
       </Row>
 
-      <Table>
+      <Table responsive>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -96,21 +93,32 @@ export default function AdminTable({
             </tr>
           ))}
         </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
+
+        {table.getRowModel().rows.length == 0 ? (
+          <tbody>
+            <tr>
+              <td colSpan={8} style={{ textAlign: "center" }}>
+                No se encontraron resultados.
+              </td>
             </tr>
-          ))}
-        </tbody>
+          </tbody>
+        ) : (
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        )}
       </Table>
 
-      <Row className="d-flex align-items-center">
-        <Col sm={12} md={5} className="">
+      <Row className="d-flex align-items-center" style={{ marginTop: 10 }}>
+        <Col sm={12} md={5} className="" style={{ marginBottom: 10 }}>
           Mostrando {table.getState().pagination.pageIndex + 1} de{" "}
           {table.getPageCount()}
           <select

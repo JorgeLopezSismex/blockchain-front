@@ -8,6 +8,10 @@ nextjs-portal {
   }
 }
 
+.rdt {
+  width: 100%;
+}
+
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities;

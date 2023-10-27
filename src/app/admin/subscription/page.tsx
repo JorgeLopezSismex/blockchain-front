@@ -22,12 +22,13 @@ export default function Subscription() {
     <Fragment>
       <AdminPageHeader title="Subscripción">
         <Breadcrumb className="float-sm-right">
-          <Breadcrumb.Item>
-            <Link href={"/admin"} style={{ textDecoration: "none" }}>
-              Inicio
-            </Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item active>Mi perfil</Breadcrumb.Item>
+          <Link className="breadcrumb-item" href={"../admin"}>
+            Inicio
+          </Link>
+          <Link className="breadcrumb-item" href={"../admin/profile"}>
+            Perfil
+          </Link>
+          <Breadcrumb.Item active>Subscripción</Breadcrumb.Item>
         </Breadcrumb>
       </AdminPageHeader>
 

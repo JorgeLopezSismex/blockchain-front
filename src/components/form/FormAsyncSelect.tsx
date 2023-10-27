@@ -4,39 +4,44 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import AsyncSelect from "react-select/async";
 
+import { InputGroup } from "react-bootstrap";
+import { StylesConfig } from "react-select";
+
 export default function FormAsyncSelect({
   sm,
   md,
-  label,
   name,
-  loadOptions,
+  label,
+  getOptions,
   setFieldValue,
 }: {
   sm: number;
   md: number;
-  label: string;
   name: string;
-  loadOptions: any;
+  label: string;
+  getOptions: any;
   setFieldValue: any;
 }) {
-  const [selectedOption, setSelectedOption] = useState(null);
+  const customStyles: StylesConfig<any> = {
+    container: (styles) => ({ ...styles, width: "100%" }),
+  };
 
   return (
-    // <Form.Group className="mb-3" as={Col} sm={sm} md={md}>
-    //   <Form.Label>{label}</Form.Label>
-    //   <AsyncSelect
-    //     id={name}
-    //     name={name}
-    //     isClearable
-    //     cacheOptions
-    //     defaultOptions
-    //     loadOptions={loadOptions}
-    //     onChange={(option) => {
-    //       setFieldValue({ name }, option.value);
-    //       return setSelectedOption(option);
-    //     }}
-    //   />
-    // </Form.Group>
-    <h1>Hola :v</h1>
+    <Form.Group className="mb-3" as={Col} sm={sm} md={md}>
+      <Form.Label>{label}</Form.Label>
+      <InputGroup>
+        <AsyncSelect
+          id="role"
+          name={name}
+          cacheOptions
+          defaultOptions
+          styles={customStyles}
+          loadOptions={getOptions}
+          onChange={(e) => {
+            setFieldValue(name, e.value);
+          }}
+        />
+      </InputGroup>
+    </Form.Group>
   );
 }
