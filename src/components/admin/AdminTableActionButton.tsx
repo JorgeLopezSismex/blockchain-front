@@ -7,13 +7,15 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 export default function AdminTableActionButton({
   tooltip,
   icon,
+  onClick,
 }: {
   tooltip: string;
   icon: IconProp;
+  onClick: any;
 }) {
   return (
     <OverlayTrigger overlay={<Tooltip>{tooltip}</Tooltip>}>
-      <Button variant="primary">
+      <Button variant="primary" onClick={onClick}>
         <FontAwesomeIcon icon={icon} />
       </Button>
     </OverlayTrigger>

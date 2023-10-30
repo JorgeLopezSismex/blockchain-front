@@ -1,31 +1,45 @@
 "use client";
-
-import Breadcrumb from "react-bootstrap/Breadcrumb";
-import { Fragment } from "react";
-
-import AdminCardContainer from "@/components/admin/AdminCardContainer";
-import AdminProfileCard from "@/components/admin/AdminProfileCard";
-import { Container } from "react-bootstrap";
+import moment from "moment";
+import Link from "next/link";
+import { Fragment, useEffect, useState } from "react";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
-
+import Container from "react-bootstrap/Container";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import Link from "next/link";
+import AdminProfileCard from "@/components/admin/AdminProfileCard";
+
+import { ProfileData, initialProfileData } from "@/types/profile";
+import { apiFetch } from "@/helpers/api-fetch";
 
 export default function Profile() {
+  // const [profile, setProfile]= useState({});
+  const [profile, setProfile]= useState(initialProfileData);
+  const [dataLoading, setDataLoading] = useState(true);
+
+  useEffect (() => {
+    getProfile();
+  },[]);
+
+  const getProfile = async () =>{
+    setDataLoading(true);
+    const res = await apiFetch("authorization/profile?IssuerId=2");
+    if(res.success){
+      console.log(res);
+      setProfile(res.data[0]);
+      console.log(res.data[0]);
+    }
+  };
   return (
     <Fragment>
       <AdminPageHeader title="Mi perfil">
-        {/* <Breadcrumb className="float-sm-right">
-          <Breadcrumb.Item>
-            <Link href={"/admin"} style={{ textDecoration: "none" }}>
-              Inicio
-            </Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item active>Mi perfil</Breadcrumb.Item>
-        </Breadcrumb> */}
+        <Breadcrumb className="float-sm-right">
+          <Link className="breadcrumb-item" href={"../admin"}>
+            Inicio
+          </Link>
+          <Breadcrumb.Item active>Perfil</Breadcrumb.Item>
+        </Breadcrumb>
       </AdminPageHeader>
       <Container fluid>
         <Row>
@@ -33,7 +47,7 @@ export default function Profile() {
             <AdminProfileCard
               title={"Verificación"}
               text1={"Estado de verificación: "}
-              text2={"Sin verificar"}
+              text2={profile.issuerVerificationStatusName}
               action={"Gestionar"}
               link={"/admin/verification"}
             />
@@ -49,7 +63,7 @@ export default function Profile() {
             <AdminProfileCard
               title={"user@mail.com"}
               text1={"Cuenta creada: "}
-              text2={"12/12/2023"}
+              text2={moment(profile.createdAt).format("DD/MM/YYYY")}
               action={"Cambiar contraseña"}
               link={"/admin/update"}
             />

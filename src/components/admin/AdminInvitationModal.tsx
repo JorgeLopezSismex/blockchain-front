@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -6,14 +6,22 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 export default function AdminInvitationModal({
-  onHide,
   show,
+  onHide,
   title,
   id,
   email,
   date,
   state
-}:any){
+}:{
+  show: boolean;
+  onHide: () => void;
+  title: string;
+  id: string | number;
+  email: string;
+  date: string;
+  state: string;
+}) {
   return (
     <>
       <Modal
@@ -39,7 +47,7 @@ export default function AdminInvitationModal({
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onHide} variant="outline-secondary">Cerrar</Button>
-          {/* Debera re enviar la invitación */}
+          {/* Debera re enviar la invitación --> Ahora hay que quitarlo */}
           <Form>
             <Button onClick={onHide}>Reenviar</Button>
           </Form>

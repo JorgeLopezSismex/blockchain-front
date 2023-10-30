@@ -9,23 +9,21 @@ import AdminTable from "@/components/admin/AdminTable";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
+import AdminInvitationModal from "@/components/admin/AdminInvitationModal";
 import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 
-import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
-import { faEye, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faTrash, faXmark, faMailReply } from "@fortawesome/free-solid-svg-icons";
 
 import { IssuerData } from "@/types/issuers";
 import { apiFetch } from "@/helpers/api-fetch";
 import { createColumnHelper } from "@tanstack/react-table";
 
-import Form from "react-bootstrap/Form";
-import FormInputFile from "@/components/form/FormInputFile";
-
 export default function Invitations() {
   const [modalShow, setModalShow] = useState(false);
+  const [selectedInvitation, setSelectedInvitation] = useState<IssuerData | null>(null);
 
   const [issuers, setIssuers] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
@@ -36,6 +34,11 @@ export default function Invitations() {
 
     getIssuers();
   }, []);
+
+  const openDetailsModal = (invitation: IssuerData) => {
+    setSelectedInvitation(invitation);
+    setModalShow(true);
+  };  
 
   const loadRoles = async () => {
     try {
@@ -97,9 +100,10 @@ export default function Invitations() {
       cell: (info) => {
         return (
           <ButtonGroup aria-label="Basic example"> 
-            <AdminTableActionButton icon={faEye} tooltip="Detalles"/>
-            <AdminTableActionButton icon={faTrash} tooltip="Borrar"/>
-            <AdminTableActionButton icon={faXmark} tooltip="Cancelar"/>
+            <AdminTableActionButton icon={faEye} tooltip="Detalles" onClick = {() => openDetailsModal(info.row.original)}/>
+            <AdminTableActionButton icon={faMailReply} tooltip="Reenviar" onClick={null}/>
+            <AdminTableActionButton icon={faTrash} tooltip="Borrar" onClick={null}/>
+            <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={null}/>
           </ButtonGroup>
         );
       },
@@ -110,14 +114,22 @@ export default function Invitations() {
     <Fragment>
       <AdminPageHeader title="Invitaciones">
         <Breadcrumb className="float-sm-right">
-          <Breadcrumb.Item>
-            <Link href={"/admin"} style={{ textDecoration: "none" }}>
-              Inicio
-            </Link>
-          </Breadcrumb.Item>
+          <Link className="breadcrumb-item" href={"../admin"}>
+            Inicio
+          </Link>
           <Breadcrumb.Item active>Invitaciones</Breadcrumb.Item>
         </Breadcrumb>
       </AdminPageHeader>
+
+      <AdminInvitationModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        title="Detalles de la Invitación"
+        id={selectedInvitation ? selectedInvitation.issuerId : ""}
+        email={selectedInvitation ? selectedInvitation.email : ""}
+        date={selectedInvitation ? selectedInvitation.createdAt : ""}
+        state={selectedInvitation ? selectedInvitation.issuerVerificationStatusName : ""}
+      />
 
       <AdminCardContainer xs={12}>
         {dataLoading ? (
