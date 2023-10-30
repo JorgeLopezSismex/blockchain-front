@@ -1,23 +1,22 @@
 "use client";
-
-import Breadcrumb from "react-bootstrap/Breadcrumb";
+import moment from "moment";
+import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
-
-import AdminCardContainer from "@/components/admin/AdminCardContainer";
-import AdminProfileCard from "@/components/admin/AdminProfileCard";
-import { Container } from "react-bootstrap";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
-
-import moment from "moment";
+import Container from "react-bootstrap/Container";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import Link from "next/link";
+import AdminProfileCard from "@/components/admin/AdminProfileCard";
+
+import { ProfileData, initialProfileData } from "@/types/profile";
 import { apiFetch } from "@/helpers/api-fetch";
 
 export default function Profile() {
-  const [profile, setProfile]= useState({});
+  // const [profile, setProfile]= useState({});
+  const [profile, setProfile]= useState(initialProfileData);
   const [dataLoading, setDataLoading] = useState(true);
 
   useEffect (() => {
