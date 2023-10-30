@@ -17,25 +17,25 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 import { faEye, faTrash, faXmark, faMailReply } from "@fortawesome/free-solid-svg-icons";
 
-import { IssuerData } from "@/types/issuers";
+import { InvitationsData } from "@/types/invitation";
 import { apiFetch } from "@/helpers/api-fetch";
 import { createColumnHelper } from "@tanstack/react-table";
 
 export default function Invitations() {
   const [modalShow, setModalShow] = useState(false);
-  const [selectedInvitation, setSelectedInvitation] = useState<IssuerData | null>(null);
+  const [selectedInvitation, setSelectedInvitation] = useState<InvitationsData | null>(null);
 
-  const [issuers, setIssuers] = useState([]);
+  const [invitations, setInvitations] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
-  const columnHelper = createColumnHelper<IssuerData>();
+  const columnHelper = createColumnHelper<InvitationsData>();
 
   useEffect(() => {
     loadRoles();
 
-    getIssuers();
+    getInvitations();
   }, []);
 
-  const openDetailsModal = (invitation: IssuerData) => {
+  const openDetailsModal = (invitation: InvitationsData) => {
     setSelectedInvitation(invitation);
     setModalShow(true);
   };  
@@ -61,37 +61,37 @@ export default function Invitations() {
     }
   };
 
-  const getIssuers = async () => {
+  const getInvitations = async () => {
     setDataLoading(true);
-    const res = await apiFetch("issuers");
+    const res = await apiFetch("authorization/invitation");
     // alert("Termino la peticion de datos");
     console.log(res);
 
     if (res.success) {
       setDataLoading(false);
-      setIssuers(res.data);
+      setInvitations(res.data);
     }
   };
 
   const columns = [
-    columnHelper.accessor("issuerId", {
-      header: () => "Id",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("email", {
+    columnHelper.accessor("addressee", {
       header: () => "Correo",
       cell: (info) => info.getValue(),
-    }), 
+    }),
     columnHelper.accessor("name", {
       header: () => "Receptor",
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("createdAt", {
-      header: () => "Fecha",
+      header: () => "Fecha de creación",
       cell: (info) => moment(info.getValue()).format("DD/MM/YYYY"),
     }),
-    columnHelper.accessor("issuerVerificationStatusName", {
+    columnHelper.accessor("invitationStatusId", {
       header: () => "Estado",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("description", {
+      header: () => "Descripción",
       cell: (info) => info.getValue(),
     }),
     columnHelper.display({
@@ -125,17 +125,17 @@ export default function Invitations() {
         show={modalShow}
         onHide={() => setModalShow(false)}
         title="Detalles de la Invitación"
-        id={selectedInvitation ? selectedInvitation.issuerId : ""}
-        email={selectedInvitation ? selectedInvitation.email : ""}
-        date={selectedInvitation ? selectedInvitation.createdAt : ""}
-        state={selectedInvitation ? selectedInvitation.issuerVerificationStatusName : ""}
+        id={selectedInvitation ? selectedInvitation.id : ""}
+        email={selectedInvitation ? selectedInvitation.addressee : ""}
+        date={selectedInvitation ? moment(selectedInvitation.createdAt).format("DD/MM/YYYY") : ""}
+        state={selectedInvitation ? selectedInvitation.invitationStatusId : ""}
       />
 
       <AdminCardContainer xs={12}>
         {dataLoading ? (
           <AdminTableSpinner />
         ) : (
-          <AdminTable columns={columns} defaultData={issuers}>
+          <AdminTable columns={columns} defaultData={invitations}>
 
         <Link href={"/admin/invitations/send-invitation"}>
           <Button variant="primary">
