@@ -13,6 +13,7 @@ export const signInSchema = yup.object().shape({
     .required("Este campo es obligatorio.")
     .min(8, "Por favor, no escribas menos de 8 caracteres.")
     .max(16, "Por favor, no escribas más de 16 caracteres."),
+  reCaptcha: yup.string().required("La casilla reCaptcha es obligatoria."),
 });
 
 export const signUpSchema = yup.object().shape({

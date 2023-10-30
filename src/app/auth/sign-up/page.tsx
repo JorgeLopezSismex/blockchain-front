@@ -3,6 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect, Fragment } from "react";
 
+
+
+
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -121,6 +124,8 @@ export default function SignUp() {
                   placeholder={"Micontraseña123*"}
                 />
               </Row>
+
+              
 
               <Row className="mb-3">
                 <AuthButton text={"Registrarse"} loading={loading} />

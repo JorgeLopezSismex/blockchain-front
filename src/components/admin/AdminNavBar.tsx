@@ -47,6 +47,7 @@ export default function AdminNavBar() {
           <Offcanvas.Body>
             <Nav className="">
               <Link href={"/../admin/issuers"}>Emisores</Link>
+              <Link href={"/../admin/members"}>Miembros</Link>
               <Link href={"/../admin/invitations"}>Invitaciones</Link>
               <Link href={"/../admin/certificates"}>Certificados</Link>
               <Link href={"/../admin/log"}>Bitácora</Link>

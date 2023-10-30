@@ -1,19 +1,20 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
 
-import Row from "react-bootstrap/Row";
-import Form from "react-bootstrap/Form";
+import { Col, Row, Form } from "react-bootstrap";
 
 import AuthLink from "@/components/auth/AuthLink";
 import AuthCheck from "@/components/auth/AuthCheck";
 import AuthInput from "@/components/auth/AuthInput";
 import AuthButton from "@/components/auth/AuthButton";
 import ActionToast from "@/components/main/ActionToast";
+import AuthReCaptcha from "@/components/auth/AuthReCaptcha";
+import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 
 import { apiFetch } from "@/helpers/api-fetch";
 import { signInSchema } from "../../../validations/validation-schemas";
@@ -23,8 +24,12 @@ import styles from "../styles.module.css";
 export default function SignIn() {
   const { Formik } = formik;
   const router = useRouter();
+  const [recaptchaKey, setRecaptchaKey] = useState(1);
 
   const [loading, setLoading] = useState(false);
+  const [loadingCheck, setLoadingCheck] = useState(true);
+  const [loadignReCaptcha, setLoadingReCaptcha] = useState(true);
+
   const [showToast, setShowToast] = useState(false);
   const [toastTitle, setToastTitle] = useState("Título");
   const [toastMessage, setToastMessage] = useState("Mensaje.");
@@ -35,6 +40,8 @@ export default function SignIn() {
     if (token != null) {
       checkSignIn(token);
     }
+
+    return setLoadingCheck(false);
   }, []);
 
   const checkSignIn = async (token: string) => {
@@ -62,6 +69,8 @@ export default function SignIn() {
       setToastVariant("danger");
       setToastTitle("Autenticación");
       setToastMessage(res.message);
+
+      setRecaptchaKey(recaptchaKey + 1);
       return;
     }
 
@@ -73,68 +82,96 @@ export default function SignIn() {
   return (
     <Fragment>
       <div className={styles.authTitle}>
-        <h2>Sismex - Blockchain</h2>
+        <h4>BlockChain</h4>
       </div>
 
       <div className={styles.authFormTitle}>
         <h3>Inicio de sesión</h3>
-        <Formik
-          onSubmit={signIn}
-          validationSchema={signInSchema}
-          initialValues={{
-            email: "",
-            password: "",
-            rememberMe: false,
-          }}
-        >
-          {({ handleSubmit, handleChange, values, touched, errors }) => (
-            <Form noValidate onSubmit={handleSubmit}>
-              <Row className="mb-3">
-                <AuthInput
-                  type={"text"}
-                  name={"email"}
-                  value={values.email}
-                  errors={errors.email}
-                  handleChange={handleChange}
-                  label={"Correo electrónico"}
-                  placeholder={"ejemplo@gmail.com"}
-                />
-              </Row>
 
-              <Row className="mb-3">
-                <AuthInput
-                  type={"password"}
-                  name={"password"}
-                  label={"Contraseña"}
-                  value={values.password}
-                  errors={errors.password}
-                  handleChange={handleChange}
-                  placeholder={"Micontraseña123*"}
-                />
-              </Row>
+        {loadingCheck ? (
+          <Row style={{ marginTop: 30, marginBottom: 30 }}>
+            <Col xs={12} className="d-flex justify-content-center">
+              <AdminTableSpinner />
+            </Col>
+          </Row>
+        ) : (
+          <Fragment>
+            <Formik
+              onSubmit={signIn}
+              validationSchema={signInSchema}
+              initialValues={{
+                email: "",
+                password: "",
+                rememberMe: false,
+                reCaptcha: "",
+              }}
+            >
+              {({
+                handleSubmit,
+                handleChange,
+                setFieldValue,
+                values,
+                errors,
+              }) => (
+                <Form noValidate onSubmit={handleSubmit}>
+                  <Row className="mb-3">
+                    <AuthInput
+                      type={"text"}
+                      name={"email"}
+                      value={values.email}
+                      errors={errors.email}
+                      handleChange={handleChange}
+                      label={"Correo electrónico"}
+                      placeholder={"ejemplo@gmail.com"}
+                    />
+                  </Row>
 
-              <Row>
-                <AuthCheck
-                  errors={errors}
-                  text={"Recordarme"}
-                  name={"rememberMe"}
-                  handleChange={handleChange}
-                />
-              </Row>
+                  <Row className="mb-3">
+                    <AuthInput
+                      type={"password"}
+                      name={"password"}
+                      label={"Contraseña"}
+                      value={values.password}
+                      errors={errors.password}
+                      handleChange={handleChange}
+                      placeholder={"Micontraseña123*"}
+                    />
+                  </Row>
 
-              <Row className="mb-3">
-                <AuthButton text={"Iniciar sesión"} loading={loading} />
-              </Row>
-            </Form>
-          )}
-        </Formik>
+                  <Row>
+                    <AuthCheck
+                      errors={errors}
+                      text={"Recordarme"}
+                      name={"rememberMe"}
+                      handleChange={handleChange}
+                    />
+                  </Row>
 
-        <AuthLink link={"forgot-password"} text={"¿Olvidaste tu contraseña?"} />
-        <br />
-        <AuthLink
-          link={"sign-up"}
-          text={"¿No tienes cuenta? - Registrate aquí"}
-        />
+                  <AuthReCaptcha
+                    key={recaptchaKey}
+                    errors={errors.reCaptcha}
+                    setFieldValue={setFieldValue}
+                    setLoadingReCaptcha={setLoadingReCaptcha}
+                  />
+
+                  <Row className="mb-3">
+                    <AuthButton text={"Iniciar sesión"} loading={loading} />
+                  </Row>
+                </Form>
+              )}
+            </Formik>
+
+            <AuthLink
+              link={"forgot-password"}
+              text={"¿Olvidaste tu contraseña?"}
+            />
+            <br />
+            <AuthLink
+              link={"sign-up"}
+              text={"¿No tienes cuenta? - Registrate aquí"}
+            />
+          </Fragment>
+        )}
       </div>
 
       <ActionToast
