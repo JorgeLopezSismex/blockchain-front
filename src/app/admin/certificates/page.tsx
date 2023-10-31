@@ -86,10 +86,10 @@ export default function Certificate(){
       cell: (info) => {
         return (
           <ButtonGroup aria-label="Basic example"> 
-            <AdminTableActionButton icon={faEye} tooltip="Ver"/>
-            <AdminTableActionButton icon={faShare} tooltip="Compartir"/>
-            <AdminTableActionButton icon={faTrash} tooltip="Borrar"/>
-            <AdminTableActionButton icon={faXmark} tooltip="Cancelar"/>
+            <AdminTableActionButton icon={faEye} tooltip="Ver" onClick={null}/>
+            <AdminTableActionButton icon={faShare} tooltip="Compartir" onClick={null}/>
+            <AdminTableActionButton icon={faTrash} tooltip="Borrar" onClick={null}/>
+            <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={null}/>
           </ButtonGroup>
         );
       },

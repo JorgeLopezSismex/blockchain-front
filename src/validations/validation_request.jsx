@@ -90,3 +90,20 @@ import * as yup from "yup";
       })
       .required('Este campo es obligatorio'),
  });
+
+ //Esquema de validación para enviar invitaciones
+ const supportedFileTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
+ export const sendInvitationSchema = yup.object().shape({
+    file: yup
+      .mixed()
+      .test('fileRequired', 'Debes subir un archivo Excel', (value) => {
+        return value instanceof File;
+      })
+      .test('fileType', 'El archivo debe ser Excel', (value) => {
+        if (value) {
+          return supportedFileTypes.includes(value.type);
+        }
+        return true; // Permite que el campo sea nulo (sin archivo)
+      })
+      .required('Este campo es obligatorio'),
+ });

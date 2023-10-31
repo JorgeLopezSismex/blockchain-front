@@ -42,12 +42,9 @@ export default function AddClients(){
     <Fragment>
       <AdminPageHeader title="Añadir casos de clientes">
         <Breadcrumb className="float-sm-right">
-          <Breadcrumb.Item>
-            {/* <Link href={"/admin"} style={{ textDecoration: "none" }}>
-              Inicio
-            </Link> */}
-            {/* EL link esta marcando error */}
-          </Breadcrumb.Item>
+          <Link className="breadcrumb-item" href={"../admin"}>
+            Inicio
+          </Link>
           <Breadcrumb.Item active>Añadir clientes</Breadcrumb.Item>
         </Breadcrumb>
         {/* El error tambien podria ser el Breadcrumb */}
