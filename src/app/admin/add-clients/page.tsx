@@ -1,7 +1,6 @@
 "use client";
 //Ventana para añadir casos de exito de los clientes. ◑﹏◐
 
-import * as yup from 'yup';
 import Link from "next/link";
 import * as formik from "formik";
 import { Fragment, useState } from "react";
@@ -47,7 +46,6 @@ export default function AddClients(){
           </Link>
           <Breadcrumb.Item active>Añadir clientes</Breadcrumb.Item>
         </Breadcrumb>
-        {/* El error tambien podria ser el Breadcrumb */}
       </AdminPageHeader>
 
       <Row>
