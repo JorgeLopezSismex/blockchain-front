@@ -2,6 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 export default function AdminModal({
   show,
@@ -10,16 +11,18 @@ export default function AdminModal({
   title,
   text,
   buttonText,
+  children
 }:{
   show: boolean;
   onHide: () => void;
   onClick: () => void;
   title: string;
   text: string;
-  buttonText: string
+  buttonText: string;
+  children: React.ReactNode;
 }) {
   return (
-    <>
+    <Container>
       <Modal
         show={show}
         aria-labelledby="contained-modal-title-vcenter"
@@ -33,6 +36,7 @@ export default function AdminModal({
         </Modal.Header>
         <Modal.Body className="px-5">
           {text}
+          {children}
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onHide} variant="outline-secondary">Cerrar</Button>
@@ -41,6 +45,6 @@ export default function AdminModal({
           </Form>
         </Modal.Footer>
       </Modal>
-    </>
+    </Container>
   );
 }

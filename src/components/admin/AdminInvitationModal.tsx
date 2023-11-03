@@ -10,15 +10,23 @@ export default function AdminInvitationModal({
   onHide,
   title,
   email,
+  name,
+  lastname,
   date,
-  state
+  state,
+  description,
+  rejectReason
 }:{
   show: boolean;
   onHide: () => void;
   title: string;
   email: string;
+  name: string;
+  lastname: string;
   date: string;
   state: string;
+  description: string;
+  rejectReason: string
 }) {
   return (
     <>
@@ -36,9 +44,12 @@ export default function AdminInvitationModal({
         <Modal.Body>
           <Row>
             <Col className="px-5">
+              <p><b>Nombre: </b>{name} {lastname}</p>
               <p><b>Correo: </b>{email}</p>
               <p><b>Fecha: </b>{date}</p>
               <p><b>Estado: </b>{state}</p>
+              <p><b>Descripción: </b>{description}</p>
+              <p><b>Causa de rechazo: </b>{rejectReason}</p>
             </Col>
           </Row>
         </Modal.Body>
