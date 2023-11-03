@@ -7,13 +7,14 @@ import { Fragment, useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import AdminModal from "@/components/admin/AdminModal";
 import AdminTable from "@/components/admin/AdminTable";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 
-import { faEye, faTrash, faXmark, faShare } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faXmark, faShare } from "@fortawesome/free-solid-svg-icons";
 
 import { IssuerData } from "@/types/issuers";
 import { apiFetch } from "@/helpers/api-fetch";
@@ -24,11 +25,42 @@ export default function Certificate(){
   const [dataLoading, setDataLoading] = useState(true);
   const columnHelper = createColumnHelper<IssuerData>();
 
+  const [shareModal, setShareModal] = useState(false);
+  const [detailsModal, setDetailsModal] = useState (false);
+  const [cancelModal, setCancelModal] = useState(false);
+
   useEffect(() => {
     loadRoles();
 
     getIssuers();
   }, []);
+
+  const openShareModal = () => {
+    setShareModal(true);
+  };
+
+  const openDetailsModal = () => {
+    setDetailsModal(true);
+  };
+
+  const openCancelModal = () => {
+    setCancelModal(true);
+  };
+
+  const handleShare = () => {
+    console.log("El certificado será compartido");
+    setShareModal(false);
+  };
+
+  const handleDetails = () => {
+    console.log("Detalles del certificado");
+    setDetailsModal(false);
+  };
+
+  const handleCancel = () => {
+    console.log("El certificado será cancelado.");
+    setCancelModal(false);
+  };
 
   const loadRoles = async () => {
     try {
@@ -86,10 +118,9 @@ export default function Certificate(){
       cell: (info) => {
         return (
           <ButtonGroup aria-label="Basic example"> 
-            <AdminTableActionButton icon={faEye} tooltip="Ver" onClick={null}/>
-            <AdminTableActionButton icon={faShare} tooltip="Compartir" onClick={null}/>
-            <AdminTableActionButton icon={faTrash} tooltip="Borrar" onClick={null}/>
-            <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={null}/>
+            <AdminTableActionButton icon={faEye} tooltip="Ver" onClick={() => openDetailsModal()}/>
+            <AdminTableActionButton icon={faShare} tooltip="Compartir" onClick={() => openShareModal()}/>
+            <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={() => openCancelModal()}/>
           </ButtonGroup>
         );
       },
@@ -100,14 +131,39 @@ export default function Certificate(){
     <Fragment>
       <AdminPageHeader title="Certificados">
         <Breadcrumb className="float-sm-right">
-          <Breadcrumb.Item>
-            <Link href={"/admin"} style={{ textDecoration: "none" }}>
-              Inicio
-            </Link>
-          </Breadcrumb.Item>
+          <Link className="breadcrumb-item" href={"../admin"}>
+            Inicio
+          </Link>
           <Breadcrumb.Item active>Certificados</Breadcrumb.Item>
         </Breadcrumb>
       </AdminPageHeader>
+
+      <AdminModal
+        show={detailsModal}
+        onHide={() => setDetailsModal(false)}
+        onClick={ () => handleDetails()}
+        title="Detalles"
+        text="Detalles del certificado."
+        buttonText="Algo"
+      />
+
+      <AdminModal
+        show={shareModal}
+        onHide={() => setShareModal(false)}
+        onClick={ () => handleShare()}
+        title="Compartir"
+        text="Compartir certificado."
+        buttonText="Compartit"
+      />
+
+      <AdminModal
+        show={cancelModal}
+        onHide={() => setCancelModal(false)}
+        onClick={ () => handleCancel()}
+        title="Cancelar"
+        text="Certificado cancelado"
+        buttonText="Cancelar"
+      />
 
       <AdminCardContainer xs={12}>
         {dataLoading ? (
