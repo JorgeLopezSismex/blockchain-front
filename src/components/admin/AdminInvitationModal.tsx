@@ -9,18 +9,24 @@ export default function AdminInvitationModal({
   show,
   onHide,
   title,
-  id,
   email,
+  name,
+  lastname,
   date,
-  state
+  state,
+  description,
+  rejectReason
 }:{
   show: boolean;
   onHide: () => void;
   title: string;
-  id: string | number;
   email: string;
+  name: string;
+  lastname: string;
   date: string;
   state: string;
+  description: string;
+  rejectReason: string
 }) {
   return (
     <>
@@ -38,19 +44,17 @@ export default function AdminInvitationModal({
         <Modal.Body>
           <Row>
             <Col className="px-5">
-              <p><b>ID:</b>{id}</p>
+              <p><b>Nombre: </b>{name} {lastname}</p>
               <p><b>Correo: </b>{email}</p>
               <p><b>Fecha: </b>{date}</p>
               <p><b>Estado: </b>{state}</p>
+              <p><b>Descripción: </b>{description}</p>
+              <p><b>Causa de rechazo: </b>{rejectReason}</p>
             </Col>
           </Row>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onHide} variant="outline-secondary">Cerrar</Button>
-          {/* Debera re enviar la invitación --> Ahora hay que quitarlo */}
-          <Form>
-            <Button onClick={onHide}>Reenviar</Button>
-          </Form>
         </Modal.Footer>
       </Modal>
     </>

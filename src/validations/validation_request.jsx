@@ -90,3 +90,41 @@ import * as yup from "yup";
       })
       .required('Este campo es obligatorio'),
  });
+
+ //Esquemas de validación para enviar invitaciones
+ const supportedFileTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
+ //Esquema de validación para enviar invitaciones Excel
+ export const excelFromSchema = yup.object().shape({
+    file: yup
+      .mixed()
+      .test('fileRequired', 'Debes subir un archivo Excel', (value) => {
+        return value instanceof File;
+      })
+      .test('fileType', 'El archivo debe ser Excel', (value) => {
+        if (value) {
+          return supportedFileTypes.includes(value.type);
+        }
+        return true; // Permite que el campo sea nulo (sin archivo)
+      })
+      .required('Este campo es obligatorio'),
+ });
+
+ //Esquema de validación para enviar invitaciones Manual
+ export const manualFormSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Este campo es obligatorio.")
+    .min(5, "Por favor, no escribas menos de 5 caracteres.")
+    .max(150, "Por favor, no escribas más de 150 caracteres."),
+  lastname: yup
+    .string()
+    .required("Este campo es obligatorio.")
+    .min(5, "Por favor, no escribas menos de 5 caracteres.")
+    .max(150, "Por favor, no escribas más de 150 caracteres."),
+  email: yup
+    .string()
+    .required("Este campo es obligatorio.")
+    .email("Por favor, escribe una dirección de correo válida.")
+    .min(5, "Por favor, no escribas menos de 5 caracteres.")
+    .max(150, "Por favor, no escribas más de 150 caracteres."),
+ });
