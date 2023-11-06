@@ -45,8 +45,6 @@ export default function Issuers() {
   const getIssuers = async () => {
     setDataLoading(true);
     const res = await apiFetch("issuers");
-    // alert("Termino la peticion de datos");
-    console.log(res);
 
     if (res.success) {
       setDataLoading(false);

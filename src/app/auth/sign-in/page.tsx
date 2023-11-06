@@ -74,7 +74,7 @@ export default function SignIn() {
       return;
     }
 
-    localStorage.setItem("token", res.token);
+    localStorage.setItem("token", res.data);
     router.replace("/admin");
     return;
   };

@@ -7,6 +7,7 @@ export const apiFetch = async (
     method: method,
     headers: {
       "Content-Type": "application/json",
+      "Time-Zone": Intl.DateTimeFormat().resolvedOptions().timeZone
     },
     body: JSON.stringify(body),
   });
