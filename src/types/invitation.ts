@@ -15,3 +15,14 @@ export type InvitationsData = {
     updatedBy: number,
     userId: number,
 };
+
+export interface RegisterInvitation {
+    addressee: string;
+    name: string;
+    lastName: string;
+    createdBy: number ;
+}
+
+export interface CancelInvitation {
+    rejectReason: string;
+}
