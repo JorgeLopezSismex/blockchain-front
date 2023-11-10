@@ -3,17 +3,13 @@
 import moment from "moment";
 import Link from "next/link";
 import * as formik from "formik";
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 
 import Row from "react-bootstrap/Row";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-
-import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import FormSelect from "@/components/form/FormSelect";
 import AdminTable from "@/components/admin/AdminTable";
@@ -22,24 +18,49 @@ import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
-import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
+
+import FormTextarea from "@/components/form/FormTextarea";
 
 import { getRoles } from "@/utils/select-options/roles";
+
+import { rejectIssuerScheme } from "@/validations/issuer-validations";
 
 import { IssuerData } from "@/types/issuers";
 import { apiFetch } from "@/helpers/api-fetch";
 import FormAsyncSelect from "@/components/form/FormAsyncSelect";
 import { Concert_One } from "next/font/google";
 
+import issuersTableColumns from "@/utils/tableColumButtons";
+import AdminModalJorge from "@/components/admin/AdminModalJorge";
+
 export default function Issuers() {
   const { Formik } = formik;
 
+  const [permissions, setPermissions] = useState([]);
+
   const [issuers, setIssuers] = useState([]);
+  const [selectedIssuer, setSelectedIssuer] = useState({});
+
   const [dataLoading, setDataLoading] = useState(true);
-  const columnHelper = createColumnHelper<IssuerData>();
+  const [modalLoading, setModalLoading] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [showRejectModal, setShowRejectModal] = useState(false);
 
   useEffect(() => {
     getIssuers();
+    // const queryParams = new URLSearchParams();
+    // queryParams.append("module", "ISSUERS_MODULE");
+
+    // apiFetch(`permissions?${queryParams.toString()}`).then((response) => {
+    //   if (!response.status) {
+    //     console.log("Ocuriró un error");
+    //   }
+
+    //   setPermissions(response.data);
+    //   console.log(response.data, "Estos son los permisos");
+    // });
   }, []);
 
   const getIssuers = async () => {
@@ -52,62 +73,92 @@ export default function Issuers() {
     }
   };
 
-  const columns = [
-    columnHelper.accessor("name", {
-      header: () => "Nombre",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("email", {
-      header: () => "Correo Electrónico",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("roleName", {
-      header: () => "Rol",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("createdAt", {
-      header: () => "Registro",
-      cell: (info) => moment(info.getValue()).format("DD/MM/YYYY"),
-    }),
-    columnHelper.accessor("issuerVerificationStatusName", {
-      header: () => "Verificación",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("lastValidationSubmit", {
-      header: () => "Últ. solicitud de verif.",
-      cell: (info) => info.getValue(),
-    }),
-    // columnHelper.display({
-    //   id: "actions",
-    //   header: () => "Acciones",
-    //   cell: (info) => {
-    //     console.log(info.row.original);
+  const verifyIssuer = async () => {
+    alert("Se inicia em proceso de verificación");
 
-    //     const row = info.row.original;
+    if (JSON.stringify(selectedIssuer) === "{}") {
+      return alert("No hay un emisor seleccionado");
+    }
 
-    //     return (
-    //       <ButtonGroup aria-label="Basic example">
-    //         <AdminTableActionButton icon={faPencil} tooltip="Editar" />
-    //         <AdminTableActionButton icon={faTrash} tooltip="Borrar" />
-    //         <AdminTableActionButton icon={faCheck} tooltip="Verificar" />
-    //         <AdminTableActionButton icon={faXmark} tooltip="Rechazar" />
-    //       </ButtonGroup>
-    //     );
-    //   },
-    // }),
-  ];
+    setModalLoading(true);
+
+    console.log("Hola mundo, este es el emisor seleccionado", selectedIssuer);
+  };
+
+  const rejectIssuer = async () => {};
 
   return (
     <Fragment>
+      <AdminModalJorge
+        show={showDeleteModal}
+        title="Eliminar emisor"
+        primaryBtnVariant="danger"
+        handleSubmit={verifyIssuer}
+        modalLoading={modalLoading}
+        handleClose={() => setShowDeleteModal(false)}
+      >
+        ¿Estás seguro de querer eliminar este emisor?
+      </AdminModalJorge>
+
+      <AdminModalJorge
+        show={showVerifyModal}
+        title="Verificar emisor"
+        handleSubmit={verifyIssuer}
+        modalLoading={modalLoading}
+        handleClose={() => setShowVerifyModal(false)}
+      >
+        ¿Estás seguro de querer verificar este emisor?
+      </AdminModalJorge>
+
+      <Formik
+        onSubmit={() => {
+          alert("Se ejecuta correctamten");
+        }}
+        initialValues={{ reason: "" }}
+        validationSchema={rejectIssuerScheme}
+      >
+        {({ handleChange, handleSubmit, resetForm, values, errors }) => (
+          <AdminModalJorge
+            formModal={true}
+            show={showRejectModal}
+            title="Rechazar emisor"
+            primaryBtnVariant="danger"
+            handleSubmit={handleSubmit}
+            modalLoading={modalLoading}
+            primaryBtnText="Rechazar emisor"
+            handleClose={() => {
+              resetForm();
+              setShowRejectModal(false);
+            }}
+          >
+            <Form id="RejectIssuerForm" noValidate onSubmit={() => {}}>
+              <Row className="mb-3">
+                <FormTextarea
+                  sm={12}
+                  md={12}
+                  id={"reason"}
+                  name={"reason"}
+                  value={values.reason}
+                  errors={errors.reason}
+                  handleChange={handleChange}
+                  label={"Mótivo del rechazo"}
+                  placeholder={
+                    "El perfil se encuentra incompleto o no es válido."
+                  }
+                />
+              </Row>
+            </Form>
+          </AdminModalJorge>
+        )}
+      </Formik>
+
       <AdminPageHeader title="Emisores">
-        {/* <Breadcrumb className="float-sm-right">
-          <Breadcrumb.Item>
-            <Link href={"/admin"} style={{ textDecoration: "none" }}>
-              Inicio
-            </Link>
-          </Breadcrumb.Item>
+        <Breadcrumb className="float-sm-right">
+          <Link className="breadcrumb-item" href={"../admin"}>
+            Inicio
+          </Link>
           <Breadcrumb.Item active>Emisores</Breadcrumb.Item>
-        </Breadcrumb> */}
+        </Breadcrumb>
       </AdminPageHeader>
 
       <AdminFilterContainer>
@@ -220,7 +271,15 @@ export default function Issuers() {
         {dataLoading ? (
           <AdminTableSpinner />
         ) : (
-          <AdminTable columns={columns} defaultData={issuers}>
+          <AdminTable
+            defaultData={issuers}
+            columns={issuersTableColumns(
+              setSelectedIssuer,
+              setShowDeleteModal,
+              setShowVerifyModal,
+              setShowRejectModal
+            )}
+          >
             <Button variant="primary">Nuevo</Button>
           </AdminTable>
         )}

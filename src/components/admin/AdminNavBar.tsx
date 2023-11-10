@@ -13,6 +13,8 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 import { EnvelopeFill } from "react-bootstrap-icons";
 
+import Dropdown from "react-bootstrap/Dropdown";
+
 export default function AdminNavBar() {
   const expand = "xs";
   const [show, setShow] = useState(false);
@@ -22,7 +24,12 @@ export default function AdminNavBar() {
   };
 
   return (
-    <Navbar bg="primary" key={expand} expand={expand} data-bs-theme="dark">
+    <Navbar
+      key={expand}
+      expand={expand}
+      data-bs-theme="dark"
+      style={{ backgroundColor: "#004A98" }}
+    >
       <Container fluid>
         <div className="d-flex align-items-center">
           <Navbar.Toggle
@@ -32,7 +39,19 @@ export default function AdminNavBar() {
           <Navbar.Brand href="#">Blockchain - Admin</Navbar.Brand>
         </div>
 
-        <Navbar.Brand href="#">Blockchain - Admin</Navbar.Brand>
+        <Dropdown align={{ lg: "end" }}>
+          <Dropdown.Toggle className="d-flex align-items-center dropdown-toggle">
+            <div className="circle" id="dropdown-custom-components">
+              <span className="initials">MS</span>
+            </div>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item eventKey="1">Mi perfil</Dropdown.Item>
+            <Dropdown.Item eventKey="2">Cerrar sesión</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-${expand}`}
           show={show}

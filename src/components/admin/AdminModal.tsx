@@ -11,8 +11,8 @@ export default function AdminModal({
   title,
   text,
   buttonText,
-  children
-}:{
+  children,
+}: {
   show: boolean;
   onHide: () => void;
   onClick: () => void;
@@ -30,16 +30,16 @@ export default function AdminModal({
         onHide={onHide}
       >
         <Modal.Header closeButton>
-          <Modal.Title>
-            {title}
-          </Modal.Title>
+          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="px-5">
           {text}
           {children}
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={onHide} variant="outline-secondary">Cerrar</Button>
+          <Button onClick={onHide} variant="outline-secondary">
+            Cerrar
+          </Button>
           <Form>
             <Button onClick={onClick}>{buttonText}</Button>
           </Form>

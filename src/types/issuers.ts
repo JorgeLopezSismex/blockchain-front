@@ -3,11 +3,12 @@ export type IssuerData = {
   name: string | null;
   email: string;
   phone: string | null;
-  stateId: number;
   roleId: number;
+  roleKey: string;
   roleName: string;
   roleDescription: string;
   issuerVerificationStatusId: number;
+  issuerVerificationStatusKey: string;
   issuerVerificationStatusName: string;
   legalName: string | null;
   zipCode: string | null;
@@ -22,5 +23,8 @@ export type IssuerData = {
   street: string | null;
   createdAt: string;
   createdBy: number;
+  validatedAt: string | null;
   lastValidationSubmit: string | null;
+  rejectReason: string | null;
+  rejectedAt: string | null;
 };
