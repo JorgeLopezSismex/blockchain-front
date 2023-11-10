@@ -11,15 +11,13 @@ export default function AdminModal({
   title,
   text,
   buttonText,
-  children,
-}: {
+}:{
   show: boolean;
   onHide: () => void;
   onClick: () => void;
   title: string;
   text: string;
   buttonText: string;
-  children: React.ReactNode;
 }) {
   return (
     <Container>
@@ -34,7 +32,6 @@ export default function AdminModal({
         </Modal.Header>
         <Modal.Body className="px-5">
           {text}
-          {children}
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onHide} variant="outline-secondary">

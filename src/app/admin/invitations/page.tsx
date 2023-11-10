@@ -2,11 +2,12 @@
 //Invitaciones o(TヘTo)
 import moment from "moment";
 import Link from "next/link";
-import * as formik from "formik";
+import { Formik } from 'formik';
 import { Fragment, useState, useEffect } from "react";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import FormModal from "@/components/form/FormModal";
 import FormInput from "@/components/form/FormInput";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -20,17 +21,18 @@ import AdminInvitationModal from "@/components/admin/AdminInvitationModal";
 import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 
 import { apiFetch } from "@/helpers/api-fetch";
-import { InvitationsData } from "@/types/invitation";
+import { InvitationsData, CancelInvitation } from "@/types/invitation";
 import { createColumnHelper } from "@tanstack/react-table";
+import { cancelFormSchema } from "@/validations/validation_request";
 import { faEye, faTrash, faXmark, faMailReply } from "@fortawesome/free-solid-svg-icons";
 
 export default function Invitations() {
-  const [modalShow, setModalShow] = useState(false);
+  const [detailsModal, setDetailsModal] = useState(false);
   const [sendModal, setSendModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [selectedInvitation, setSelectedInvitation] = useState<InvitationsData | null>(null);
 
+  const [selectedInvitation, setSelectedInvitation] = useState<InvitationsData | null>(null);
   const [invitations, setInvitations] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
   const columnHelper = createColumnHelper<InvitationsData>();
@@ -40,9 +42,6 @@ export default function Invitations() {
   const [alertVariant, setAlertVariant] = useState("");
   const [alertTitle, setAlertTitle] = useState("");
 
-  const { Formik } = formik;
-  const [cancelForm, setCancelForm] = useState();
-
   useEffect(() => {
     loadRoles();
 
@@ -51,7 +50,7 @@ export default function Invitations() {
 
   const openDetailsModal = (invitation: InvitationsData) => {
     setSelectedInvitation(invitation);
-    setModalShow(true);
+    setDetailsModal(true);
   }; 
 
   const openSendModal = (invitation : InvitationsData) => {
@@ -88,27 +87,31 @@ export default function Invitations() {
     setShowAlert(true); 
   };
 
-  const handleCancel = (invitation : InvitationsData | null) => {
-    if(invitation != null){
+  const handleCancel = ( values : CancelInvitation) => {
+    if(values.rejectReason){
+      console.log("La razón de cancelación es:", values.rejectReason);
+
       setAlertVariant("success");
       setAlertTitle("Cancelación exitosa.");
-      setAlertMessage("La invitación a sido cancelada.");
+      setAlertMessage("La invitación ha sido cancelada.");
 
-      //Guarda la razón de cancelación
+      setCancelModal(false);
+    }else {
+      console.log("No se proporciono una razón de cancelación");
 
-      console.log("Invitación cancelada.")
-    }else{
       setAlertVariant("danger");
       setAlertTitle("Error en cancelación.");
-      setAlertMessage("No se ha logrado cancelar la invitación.");
-      console.log("No se puede cancelar la invitación porque el valor es nulo.");
+      setAlertMessage("Debes proporcionar una razón de cancelación.");
     }
 
-    setCancelModal(false);
     setShowAlert(true);
   };
 
+
   const handleDelete = (invitation : InvitationsData | null) => {
+    //handleCancel()
+    //Guardar el valor del form, para almacenarlo al momento de dar click en cancelar
+
     if(invitation != null){
       setAlertVariant("success");
       setAlertTitle("Borrado exitoso.")
@@ -187,7 +190,7 @@ export default function Invitations() {
           <ButtonGroup aria-label="Basic example"> 
             <AdminTableActionButton icon={faEye} tooltip="Detalles" onClick = {() => openDetailsModal(info.row.original)}/>
             <AdminTableActionButton icon={faMailReply} tooltip="Reenviar" onClick={() => openSendModal(info.row.original)}/>
-            <AdminTableActionButton icon={faTrash} tooltip="Borrar" onClick={() => openDeleteModal(info.row.original)}/>
+            {/* <AdminTableActionButton icon={faTrash} tooltip="Borrar" onClick={() => openDeleteModal(info.row.original)}/> */}
             <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={() => openCancelModal(info.row.original)}/>
           </ButtonGroup>
         );
@@ -207,8 +210,8 @@ export default function Invitations() {
       </AdminPageHeader>
 
       <AdminInvitationModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
+        show={detailsModal}
+        onHide={() => setDetailsModal(false)}
         title="Detalles de la Invitación"
         email={selectedInvitation ? selectedInvitation.addressee : ""}
         name={selectedInvitation ? selectedInvitation.nameUser : ""}
@@ -225,21 +228,45 @@ export default function Invitations() {
         title="Reenvió"
         text={`Desea reenviar la invitación a ${selectedInvitation?.addressee}`}
         buttonText="Reenviar"
-      >
-      </AdminModal>
+      />
 
-      <AdminModal
+      <FormModal
         show={cancelModal}
-        onHide={() => setCancelModal(false)}
-        onClick={ () => {handleCancel(selectedInvitation);} }
         title="Cancelación"
-        text={`Desea cancelar la invitación a ${selectedInvitation?.addressee}`}
         buttonText="Cancelar"
+        onHide={() => setCancelModal(false)}
       >
-        <>
-          <h4>El formulario ira aquí.</h4>
-        </>
-      </AdminModal>
+        <Formik
+          validationSchema={cancelFormSchema}
+          onSubmit={handleCancel}
+          initialValues={{rejectReason:''}}
+        >
+          {({handleSubmit, handleChange, values, errors}) => (
+            <Form noValidate onSubmit={handleSubmit}>
+          <p>{` ¿Desea cancelar la invitación a ${selectedInvitation?.addressee}?`}</p>
+          <FormInput
+            label={"Motivo"}
+            md={12}
+            sm={12}
+            name={"rejectReason"}
+            type={"text"}
+            disabled={false}
+            controlId={"rejectReason"}
+            value={values.rejectReason}
+            errors={errors.rejectReason}
+            handleChange={handleChange}
+            placeholder={"Por falta de documentos..."}
+          />
+          
+          <div className="text-end mt-3">
+            <Button onClick={() => setCancelModal(false)} variant="outline-secondary" className="mx-2">Cerrar</Button>                
+            <Button type="submit">Cancelar</Button>
+          </div>
+            
+            </Form>
+          )}
+        </Formik>
+      </FormModal>
 
       <AdminModal
         show={deleteModal}
@@ -248,9 +275,8 @@ export default function Invitations() {
         title="Borrar"
         text={`Desea borrar la invitación a ${selectedInvitation?.addressee} de su lista de invitaciones.`}
         buttonText="Borrar"
-      >
-      </AdminModal>
-      
+      />
+   
       <ActionToast
         delay={3000}
         show={showAlert}

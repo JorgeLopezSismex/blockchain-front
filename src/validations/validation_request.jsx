@@ -116,15 +116,24 @@ import * as yup from "yup";
     .required("Este campo es obligatorio.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
     .max(150, "Por favor, no escribas más de 150 caracteres."),
-  lastname: yup
+  lastName: yup
     .string()
     .required("Este campo es obligatorio.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
     .max(150, "Por favor, no escribas más de 150 caracteres."),
-  email: yup
+  addressee: yup
     .string()
     .required("Este campo es obligatorio.")
     .email("Por favor, escribe una dirección de correo válida.")
+    .min(5, "Por favor, no escribas menos de 5 caracteres.")
+    .max(150, "Por favor, no escribas más de 150 caracteres."),
+ });
+
+ //Esquema de validación para cancelar invitaciones.
+ export const cancelFormSchema = yup.object().shape({
+  rejectReason: yup
+    .string()
+    .required("Este campo es obligatorio.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
     .max(150, "Por favor, no escribas más de 150 caracteres."),
  });
