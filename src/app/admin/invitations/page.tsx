@@ -2,8 +2,10 @@
 //Invitaciones o(TヘTo)
 import moment from "moment";
 import Link from "next/link";
-import { Formik } from 'formik';
+import { Formik } from "formik";
 import { Fragment, useState, useEffect } from "react";
+
+import AdminModalJorge from "@/components/admin/AdminModalJorge";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -21,23 +23,27 @@ import AdminInvitationModal from "@/components/admin/AdminInvitationModal";
 import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 
 import { apiFetch } from "@/helpers/api-fetch";
-import { InvitationsData, CancelInvitation } from "@/types/invitation";
-import { createColumnHelper } from "@tanstack/react-table";
+
 import { cancelFormSchema } from "@/validations/validation_request";
-import { faEye, faTrash, faXmark, faMailReply } from "@fortawesome/free-solid-svg-icons";
+
+import invitationsTableColumButtons from "@/tableColumns/invitationsTableColumButtons";
 
 export default function Invitations() {
-  const [detailsModal, setDetailsModal] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [modalLoading, setModalLoading] = useState(false);
+
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [sendModal, setSendModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
-  const [selectedInvitation, setSelectedInvitation] = useState<InvitationsData | null>(null);
+  // const [selectedInvitation, setSelectedInvitation] =
+  //   useState<InvitationsData | null>(null);
   const [invitations, setInvitations] = useState([]);
-  const [dataLoading, setDataLoading] = useState(true);
-  const columnHelper = createColumnHelper<InvitationsData>();
 
-  const [showAlert, setShowAlert] =useState(false);
+  // const columnHelper = createColumnHelper<InvitationsData>();
+
+  const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertVariant, setAlertVariant] = useState("");
   const [alertTitle, setAlertTitle] = useState("");
@@ -48,85 +54,84 @@ export default function Invitations() {
     getInvitations();
   }, []);
 
-  const openDetailsModal = (invitation: InvitationsData) => {
-    setSelectedInvitation(invitation);
-    setDetailsModal(true);
-  }; 
+  // const openDetailsModal = (invitation: InvitationsData) => {
+  //   setSelectedInvitation(invitation);
+  //   setDetailsModal(true);
+  // };
 
-  const openSendModal = (invitation : InvitationsData) => {
-    if(invitation !== null){
-      setSelectedInvitation(invitation);
-    }
-    setSendModal(true);
-  };
+  // const openSendModal = (invitation: InvitationsData) => {
+  //   if (invitation !== null) {
+  //     setSelectedInvitation(invitation);
+  //   }
+  //   setSendModal(true);
+  // };
 
-  const openCancelModal = (invitation : InvitationsData) => {
-    setSelectedInvitation(invitation);
-    setCancelModal(true);
-  };
+  // const openCancelModal = (invitation: InvitationsData) => {
+  //   setSelectedInvitation(invitation);
+  //   setCancelModal(true);
+  // };
 
-  const openDeleteModal = (invitation : InvitationsData) => {
-    setSelectedInvitation (invitation);
-    setDeleteModal(true);
-  };
+  // const openDeleteModal = (invitation: InvitationsData) => {
+  //   setSelectedInvitation(invitation);
+  //   setDeleteModal(true);
+  // };
 
-  const handleResend = (invitation : InvitationsData | null) => {
-    if(invitation != null){
-      setAlertVariant("success");
-      setAlertTitle("Reenvío exitoso");
-      setAlertMessage("La invitación a sido reenviada con exito");
-      console.log("Si se pudo", invitation);
-    }else{
-      setAlertVariant("danger");
-      setAlertTitle("Error en reenvío");
-      setAlertMessage("No se pudo reenviar la invitación");
-      console.log("No se puede reenviar la invitación porque el valor es nulo");
-    }
+  // const handleResend = (invitation: InvitationsData | null) => {
+  //   if (invitation != null) {
+  //     setAlertVariant("success");
+  //     setAlertTitle("Reenvío exitoso");
+  //     setAlertMessage("La invitación a sido reenviada con exito");
+  //     console.log("Si se pudo", invitation);
+  //   } else {
+  //     setAlertVariant("danger");
+  //     setAlertTitle("Error en reenvío");
+  //     setAlertMessage("No se pudo reenviar la invitación");
+  //     console.log("No se puede reenviar la invitación porque el valor es nulo");
+  //   }
 
-    setSendModal(false);
-    setShowAlert(true); 
-  };
+  //   setSendModal(false);
+  //   setShowAlert(true);
+  // };
 
-  const handleCancel = ( values : CancelInvitation) => {
-    if(values.rejectReason){
-      console.log("La razón de cancelación es:", values.rejectReason);
+  // const handleCancel = (values: CancelInvitation) => {
+  //   if (values.rejectReason) {
+  //     console.log("La razón de cancelación es:", values.rejectReason);
 
-      setAlertVariant("success");
-      setAlertTitle("Cancelación exitosa.");
-      setAlertMessage("La invitación ha sido cancelada.");
+  //     setAlertVariant("success");
+  //     setAlertTitle("Cancelación exitosa.");
+  //     setAlertMessage("La invitación ha sido cancelada.");
 
-      setCancelModal(false);
-    }else {
-      console.log("No se proporciono una razón de cancelación");
+  //     setCancelModal(false);
+  //   } else {
+  //     console.log("No se proporciono una razón de cancelación");
 
-      setAlertVariant("danger");
-      setAlertTitle("Error en cancelación.");
-      setAlertMessage("Debes proporcionar una razón de cancelación.");
-    }
+  //     setAlertVariant("danger");
+  //     setAlertTitle("Error en cancelación.");
+  //     setAlertMessage("Debes proporcionar una razón de cancelación.");
+  //   }
 
-    setShowAlert(true);
-  };
+  //   setShowAlert(true);
+  // };
 
+  // const handleDelete = (invitation: InvitationsData | null) => {
+  //   //handleCancel()
+  //   //Guardar el valor del form, para almacenarlo al momento de dar click en cancelar
 
-  const handleDelete = (invitation : InvitationsData | null) => {
-    //handleCancel()
-    //Guardar el valor del form, para almacenarlo al momento de dar click en cancelar
+  //   if (invitation != null) {
+  //     setAlertVariant("success");
+  //     setAlertTitle("Borrado exitoso.");
+  //     setAlertMessage("La invitación a sido borrar.");
+  //     console.log("La invitación a sido borrada de su lista");
+  //   } else {
+  //     setAlertVariant("danger");
+  //     setAlertTitle("Error en borrado.");
+  //     setAlertMessage("No se ha logrado borrar la invitación.");
+  //     console.log("No se puede borrar la invitación porque el valor es nulo.");
+  //   }
 
-    if(invitation != null){
-      setAlertVariant("success");
-      setAlertTitle("Borrado exitoso.")
-      setAlertMessage("La invitación a sido borrar.");
-      console.log("La invitación a sido borrada de su lista")
-    }else{
-      setAlertVariant("danger");
-      setAlertTitle("Error en borrado.")
-      setAlertMessage("No se ha logrado borrar la invitación.");
-      console.log("No se puede borrar la invitación porque el valor es nulo.");
-    }
-
-    setDeleteModal(false);
-    setShowAlert(true);
-  };
+  //   setDeleteModal(false);
+  //   setShowAlert(true);
+  // };
 
   const loadRoles = async () => {
     try {
@@ -161,43 +166,6 @@ export default function Invitations() {
     }
   };
 
-  const columns = [
-    columnHelper.accessor("addressee", {
-      header: () => "Correo",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("nameUser", {
-      header: () => "Nombre",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("lastName", {
-      header: () => "Apellido",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("createdAt", {
-      header: () => "Fecha de creación",
-      cell: (info) => moment(info.getValue()).format("DD/MM/YYYY"),
-    }),
-    columnHelper.accessor("name", {
-      header: () => "Estado",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.display({
-      id: "actions",
-      header: () => "Acciones",
-      cell: (info) => {
-        return (
-          <ButtonGroup aria-label="Basic example"> 
-            <AdminTableActionButton icon={faEye} tooltip="Detalles" onClick = {() => openDetailsModal(info.row.original)}/>
-            <AdminTableActionButton icon={faMailReply} tooltip="Reenviar" onClick={() => openSendModal(info.row.original)}/>
-            {/* <AdminTableActionButton icon={faTrash} tooltip="Borrar" onClick={() => openDeleteModal(info.row.original)}/> */}
-            <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={() => openCancelModal(info.row.original)}/>
-          </ButtonGroup>
-        );
-      },
-    }),
-  ];
-
   return (
     <Fragment>
       <AdminPageHeader title="Invitaciones">
@@ -209,14 +177,18 @@ export default function Invitations() {
         </Breadcrumb>
       </AdminPageHeader>
 
-      <AdminInvitationModal
+      {/* <AdminInvitationModal
         show={detailsModal}
         onHide={() => setDetailsModal(false)}
         title="Detalles de la Invitación"
         email={selectedInvitation ? selectedInvitation.addressee : ""}
         name={selectedInvitation ? selectedInvitation.nameUser : ""}
         lastname={selectedInvitation ? selectedInvitation.lastName : ""}
-        date={selectedInvitation ? moment(selectedInvitation.createdAt).format("DD/MM/YYYY") : ""}
+        date={
+          selectedInvitation
+            ? moment(selectedInvitation.createdAt).format("DD/MM/YYYY")
+            : ""
+        }
         state={selectedInvitation ? selectedInvitation.name : ""}
         description={selectedInvitation ? selectedInvitation.description : ""}
         rejectReason={selectedInvitation ? selectedInvitation.rejectReason : ""}
@@ -224,7 +196,9 @@ export default function Invitations() {
       <AdminModal
         show={sendModal}
         onHide={() => setSendModal(false)}
-        onClick={ () => {handleResend(selectedInvitation);}}
+        onClick={() => {
+          handleResend(selectedInvitation);
+        }}
         title="Reenvió"
         text={`Desea reenviar la invitación a ${selectedInvitation?.addressee}`}
         buttonText="Reenviar"
@@ -239,30 +213,35 @@ export default function Invitations() {
         <Formik
           validationSchema={cancelFormSchema}
           onSubmit={handleCancel}
-          initialValues={{rejectReason:''}}
+          initialValues={{ rejectReason: "" }}
         >
-          {({handleSubmit, handleChange, values, errors}) => (
+          {({ handleSubmit, handleChange, values, errors }) => (
             <Form noValidate onSubmit={handleSubmit}>
-          <p>{` ¿Desea cancelar la invitación a ${selectedInvitation?.addressee}?`}</p>
-          <FormInput
-            label={"Motivo"}
-            md={12}
-            sm={12}
-            name={"rejectReason"}
-            type={"text"}
-            disabled={false}
-            controlId={"rejectReason"}
-            value={values.rejectReason}
-            errors={errors.rejectReason}
-            handleChange={handleChange}
-            placeholder={"Por falta de documentos..."}
-          />
-          
-          <div className="text-end mt-3">
-            <Button onClick={() => setCancelModal(false)} variant="outline-secondary" className="mx-2">Cerrar</Button>                
-            <Button type="submit">Cancelar</Button>
-          </div>
-            
+              <p>{` ¿Desea cancelar la invitación a ${selectedInvitation?.addressee}?`}</p>
+              <FormInput
+                label={"Motivo"}
+                md={12}
+                sm={12}
+                name={"rejectReason"}
+                type={"text"}
+                disabled={false}
+                controlId={"rejectReason"}
+                value={values.rejectReason}
+                errors={errors.rejectReason}
+                handleChange={handleChange}
+                placeholder={"Por falta de documentos..."}
+              />
+
+              <div className="text-end mt-3">
+                <Button
+                  onClick={() => setCancelModal(false)}
+                  variant="outline-secondary"
+                  className="mx-2"
+                >
+                  Cerrar
+                </Button>
+                <Button type="submit">Cancelar</Button>
+              </div>
             </Form>
           )}
         </Formik>
@@ -271,12 +250,26 @@ export default function Invitations() {
       <AdminModal
         show={deleteModal}
         onHide={() => setDeleteModal(false)}
-        onClick={ () => {handleDelete(selectedInvitation);} }
+        onClick={() => {
+          handleDelete(selectedInvitation);
+        }}
         title="Borrar"
         text={`Desea borrar la invitación a ${selectedInvitation?.addressee} de su lista de invitaciones.`}
         buttonText="Borrar"
-      />
-   
+      /> */}
+
+      <AdminModalJorge
+        show={showDetailsModal}
+        showButtons={false}
+        title="Detalles de invitación"
+        primaryBtnVariant="danger"
+        handleSubmit={() => {}}
+        modalLoading={modalLoading}
+        handleClose={() => setShowDetailsModal(false)}
+      >
+        ¿Estás seguro de querer eliminar este emisor? zfdsfsdfdsf
+      </AdminModalJorge>
+
       <ActionToast
         delay={3000}
         show={showAlert}
@@ -290,13 +283,13 @@ export default function Invitations() {
         {dataLoading ? (
           <AdminTableSpinner />
         ) : (
-          <AdminTable columns={columns} defaultData={invitations}>
-
-        <Link href={"/admin/invitations/send-invitation"}>
-          <Button variant="primary">
-            Nuevo
-          </Button>
-        </Link>
+          <AdminTable
+            columns={invitationsTableColumButtons(setShowDetailsModal)}
+            defaultData={invitations}
+          >
+            <Link href={"/admin/invitations/send-invitation"}>
+              <Button variant="primary">Nuevo</Button>
+            </Link>
           </AdminTable>
         )}
       </AdminCardContainer>

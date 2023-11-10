@@ -12,6 +12,7 @@ export default function AdminModalJorge({
   handleSubmit,
   modalLoading,
   handleClose,
+  showButtons,
   children,
 }: {
   show: boolean;
@@ -24,6 +25,7 @@ export default function AdminModalJorge({
   handleSubmit: any;
   modalLoading: boolean;
   handleClose: any;
+  showButtons?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -37,40 +39,49 @@ export default function AdminModalJorge({
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
       <Modal.Footer>
-        <Button
-          onClick={handleClose}
-          disabled={modalLoading}
-          variant={
-            secondaryBtnVariant == null ? "secondary" : secondaryBtnVariant
-          }
-        >
-          {secondaryBtnText == null ? "Cerrar" : secondaryBtnText}
-        </Button>
-        <Button
-          onClick={handleSubmit}
-          disabled={modalLoading}
-          type={formModal == null ? "button" : "submit"}
-          variant={primaryBtnVariant == null ? "primary" : primaryBtnVariant}
-        >
-          {!modalLoading ? (
-            primaryBtnText == null ? (
-              "Aceptar"
-            ) : (
-              primaryBtnText
-            )
-          ) : (
-            <Fragment>
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-              <span> Cargando...</span>
-            </Fragment>
-          )}
-        </Button>
+        {showButtons == true ? (
+          <Fragment>
+            {" "}
+            <Button
+              onClick={handleClose}
+              disabled={modalLoading}
+              variant={
+                secondaryBtnVariant == null ? "secondary" : secondaryBtnVariant
+              }
+            >
+              {secondaryBtnText == null ? "Cerrar" : secondaryBtnText}
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              disabled={modalLoading}
+              type={formModal == null ? "button" : "submit"}
+              variant={
+                primaryBtnVariant == null ? "primary" : primaryBtnVariant
+              }
+            >
+              {!modalLoading ? (
+                primaryBtnText == null ? (
+                  "Aceptar"
+                ) : (
+                  primaryBtnText
+                )
+              ) : (
+                <Fragment>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  <span> Cargando...</span>
+                </Fragment>
+              )}
+            </Button>
+          </Fragment>
+        ) : (
+          <Button onClick={handleClose}>Cerrar</Button>
+        )}
       </Modal.Footer>
     </Modal>
   );
