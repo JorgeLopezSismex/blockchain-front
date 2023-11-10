@@ -25,6 +25,7 @@ import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 import { apiFetch } from "@/helpers/api-fetch";
 
 import { cancelFormSchema } from "@/validations/validation_request";
+//import { InvitationsData } from "@/types/invitation"; //Debería quitarlo
 
 import invitationsTableColumButtons from "@/tableColumns/invitationsTableColumButtons";
 
@@ -37,8 +38,7 @@ export default function Invitations() {
   const [cancelModal, setCancelModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
-  // const [selectedInvitation, setSelectedInvitation] =
-  //   useState<InvitationsData | null>(null);
+  //const [selectedInvitation, setSelectedInvitation] = useState<InvitationsData | null>(null); //Debería quitarlo?
   const [invitations, setInvitations] = useState([]);
 
   // const columnHelper = createColumnHelper<InvitationsData>();
@@ -49,7 +49,6 @@ export default function Invitations() {
   const [alertTitle, setAlertTitle] = useState("");
 
   useEffect(() => {
-    loadRoles();
 
     getInvitations();
   }, []);
@@ -258,6 +257,23 @@ export default function Invitations() {
         buttonText="Borrar"
       /> */}
 
+      {/* <AdminInvitationModal
+        show={detailsModal}
+        onHide={() => setDetailsModal(false)}
+        title="Detalles de la Invitación"
+        email={selectedInvitation ? selectedInvitation.addressee : ""}
+        name={selectedInvitation ? selectedInvitation.nameUser : ""}
+        lastname={selectedInvitation ? selectedInvitation.lastName : ""}
+        date={
+          selectedInvitation
+            ? moment(selectedInvitation.createdAt).format("DD/MM/YYYY")
+            : ""
+        }
+        state={selectedInvitation ? selectedInvitation.name : ""}
+        description={selectedInvitation ? selectedInvitation.description : ""}
+        rejectReason={selectedInvitation ? selectedInvitation.rejectReason : ""}
+      /> */}
+
       <AdminModalJorge
         show={showDetailsModal}
         showButtons={false}
@@ -266,9 +282,25 @@ export default function Invitations() {
         handleSubmit={() => {}}
         modalLoading={modalLoading}
         handleClose={() => setShowDetailsModal(false)}
-      >
-        ¿Estás seguro de querer eliminar este emisor? zfdsfsdfdsf
+      >      
+        Nombre: 
+        Correo:
+        Fecha:
+        Estado:
+        Descripción:
+        Causa de rechazo:        
       </AdminModalJorge>
+
+      {/* <AdminModalJorge
+        show={sendModal}
+        title="Reenviar"
+        primaryBtnVariant="danger"
+        handleSubmit={() => {}}
+        modalLoading={modalLoading}
+        handleClose={() => setSendModal(false)}
+      >      
+        
+      </AdminModalJorge> */}
 
       <ActionToast
         delay={3000}
