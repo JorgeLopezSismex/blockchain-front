@@ -25,6 +25,7 @@ import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 import { apiFetch } from "@/helpers/api-fetch";
 
 import { cancelFormSchema } from "@/validations/validation_request";
+//import { InvitationsData } from "@/types/invitation"; //Debería quitarlo
 
 import invitationsTableColums from "@/tableColumns/invitationsTableColums";
 
@@ -140,6 +141,17 @@ export default function Invitations() {
       >
         ¿Estás seguro de querer cancelar esta invitación?
       </AdminModalJorge>
+
+      {/* <AdminModalJorge
+        show={sendModal}
+        title="Reenviar"
+        primaryBtnVariant="danger"
+        handleSubmit={() => {}}
+        modalLoading={modalLoading}
+        handleClose={() => setSendModal(false)}
+      >      
+        
+      </AdminModalJorge> */}
 
       <ActionToast
         delay={3000}
