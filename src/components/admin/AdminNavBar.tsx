@@ -18,18 +18,38 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EnvelopeFill } from "react-bootstrap-icons";
 
 import Dropdown from "react-bootstrap/Dropdown";
+import {
+  faUser,
+  faUsers,
+  faBell,
+  faUserGroup,
+  faFileCircleCheck,
+  faEnvelope,
+  faBook,
+} from "@fortawesome/free-solid-svg-icons";
 
 const options = [
-  { id: 1, title: "Emisores", icon: "hola", link: "/../admin/issuers" },
-  { id: 2, title: "Miembros", icon: "hola", link: "/../admin/members" },
-  { id: 3, title: "Invitaciones", icon: "hola", link: "/../admin/invitations" },
+  { id: 1, title: "Emisores", icon: faUser, link: "/../admin/issuers" },
+  { id: 2, title: "Miembros", icon: faUserGroup, link: "/../admin/members" },
+  {
+    id: 3,
+    title: "Notificaciones",
+    icon: faBell,
+    link: "/../admin/notifications",
+  },
+  {
+    id: 3,
+    title: "Invitaciones",
+    icon: faEnvelope,
+    link: "/../admin/invitations",
+  },
   {
     id: 4,
     title: "Certificados",
-    icon: "hola",
+    icon: faFileCircleCheck,
     link: "/../admin/certificates",
   },
-  { id: 5, title: "Bitácora", icon: "hola", link: "/../admin/log" },
+  { id: 5, title: "Bitácora", icon: faBook, link: "/../admin/log" },
 ];
 
 export default function AdminNavBar() {
@@ -53,7 +73,9 @@ export default function AdminNavBar() {
             onClick={toggleOffCanvas}
             aria-controls={`offcanvasNavbar-expand-${expand}`}
           />
-          <Navbar.Brand href="#">Blockchain - Admin</Navbar.Brand>
+          <Navbar.Brand style={{ color: "white" }} href="#">
+            Blockchain - Admin
+          </Navbar.Brand>
         </div>
 
         <Dropdown className="dropdown-toggle" align={{ lg: "start" }}>
@@ -84,7 +106,10 @@ export default function AdminNavBar() {
           aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
         >
           <Offcanvas.Header closeButton onHide={() => {}}>
-            <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+            <Offcanvas.Title
+              style={{ color: "white" }}
+              id={`offcanvasNavbarLabel-expand-${expand}`}
+            >
               Blockchain
             </Offcanvas.Title>
           </Offcanvas.Header>
@@ -93,6 +118,7 @@ export default function AdminNavBar() {
               {options.map((item) => (
                 <AdminOffcanvasItem
                   show={show}
+                  icon={item.icon}
                   key={item.id}
                   link={item.link}
                   setShow={setShow}

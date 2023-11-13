@@ -20,6 +20,7 @@ import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import { getRoles } from "@/utils/select-options/roles";
 import FormAsyncSelect from "@/components/form/FormAsyncSelect";
 import { Concert_One } from "next/font/google";
+import { URL } from "next/dist/compiled/@edge-runtime/primitives/url";
 
 export default function UpdateMember() {
   const [loadingData, setLoadingData] = useState(true);
@@ -34,15 +35,29 @@ export default function UpdateMember() {
   const id = searchParams.get("id");
   const { Formik } = formik;
 
+  const [auth, setAuth] = useState(500);
+  const [permissions, setPermissions] = useState([]);
+
   useEffect(() => {
-    // getMember();
-    apiFetch(`members/${id}`)
-      .then((res) => {
-        console.log("Primer fetch", res);
-      })
-      .then((res) => {
-        console.log("Esto no se que es", res);
-      });
+    // Permisos
+    const permissiosnParams = new URLSearchParams();
+    permissiosnParams.append("module", "MEMBERS_MODULE");
+    apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
+      if (!res.success) return setAuth(500);
+
+      const permissions = res.data;
+      setPermissions(permissions);
+      if (!permissions.LIST_ISSUER) return setAuth(401);
+    });
+
+    // Roles
+    const rolesParams = new URLSearchParams();
+    rolesParams.append("category", "MEMBERS");
+    apiFetch(`roles?${rolesParams.toString()}`).then((res) => {
+      console.log(res, "Estos son los roles");
+    });
+
+    getMember();
   }, []);
 
   const getMember = async () => {
@@ -58,11 +73,6 @@ export default function UpdateMember() {
         lastName: member.lastName,
         email: member.email,
       });
-
-      console.log(res);
-
-      const res2 = await apiFetch("roles");
-      console.log(res2, "Estos son los roles");
     }
   };
 

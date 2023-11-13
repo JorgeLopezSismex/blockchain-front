@@ -1,10 +1,10 @@
-"use client"
+"use client";
 //Certificados ο(=•ω＜=)ρ⌒☆
 import moment from "moment";
 import Link from "next/link";
 import { Fragment, useState, useEffect } from "react";
 
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import AdminModal from "@/components/admin/AdminModal";
@@ -20,13 +20,13 @@ import { IssuerData } from "@/types/issuers";
 import { apiFetch } from "@/helpers/api-fetch";
 import { createColumnHelper } from "@tanstack/react-table";
 
-export default function Certificate(){
+export default function Certificate() {
   const [issuers, setIssuers] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
   const columnHelper = createColumnHelper<IssuerData>();
 
   const [shareModal, setShareModal] = useState(false);
-  const [detailsModal, setDetailsModal] = useState (false);
+  const [detailsModal, setDetailsModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function Certificate(){
       if (res.data) {
         const data = res.data;
 
-        const options = data.map((item : any) => ({
+        const options = data.map((item: any) => ({
           value: item.roleId,
           label: item.name,
         }));
@@ -117,17 +117,17 @@ export default function Certificate(){
       header: () => "Acciones",
       cell: (info) => {
         return (
-          <ButtonGroup aria-label="Basic example"> 
-            <AdminTableActionButton icon={faEye} tooltip="Ver" onClick={() => openDetailsModal()}/>
+          <ButtonGroup aria-label="Basic example">
+            {/* <AdminTableActionButton icon={faEye} tooltip="Ver" onClick={() => openDetailsModal()}/>
             <AdminTableActionButton icon={faShare} tooltip="Compartir" onClick={() => openShareModal()}/>
-            <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={() => openCancelModal()}/>
+            <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={() => openCancelModal()}/> */}
           </ButtonGroup>
         );
       },
     }),
   ];
 
-  return(
+  return (
     <Fragment>
       <AdminPageHeader title="Certificados">
         <Breadcrumb className="float-sm-right">
@@ -141,7 +141,7 @@ export default function Certificate(){
       <AdminModal
         show={detailsModal}
         onHide={() => setDetailsModal(false)}
-        onClick={ () => handleDetails()}
+        onClick={() => handleDetails()}
         title="Detalles"
         text="Detalles del certificado."
         buttonText="Algo"
@@ -150,7 +150,7 @@ export default function Certificate(){
       <AdminModal
         show={shareModal}
         onHide={() => setShareModal(false)}
-        onClick={ () => handleShare()}
+        onClick={() => handleShare()}
         title="Compartir"
         text="Compartir certificado."
         buttonText="Compartit"
@@ -159,7 +159,7 @@ export default function Certificate(){
       <AdminModal
         show={cancelModal}
         onHide={() => setCancelModal(false)}
-        onClick={ () => handleCancel()}
+        onClick={() => handleCancel()}
         title="Cancelar"
         text="Certificado cancelado"
         buttonText="Cancelar"
@@ -170,12 +170,9 @@ export default function Certificate(){
           <AdminTableSpinner />
         ) : (
           <AdminTable columns={columns} defaultData={issuers}>
-
-        <Link href={"/admin/certificates/create-certificate"}>
-          <Button variant="primary">
-            Nuevo
-          </Button>
-        </Link>
+            <Link href={"/admin/certificates/create-certificate"}>
+              <Button variant="primary">Nuevo</Button>
+            </Link>
           </AdminTable>
         )}
       </AdminCardContainer>

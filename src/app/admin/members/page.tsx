@@ -51,13 +51,9 @@ export default function Members() {
   const deleteMember = async () => {
     setModalLoading(true);
     const res = await apiFetch(`members/${selectedMember.memberId}`);
-    
+
     if (res.success) {
-
     }
-
-
-    
   };
 
   return (
@@ -75,10 +71,12 @@ export default function Members() {
       </AdminModalJorge>
 
       <AdminPageHeader title="Miembros">
-        <Link className="breadcrumb-item" href={"../admin"}>
-          Inicio
-        </Link>
-        <Breadcrumb.Item active>Miembros</Breadcrumb.Item>
+        <Breadcrumb className="float-sm-right">
+          <Link className="breadcrumb-item" href={"../admin"}>
+            Inicio
+          </Link>
+          <Breadcrumb.Item active>Miembros</Breadcrumb.Item>
+        </Breadcrumb>
       </AdminPageHeader>
 
       <AdminCardContainer xs={12}>

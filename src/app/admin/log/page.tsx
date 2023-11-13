@@ -104,7 +104,9 @@ export default function StockLog() {
         {dataLoading ? (
           <AdminTableSpinner />
         ) : (
-          <AdminTable columns={columns} defaultData={logs}></AdminTable>
+          <AdminTable columns={columns} defaultData={logs}>
+            nuevo
+          </AdminTable>
         )}
       </AdminCardContainer>
     </Fragment>

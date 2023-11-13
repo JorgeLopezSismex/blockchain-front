@@ -6,16 +6,19 @@ import {
   faTrash,
   faXmark,
   faMailReply,
+  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function AdminOffcanvasItem({
   title,
   link,
+  icon,
   show,
   setShow,
 }: {
   title: string;
   link: string;
+  icon: IconDefinition;
   show: boolean;
   setShow: any;
 }) {
@@ -35,7 +38,7 @@ export default function AdminOffcanvasItem({
       <FontAwesomeIcon
         width={"1.5rem"}
         height={"1.5rem"}
-        icon={faHouse}
+        icon={icon}
         style={{ marginRight: 10 }}
       />
       {title}
