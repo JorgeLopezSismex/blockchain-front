@@ -36,6 +36,11 @@ nextjs-portal {
   display: none;
 }
 
+.dropdown-toggle::after {
+  display: none !important;
+  background-color: transparent;
+}
+
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities;

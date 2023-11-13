@@ -22,7 +22,7 @@ export default function AdminModalJorge({
   secondaryBtnText?: string;
   secondaryBtnVariant?: string;
   formModal?: boolean;
-  handleSubmit: any;
+  handleSubmit?: any;
   modalLoading: boolean;
   handleClose: any;
   showButtons?: boolean;
@@ -32,7 +32,7 @@ export default function AdminModalJorge({
     <Modal
       show={show}
       onHide={handleClose}
-      backdrop={modalLoading ? "static" : true}
+      backdrop={!modalLoading ? true : "static"}
     >
       <Modal.Header closeButton={!modalLoading ? true : false}>
         <Modal.Title>{title}</Modal.Title>
@@ -46,24 +46,24 @@ export default function AdminModalJorge({
               onClick={handleClose}
               disabled={modalLoading}
               variant={
-                secondaryBtnVariant == null ? "secondary" : secondaryBtnVariant
+                secondaryBtnVariant != null ? secondaryBtnVariant : "secondary"
               }
             >
-              {secondaryBtnText == null ? "Cerrar" : secondaryBtnText}
+              {secondaryBtnText != null ? secondaryBtnText : "Cerrar"}
             </Button>
             <Button
-              onClick={handleSubmit}
+              onClick={handleSubmit != null ? handleSubmit : null}
               disabled={modalLoading}
-              type={formModal == null ? "button" : "submit"}
+              type={formModal != null ? "submit" : "button"}
               variant={
-                primaryBtnVariant == null ? "primary" : primaryBtnVariant
+                primaryBtnVariant != null ? primaryBtnVariant : "primary"
               }
             >
               {!modalLoading ? (
-                primaryBtnText == null ? (
-                  "Aceptar"
-                ) : (
+                primaryBtnText != null ? (
                   primaryBtnText
+                ) : (
+                  "Aceptar"
                 )
               ) : (
                 <Fragment>

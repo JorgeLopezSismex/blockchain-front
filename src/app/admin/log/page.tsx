@@ -14,7 +14,7 @@ import { LogsData } from "@/types/log";
 import { apiFetch } from "@/helpers/api-fetch";
 import { createColumnHelper } from "@tanstack/react-table";
 
-export default function StockLog(){
+export default function StockLog() {
   const [logs, setLogs] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
   const columnHelper = createColumnHelper<LogsData>();
@@ -31,7 +31,7 @@ export default function StockLog(){
       if (res.data) {
         const data = res.data;
 
-        const options = data.map((item : any) => ({
+        const options = data.map((item: any) => ({
           value: item.roleId,
           label: item.name,
         }));
@@ -58,6 +58,10 @@ export default function StockLog(){
   };
 
   const columns = [
+    columnHelper.accessor("id", {
+      header: () => "Id",
+      cell: (info) => info.getValue(),
+    }),
     columnHelper.accessor("date", {
       header: () => "Fecha",
       cell: (info) => moment(info.getValue()).format("DD/MM/YYYY"),
@@ -66,10 +70,7 @@ export default function StockLog(){
       header: () => "Descripción",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("id", {
-      header: () => "Id",
-      cell: (info) => info.getValue(),
-    }),
+
     columnHelper.accessor("moduleId", {
       header: () => "Modulo",
       cell: (info) => info.getValue(),
@@ -88,13 +89,13 @@ export default function StockLog(){
     }),
   ];
 
-  return(
+  return (
     <Fragment>
       <AdminPageHeader title="Bitacora de acciones">
         <Breadcrumb className="float-sm-right">
-            <Link className="breadcrumb-item" href={"../admin"}>
-              Inicio
-            </Link>
+          <Link className="breadcrumb-item" href={"../admin"}>
+            Inicio
+          </Link>
           <Breadcrumb.Item active>Bitacora de acciones</Breadcrumb.Item>
         </Breadcrumb>
       </AdminPageHeader>
@@ -103,8 +104,7 @@ export default function StockLog(){
         {dataLoading ? (
           <AdminTableSpinner />
         ) : (
-          <AdminTable columns={columns} defaultData={logs}>
-          </AdminTable>
+          <AdminTable columns={columns} defaultData={logs}></AdminTable>
         )}
       </AdminCardContainer>
     </Fragment>

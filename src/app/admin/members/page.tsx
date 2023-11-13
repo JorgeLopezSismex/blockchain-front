@@ -17,13 +17,17 @@ import { apiFetch } from "@/helpers/api-fetch";
 
 import { MemberData } from "@/types/members";
 import AdminTable from "@/components/admin/AdminTable";
+import membersTableColumns from "@/tableColumns/membersTableColumns";
+import AdminModalJorge from "@/components/admin/AdminModalJorge";
 
 export default function Members() {
-  const [issuers, setIssuers] = useState([]);
   const [members, setMembers] = useState([]);
-  const [dataLoading, setDataLoading] = useState(true);
+  const [selectedMember, setSelectedMember] = useState({} as MemberData);
 
-  const columnHelper = createColumnHelper<MemberData>();
+  const [dataLoading, setDataLoading] = useState(true);
+  const [modalLoading, setModalLoading] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     getMembers();
@@ -33,7 +37,7 @@ export default function Members() {
     setDataLoading(true);
 
     const res = await apiFetch("members");
-   
+
     if (res.success) {
       console.log(res);
       console.log(res.data);
@@ -44,57 +48,32 @@ export default function Members() {
     console.log(res);
   };
 
-  const columns = [
-    columnHelper.accessor("name", {
-      header: () => "Nombre",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("lastName", {
-      header: () => "Apellido",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("email", {
-      header: () => "Correo Electrónico",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("roleName", {
-      header: () => "Rol",
-      cell: (info) => info.getValue(),
-    }),
-    // columnHelper.accessor("createdAt", {
-    //   header: () => "Registro",
-    //   cell: (info) => moment(info.getValue()).format("DD/MM/YYYY"),
-    // }),
-    // columnHelper.accessor("issuerVerificationStatusName", {
-    //   header: () => "Verificación",
-    //   cell: (info) => info.getValue(),
-    // }),
-    // columnHelper.accessor("lastValidationSubmit", {
-    //   header: () => "Últ. solicitud de verif.",
-    //   cell: (info) => info.getValue(),
-    // }),
-    // columnHelper.display({
-    //   id: "actions",
-    //   header: () => "Acciones",
-    //   cell: (info) => {
-    //     console.log(info.row.original);
+  const deleteMember = async () => {
+    setModalLoading(true);
+    const res = await apiFetch(`members/${selectedMember.memberId}`);
+    
+    if (res.success) {
 
-    //     const row = info.row.original;
+    }
 
-    //     return (
-    //       <ButtonGroup aria-label="Basic example">
-    //         <AdminTableActionButton icon={faPencil} tooltip="Editar" />
-    //         <AdminTableActionButton icon={faTrash} tooltip="Borrar" />
-    //         <AdminTableActionButton icon={faCheck} tooltip="Verificar" />
-    //         <AdminTableActionButton icon={faXmark} tooltip="Rechazar" />
-    //       </ButtonGroup>
-    //     );
-    //   },
-    // }),
-  ];
+
+    
+  };
 
   return (
     <Fragment>
+      <AdminModalJorge
+        showButtons={true}
+        show={showDeleteModal}
+        title="Eliminar miembro"
+        primaryBtnVariant="danger"
+        modalLoading={modalLoading}
+        handleSubmit={deleteMember}
+        handleClose={() => setShowDeleteModal(false)}
+      >
+        ¿Estás seguro de querer eliminar este emisor?
+      </AdminModalJorge>
+
       <AdminPageHeader title="Miembros">
         <Link className="breadcrumb-item" href={"../admin"}>
           Inicio
@@ -106,7 +85,10 @@ export default function Members() {
         {dataLoading ? (
           <AdminTableSpinner />
         ) : (
-          <AdminTable columns={columns} defaultData={members}>
+          <AdminTable
+            columns={membersTableColumns(setSelectedMember, setShowDeleteModal)}
+            defaultData={members}
+          >
             <Button variant="primary">Nuevo</Button>
           </AdminTable>
         )}

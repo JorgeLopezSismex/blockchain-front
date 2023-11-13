@@ -30,16 +30,20 @@ import { apiFetch } from "@/helpers/api-fetch";
 import FormAsyncSelect from "@/components/form/FormAsyncSelect";
 import { Concert_One } from "next/font/google";
 
-import issuersTableColumns from "@/utils/tableColumButtons";
+import issuersTableColumns from "@/tableColumns/issuersTableColums";
 import AdminModalJorge from "@/components/admin/AdminModalJorge";
 
 export default function Issuers() {
   const { Formik } = formik;
 
+  const [auth, setAuth] = useState(500);
+
   const [permissions, setPermissions] = useState([]);
 
+  const [roles, setRoles] = useState([]);
   const [issuers, setIssuers] = useState([]);
   const [selectedIssuer, setSelectedIssuer] = useState({});
+  const [issuerVerificationStatus, setIssuerVerificationStatus] = useState([]);
 
   const [dataLoading, setDataLoading] = useState(true);
   const [modalLoading, setModalLoading] = useState(false);
@@ -49,29 +53,44 @@ export default function Issuers() {
   const [showRejectModal, setShowRejectModal] = useState(false);
 
   useEffect(() => {
-    getIssuers();
-    // const queryParams = new URLSearchParams();
-    // queryParams.append("module", "ISSUERS_MODULE");
+    // Permisos
+    const permissiosnParams = new URLSearchParams();
+    permissiosnParams.append("module", "ISSUERS_MODULE");
+    apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
+      if (!res.success) return setAuth(500);
 
-    // apiFetch(`permissions?${queryParams.toString()}`).then((response) => {
-    //   if (!response.status) {
-    //     console.log("Ocuriró un error");
-    //   }
+      const permissions = res.data;
+      setPermissions(permissions);
+      if (!permissions.LIST_ISSUER) return setAuth(401);
+    });
 
-    //   setPermissions(response.data);
-    //   console.log(response.data, "Estos son los permisos");
+    // Roles
+    const rolesParams = new URLSearchParams();
+    rolesParams.append("category", "ISSUERS");
+    apiFetch(`roles?${rolesParams.toString()}`).then((res) => {
+      if (!res.success) return setAuth(500);
+
+      const roles = res.data;
+      setRoles(roles);
+    });
+
+    // Estados de verificación
+    // apiFetch("issuers/verification-status").then((res) => {
+    //   if (!res.success) return setAuth(500);
+
+    //   const issuerVerificationStatus = res.data;
+    //   setIssuerVerificationStatus(issuerVerificationStatus);
     // });
-  }, []);
 
-  const getIssuers = async () => {
-    setDataLoading(true);
-    const res = await apiFetch("issuers");
+    // Emisores
+    apiFetch("issuers").then((res) => {
+      if (!res.success) return setAuth(500);
 
-    if (res.success) {
-      setDataLoading(false);
+      setAuth(200);
       setIssuers(res.data);
-    }
-  };
+      setDataLoading(false);
+    });
+  }, []);
 
   const verifyIssuer = async () => {
     alert("Se inicia em proceso de verificación");
@@ -87,9 +106,16 @@ export default function Issuers() {
 
   const rejectIssuer = async () => {};
 
+  if (dataLoading) return <AdminTableSpinner />;
+
+  if (auth == 500) return <h1>Ocurrió un error</h1>;
+
+  if (auth == 401) return <h1>nO TIENES PERMISOS</h1>;
+
   return (
     <Fragment>
       <AdminModalJorge
+        showButtons={true}
         show={showDeleteModal}
         title="Eliminar emisor"
         primaryBtnVariant="danger"
@@ -101,6 +127,7 @@ export default function Issuers() {
       </AdminModalJorge>
 
       <AdminModalJorge
+        showButtons={true}
         show={showVerifyModal}
         title="Verificar emisor"
         handleSubmit={verifyIssuer}
@@ -111,15 +138,14 @@ export default function Issuers() {
       </AdminModalJorge>
 
       <Formik
-        onSubmit={() => {
-          alert("Se ejecuta correctamten");
-        }}
+        onSubmit={rejectIssuer}
         initialValues={{ reason: "" }}
         validationSchema={rejectIssuerScheme}
       >
         {({ handleChange, handleSubmit, resetForm, values, errors }) => (
           <AdminModalJorge
             formModal={true}
+            showButtons={true}
             show={showRejectModal}
             title="Rechazar emisor"
             primaryBtnVariant="danger"
@@ -187,15 +213,17 @@ export default function Issuers() {
                   label="Rol"
                   getOptions={getRoles}
                   setFieldValue={setFieldValue}
+                  placeholder="Selecciona un rol"
                 />
 
                 <FormAsyncSelect
                   sm={12}
                   md={6}
                   name="role2"
-                  label="Estado de verificación"
                   getOptions={getRoles}
                   setFieldValue={setFieldValue}
+                  label="Estado de verificación"
+                  placeholder="Selecciona un estado de verificación"
                 />
 
                 <FormDatePicker
@@ -204,7 +232,7 @@ export default function Issuers() {
                   name="signUpDateFrom"
                   setFieldValue={setFieldValue}
                   label="Fecha de registro mínima"
-                  placeholder="Selecciona una feacha"
+                  placeholder="Selecciona una fecha"
                   maxDate={moment(values.signUpDateTo)}
                 />
 
@@ -268,21 +296,18 @@ export default function Issuers() {
       </AdminFilterContainer>
 
       <AdminCardContainer xs={12}>
-        {dataLoading ? (
-          <AdminTableSpinner />
-        ) : (
-          <AdminTable
-            defaultData={issuers}
-            columns={issuersTableColumns(
-              setSelectedIssuer,
-              setShowDeleteModal,
-              setShowVerifyModal,
-              setShowRejectModal
-            )}
-          >
-            <Button variant="primary">Nuevo</Button>
-          </AdminTable>
-        )}
+        <AdminTable
+          defaultData={issuers}
+          columns={issuersTableColumns(
+            permissions,
+            setSelectedIssuer,
+            setShowDeleteModal,
+            setShowVerifyModal,
+            setShowRejectModal
+          )}
+        >
+          <Button variant="primary">Nuevo</Button>
+        </AdminTable>
       </AdminCardContainer>
     </Fragment>
   );

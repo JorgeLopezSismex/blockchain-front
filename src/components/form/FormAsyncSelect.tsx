@@ -12,6 +12,7 @@ export default function FormAsyncSelect({
   md,
   name,
   label,
+  placeholder,
   getOptions,
   setFieldValue,
 }: {
@@ -19,6 +20,7 @@ export default function FormAsyncSelect({
   md: number;
   name: string;
   label: string;
+  placeholder: string;
   getOptions: any;
   setFieldValue: any;
 }) {
@@ -31,12 +33,13 @@ export default function FormAsyncSelect({
       <Form.Label>{label}</Form.Label>
       <InputGroup>
         <AsyncSelect
-          id="role"
+          id={name}
           name={name}
           cacheOptions
           defaultOptions
           styles={customStyles}
           loadOptions={getOptions}
+          placeholder={placeholder}
           onChange={(e) => {
             setFieldValue(name, e.value);
           }}

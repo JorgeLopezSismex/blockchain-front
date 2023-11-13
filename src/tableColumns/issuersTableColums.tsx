@@ -21,13 +21,14 @@ const p = {
 const openVerifyIssuerModal = (row: any) => {};
 
 export default function issuersTableColumns(
+  permissions: any,
   setSelectedIssuer: any,
   setShowDeleteModal: any,
   setShowVerifyModal: any,
   setShowRejectModal: any
 ) {
   const columnHelper = createColumnHelper<IssuerData>();
-
+  
   return [
     columnHelper.accessor("name", {
       header: () => "Nombre",
@@ -68,13 +69,13 @@ export default function issuersTableColumns(
             <AdminTableActionButton
               icon={faPencil}
               tooltip="Editar"
-              disabled={p.UPDATE_ISSUER ? false : true}
+              disabled={permissions.UPDATE_ISSUER ? false : true}
               onClick={() => {}}
             />
             <AdminTableActionButton
               icon={faTrash}
-              tooltip="Borrar"
-              disabled={p.DELETE_ISSUER ? false : true}
+              tooltip="Eliminar"
+              disabled={permissions.DELETE_ISSUER ? false : true}
               onClick={() => {
                 setShowDeleteModal(true);
                 setSelectedIssuer(data);

@@ -7,12 +7,23 @@ import {
   faTrash,
   faXmark,
   faMailReply,
+  faBan,
 } from "@fortawesome/free-solid-svg-icons";
 
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
+import { apiFetch } from "@/helpers/api-fetch";
 
-export default function invitationsTableColumButtons(setShowDetailsModal: any) {
+const getInvitation = (invitationId: number) => {
+  const res = apiFetch("");
+};
+
+export default function invitationsTableColums(
+  setSelectedInvitation: any,
+  setShowDetailsModal: any,
+  setShowResendModal: any,
+  setShowCancelModal: any
+) {
   const columnHelper = createColumnHelper<InvitationsData>();
 
   return [
@@ -40,31 +51,35 @@ export default function invitationsTableColumButtons(setShowDetailsModal: any) {
       id: "actions",
       header: () => "Acciones",
       cell: (info) => {
+        const data = info.row.original;
+
         return (
           <ButtonGroup aria-label="Basic example">
             <AdminTableActionButton
               icon={faEye}
               disabled={false}
               tooltip="Detalles"
-              //   onClick={() => openDetailsModal(info.row.original)}
-              onClick={() => {
+              onClick={async () => {
                 setShowDetailsModal(true);
+                setSelectedInvitation(data);
+                console.log("Estos son los datos de la invitazción", data);
               }}
             />
             <AdminTableActionButton
               icon={faMailReply}
-              disabled={true}
+              disabled={false}
               tooltip="Reenviar"
-              //   onClick={() => openSendModal(info.row.original)}
-              onClick={() => {}}
+              onClick={() => {
+                setShowResendModal(true);
+              }}
             />
-            {/* <AdminTableActionButton icon={faTrash} tooltip="Borrar" onClick={() => openDeleteModal(info.row.original)}/> */}
             <AdminTableActionButton
-              icon={faXmark}
-              disabled={true}
+              icon={faBan}
+              disabled={false}
               tooltip="Cancelar"
-              //   onClick={() => openCancelModal(info.row.original)}
-              onClick={() => {}}
+              onClick={() => {
+                setShowCancelModal(true);
+              }}
             />
           </ButtonGroup>
         );
