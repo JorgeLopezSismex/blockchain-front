@@ -3,6 +3,7 @@
 import moment from "moment";
 import Link from "next/link";
 import { Fragment, useState, useEffect } from "react";
+import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 
 import Button from 'react-bootstrap/Button';
 import Breadcrumb from "react-bootstrap/Breadcrumb";
@@ -20,6 +21,14 @@ import { IssuerData } from "@/types/issuers";
 import { apiFetch } from "@/helpers/api-fetch";
 import { createColumnHelper } from "@tanstack/react-table";
 
+const alchemyKey = 'E5vywOK-yRVjfzIhbu5hsusAcRPPvfPt';
+const alchemyURL = 'https://eth-sepolia.g.alchemy.com/v2/E5vywOK-yRVjfzIhbu5hsusAcRPPvfPt';
+const web3 = createAlchemyWeb3(alchemyURL);
+
+interface TransactionStatus {
+  status: string;
+}
+
 export default function Certificate(){
   const [issuers, setIssuers] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
@@ -29,11 +38,42 @@ export default function Certificate(){
   const [detailsModal, setDetailsModal] = useState (false);
   const [cancelModal, setCancelModal] = useState(false);
 
+  //Ethereum------
+  const [transactionHashes] = useState<string[]>([
+    '0xa7382afb7ee642aced8afb04a2b882e79772e88bc9de809bd7eb3a65860756d0',
+    '0x30ae256294b9772df0a08da3fde158899bc2f5a158b08c834421933e14c301b0',
+    // ... Agrega más hashes según sea necesario
+  ]);
+  const [transactionStatuses, setTransactionStatuses] = useState<Record<string, TransactionStatus>>({});
+  //--------------
+
   useEffect(() => {
     loadRoles();
-
     getIssuers();
-  }, []);
+
+    //Ethereum--------
+    const obtenerEstadoTransaccion = async (txHash: string) => {
+      try {
+        const estado = await web3.eth.getTransactionReceipt(txHash);
+        setTransactionStatuses((prevStatuses) => ({
+          ...prevStatuses,
+          [txHash]: { status: estado ? 'Completada' : 'Pendiente' },
+        }));
+      } catch (error) {
+        console.error(`Error al obtener el estado de la transacción ${txHash}:`, error);
+        setTransactionStatuses((prevStatuses) => ({
+          ...prevStatuses,
+          [txHash]: { status: 'Error al obtener el estado' },
+        }));
+      }
+    };
+
+    // Iterar sobre la lista de hashes y obtener el estado de cada transacción
+    transactionHashes.forEach((txHash) => {
+      obtenerEstadoTransaccion(txHash);
+    });
+    //----------------
+  }, [transactionHashes]);
 
   const openShareModal = () => {
     setShareModal(true);
@@ -112,19 +152,19 @@ export default function Certificate(){
       header: () => "Estado",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.display({
-      id: "actions",
-      header: () => "Acciones",
-      cell: (info) => {
-        return (
-          <ButtonGroup aria-label="Basic example"> 
-            <AdminTableActionButton icon={faEye} tooltip="Ver" onClick={() => openDetailsModal()}/>
-            <AdminTableActionButton icon={faShare} tooltip="Compartir" onClick={() => openShareModal()}/>
-            <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={() => openCancelModal()}/>
-          </ButtonGroup>
-        );
-      },
-    }),
+    // columnHelper.display({
+    //   id: "actions",
+    //   header: () => "Acciones",
+    //   cell: (info) => {
+    //     return (
+    //       <ButtonGroup aria-label="Basic example"> 
+    //         <AdminTableActionButton icon={faEye} tooltip="Ver" onClick={() => openDetailsModal()}/>
+    //         <AdminTableActionButton icon={faShare} tooltip="Compartir" onClick={() => openShareModal()}/>
+    //         <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={() => openCancelModal()}/>
+    //       </ButtonGroup>
+    //     );
+    //   },
+    // }),
   ];
 
   return(
@@ -179,6 +219,29 @@ export default function Certificate(){
           </AdminTable>
         )}
       </AdminCardContainer>
+
+      <AdminCardContainer xs={12}>
+      <div className="mx-3">
+        <h1>Lista de Transacciones</h1> <hr />
+        {transactionHashes.map((txHash) => (
+          <div key={txHash}>
+            <p>
+              <strong>Hash:</strong> {txHash}
+            </p>
+            <p>
+              <strong>Estado:</strong>{' '}
+              {transactionStatuses[txHash] ? (
+                <span>{transactionStatuses[txHash].status}</span>
+              ) : (
+                'Cargando...'
+              )}
+            </p>
+          </div>
+        ))}
+      </div>
+      </AdminCardContainer>
+
+
     </Fragment>
   );
 }
