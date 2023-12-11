@@ -298,7 +298,7 @@ export default function IssuerList() {
               setShowRejectModal
             )}
           >
-            hola mundo
+            {null}
           </AdminTable>
         )}
       </AdminCardContainer>
