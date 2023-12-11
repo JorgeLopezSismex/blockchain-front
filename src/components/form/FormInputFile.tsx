@@ -12,7 +12,7 @@ export default function FormInputFile({
   errors,
   controlId,
   setFieldValue,
-}:any) {
+}: any) {
   return (
     <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={controlId}>
       <Form.Label>{label}</Form.Label>
@@ -36,7 +36,6 @@ export default function FormInputFile({
             setFieldValue(name, inputElement.files[0]);
           }}
         />
-
         <Form.Control.Feedback type="invalid">{errors}</Form.Control.Feedback>
       </InputGroup>
     </Form.Group>

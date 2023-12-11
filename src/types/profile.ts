@@ -1,53 +1,37 @@
-export type ProfileData = {
-    city: string | null;
-    country: string | null;
-    createdAt: string | null;
-    createdBy: string | null;
-    description: string | null;
-    email: string | null;
-    externalNumber: number;
-    internalNumber:number;
-    issuerId: number;
-    issuerVerificationStatusId: number;
-    issuerVerificationStatusName: number;
-    lastValidationSubmit: string | null;
-    legalName: string | null;
-    name: string;
-    phone: number;
-    rfc: string | null;
-    roleDescription: string | null;
-    roleId: number | null;
-    roleName: string | null;
-    state: string | null;
-    stateId: number;
-    street: string | null;
-    suburb: string | null;
-    zipCode:number;
+export type ProfilePermissionsData = {
+  LIST_PROFILE: boolean;
+  UPDATE_VERIFY_DATA: boolean;
+  UPDATE_SUBSCRIPTION: boolean;
+  UPDATE_PASSWORD: boolean;
 };
 
-export const initialProfileData: ProfileData = {
-    city: null,
-    country: null,
-    createdAt: null,
-    createdBy: null,
-    description: null,
-    email: null,
-    externalNumber: 0,
-    internalNumber: 0,
-    issuerId: 0,
-    issuerVerificationStatusId: 0,
-    issuerVerificationStatusName: 0,
-    lastValidationSubmit: null,
-    legalName: null,
-    name: "",
-    phone: 0,
-    rfc: null,
-    roleDescription: null,
-    roleId: null,
-    roleName: null,
-    state: null,
-    stateId: 0,
-    street: null,
-    suburb: null,
-    zipCode: 0,
-  };
+export type ProfileData = {
+  issuerId: number;
+  name: string | null;
+  email: string;
+  phone: string | null;
+  roleId: number;
+  roleKey: string;
+  roleName: string;
+  roleDescription: string;
+  issuerVerificationStatusId: number;
+  issuerVerificationStatusKey: string;
+  issuerVerificationStatusName: string;
+  legalName: string | null;
+  zipCode: string | null;
+  country: string | null;
+  state: string | null;
+  city: string | null;
+  suburb: string | null;
+  externalNumber: string | null;
+  internalNumber: string | null;
+  description: string | null;
+  rfc: string | null;
+  street: string | null;
+  createdAt: string;
+  createdBy: number;
+  validatedAt: string | null;
+  lastValidationSubmit: string | null;
+  rejectReason: string | null;
+  rejectedAt: string | null;
+};

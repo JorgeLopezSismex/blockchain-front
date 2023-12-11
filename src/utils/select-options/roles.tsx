@@ -1,8 +1,15 @@
 import { apiFetch } from "@/helpers/api-fetch";
 
-export const getRoles = async () => {
+export const getRoles = async (category: string) => {
   try {
-    const res = await apiFetch("roles");
+    let res = null;
+    if (category != null) {
+      const rolesParams = new URLSearchParams();
+      rolesParams.append("category", category);
+      res = await apiFetch(`roles?${rolesParams.toString()}`);
+    } else {
+      res = await apiFetch("roles");
+    }
 
     if (res.data) {
       const data = res.data;

@@ -1,39 +1,60 @@
 "use client";
+
 import moment from "moment";
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Breadcrumb from "react-bootstrap/Breadcrumb";
+import { Row, Col, Container, Breadcrumb } from "react-bootstrap";
+
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminProfileCard from "@/components/admin/AdminProfileCard";
+import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 
-import { ProfileData, initialProfileData } from "@/types/profile";
 import { apiFetch } from "@/helpers/api-fetch";
+import { ProfilePermissionsData, ProfileData } from "@/types/profile";
 
 export default function Profile() {
-  // const [profile, setProfile]= useState({});
-  const [profile, setProfile]= useState(initialProfileData);
-  const [dataLoading, setDataLoading] = useState(true);
+  const [loadingScreen, setLoadingScreen] = useState(true);
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [permissions, setPermissions] = useState({} as ProfilePermissionsData);
 
-  useEffect (() => {
-    getProfile();
-  },[]);
+  const [profile, setProfile] = useState({} as ProfileData);
+  const [attachments, setAttachments] = useState({});
 
-  const getProfile = async () =>{
-    setDataLoading(true);
-    const res = await apiFetch("authorization/profile?IssuerId=2");
-    if(res.success){
-      console.log(res);
-      setProfile(res.data[0]);
-      console.log(res.data[0]);
-    }
+  useEffect(() => {
+    // Permisos
+    const permissiosnParams = new URLSearchParams();
+    permissiosnParams.append("module", "PROFILE_MODULE");
+    apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
+      if (res.success) {
+        setPermissions(res.data);
+        if (!res.data.LIST_PROFILE) {
+          return null;
+        }
+
+        // Perfil
+        getProfile();
+      }
+    });
+  }, []);
+
+  const getProfile = async () => {
+    setLoadingProfile(true);
+    apiFetch("profile").then((res) => {
+      if (res.success) {
+        setProfile(res.data);
+
+        setLoadingScreen(false);
+        setLoadingProfile(false);
+      }
+    });
   };
-  return (
+
+  return loadingScreen ? (
+    <AdminTableSpinner />
+  ) : (
     <Fragment>
-      <AdminPageHeader title="Mi perfil">
+      <AdminPageHeader title="Perfil">
         <Breadcrumb className="float-sm-right">
           <Link className="breadcrumb-item" href={"../admin"}>
             Inicio
@@ -45,28 +66,42 @@ export default function Profile() {
         <Row>
           <Col xs={12}>
             <AdminProfileCard
-              title={"Verificación"}
-              text1={"Estado de verificación: "}
+              text1={"Estado: "}
+              action={"Gestionar"}
+              title={"Contactos"}
+              link={"/admin/profile/contacts"}
               text2={profile.issuerVerificationStatusName}
-              action={"Gestionar"}
-              link={"/admin/verification"}
             />
 
-            <AdminProfileCard
-              title={"Subscripción"}
-              text1={"Activo desde: "}
-              text2={"12/12/2023"}
-              action={"Gestionar"}
-              link={"/admin/subscription"}
-            />
+            {!permissions.UPDATE_VERIFY_DATA ? null : (
+              <AdminProfileCard
+                text1={"Estado: "}
+                action={"Gestionar"}
+                title={"Verificación"}
+                link={"/admin/profile/verification"}
+                text2={profile.issuerVerificationStatusName}
+              />
+            )}
 
-            <AdminProfileCard
-              title={"user@mail.com"}
-              text1={"Cuenta creada: "}
-              text2={moment(profile.createdAt).format("DD/MM/YYYY")}
-              action={"Cambiar contraseña"}
-              link={"/admin/update"}
-            />
+            {!permissions.UPDATE_SUBSCRIPTION ? null : (
+              <AdminProfileCard
+                title={"Subscripción"}
+                text1={"Activo desde: "}
+                text2={"12/12/2023"}
+                action={"Gestionar"}
+                link={"/admin/subscription"}
+              />
+            )}
+
+            {!permissions.UPDATE_PASSWORD ? null : (
+              <AdminProfileCard
+                title={profile.email}
+                text1={"Creado el: "}
+                text2={moment(profile.createdAt).format("DD/MM/YYYY")}
+                action={"Cambiar contraseña"}
+                link={"/admin/update"}
+              />
+            )}
           </Col>
         </Row>
       </Container>

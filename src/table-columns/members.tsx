@@ -7,14 +7,25 @@ import { useRouter } from "next/navigation";
 
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
+import { encrypt, decrypt } from "simply-encrypt";
+
 export default function membersTableColumns(
+  router: any,
+  permissions: any,
   setSelectedMember: any,
   setShowDeleteModal: any
 ) {
-  const router = useRouter();
   const columnHelper = createColumnHelper<MemberData>();
 
   return [
+    columnHelper.accessor("issuerName", {
+      header: () => "Emisor",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("roleName", {
+      header: () => "Rol",
+      cell: (info) => info.getValue(),
+    }),
     columnHelper.accessor("name", {
       header: () => "Nombre",
       cell: (info) => info.getValue(),
@@ -27,10 +38,7 @@ export default function membersTableColumns(
       header: () => "Correo Electrónico",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("roleName", {
-      header: () => "Rol",
-      cell: (info) => info.getValue(),
-    }),
+
     columnHelper.display({
       id: "actions",
       header: () => "Acciones",
@@ -39,23 +47,30 @@ export default function membersTableColumns(
 
         return (
           <ButtonGroup aria-label="Basic example">
-            <AdminTableActionButton
-              icon={faPencil}
-              tooltip="Editar"
-              disabled={false}
-              onClick={() => {
-                router.push("members/update?id=" + member.memberId);
-              }}
-            />
-            <AdminTableActionButton
-              icon={faTrash}
-              disabled={false}
-              tooltip="Eliminar"
-              onClick={() => {
-                setShowDeleteModal(true);
-                setSelectedMember(member);
-              }}
-            />
+            {/* Botón de editar */}
+            {!permissions.UPDATE_MEMBER ? null : (
+              <AdminTableActionButton
+                icon={faPencil}
+                tooltip="Editar"
+                disabled={false}
+                onClick={() => {
+                  router.push(`members/update?id=${member.memberId}`);
+                }}
+              />
+            )}
+
+            {/* Botón de eliminar */}
+            {!permissions.DELETE_MEMBER ? null : (
+              <AdminTableActionButton
+                icon={faTrash}
+                disabled={false}
+                tooltip="Eliminar"
+                onClick={() => {
+                  setShowDeleteModal(true);
+                  setSelectedMember(member);
+                }}
+              />
+            )}
           </ButtonGroup>
         );
       },

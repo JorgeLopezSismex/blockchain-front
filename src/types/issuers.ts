@@ -28,3 +28,23 @@ export type IssuerData = {
   rejectReason: string | null;
   rejectedAt: string | null;
 };
+
+export type VerificationData = {
+  name: string | null;
+  legalName: string | null;
+  zipCode: string | null;
+  country: string | null;
+  state: string | null;
+  city: string | null;
+  suburb: string | null;
+  street: string | null;
+  externalNumber: string;
+  internalNumber: string | null;
+  email: string;
+  phone: string | null;
+  rfc: string | null;
+  taxId: any;
+  description: string | null;
+  constitutiveAct: any;
+  taxSituationStatement: any;
+};

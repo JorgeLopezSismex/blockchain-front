@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 import Nav from "react-bootstrap/Nav";
@@ -38,26 +39,33 @@ const options = [
     link: "/../admin/notifications",
   },
   {
-    id: 3,
+    id: 4,
     title: "Invitaciones",
     icon: faEnvelope,
     link: "/../admin/invitations",
   },
   {
-    id: 4,
+    id: 5,
     title: "Certificados",
     icon: faFileCircleCheck,
     link: "/../admin/certificates",
   },
-  { id: 5, title: "Bitácora", icon: faBook, link: "/../admin/log" },
+  { id: 6, title: "Bitácora", icon: faBook, link: "/../admin/event-log" },
 ];
 
 export default function AdminNavBar() {
   const expand = "xs";
+  const router = useRouter();
   const [show, setShow] = useState(false);
+  const [showProfileOptions, setShowProfileOptions] = useState(false);
 
   const toggleOffCanvas = () => {
     setShow((show) => !show);
+  };
+
+  const signOff = () => {
+    localStorage.removeItem("token");
+    router.replace("/auth/sign-in");
   };
 
   return (
@@ -78,24 +86,49 @@ export default function AdminNavBar() {
           </Navbar.Brand>
         </div>
 
-        <Dropdown className="dropdown-toggle" align={{ lg: "start" }}>
-          <Dropdown.Toggle
-            style={{ backgroundColor: "transparent", border: "none" }}
-            className="d-flex align-items-center dropdown-toggle"
-            split={true}
+        <div style={{ display: "inline-flex" }}>
+          <p
+            style={{ marginBottom: 0, marginRight: 15 }}
+            className="d-flex align-items-center"
           >
-            <div className="circle" id="dropdown-custom-components">
-              <span className="initials">JA</span>
-            </div>
-          </Dropdown.Toggle>
+            jalopez@sismex.com
+          </p>
+          <Dropdown
+            autoClose={true}
+            align={{ xs: "start" }}
+            show={showProfileOptions}
+            className="dropdown-toggle"
+            onClick={() => setShowProfileOptions(!showProfileOptions)}
+          >
+            <Dropdown.Toggle
+              style={{ backgroundColor: "transparent", border: "none" }}
+              className="d-flex align-items-center dropdown-toggle"
+              split={true}
+            >
+              <div className="circle" id="dropdown-custom-components">
+                <span className="initials">JA</span>
+              </div>
+            </Dropdown.Toggle>
 
-          <Dropdown.Menu>
-            <Dropdown.Item eventKey="1">
-              <Link href={"/../admin/profile"}>Perfil</Link>
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="2">Cerrar sesión</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+            <Dropdown.Menu>
+              <Link
+                data-rr-ui-dropdown-item
+                className="dropdown-item"
+                href={"/../admin/profile"}
+                onClick={() => setShowProfileOptions(false)}
+              >
+                Perfil
+              </Link>
+              <p
+                onClick={signOff}
+                className="dropdown-item"
+                style={{ margin: 0, cursor: "pointer" }}
+              >
+                Cerrar sesión
+              </p>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
 
         <Navbar.Offcanvas
           show={show}
@@ -119,10 +152,10 @@ export default function AdminNavBar() {
                 <AdminOffcanvasItem
                   show={show}
                   icon={item.icon}
-                  key={item.id}
                   link={item.link}
                   setShow={setShow}
                   title={item.title}
+                  key={"navbar-item-" + item.id}
                 />
               ))}
             </Nav>

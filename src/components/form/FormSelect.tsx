@@ -13,7 +13,8 @@ export default function FormSelect({
   options,
   disabled,
   defaultText,
-}:any) {
+  defaultValue,
+}: any) {
   return (
     <Form.Group className="mb-3" as={Col} sm={sm} md={md}>
       <Form.Label>{label}</Form.Label>
@@ -23,7 +24,7 @@ export default function FormSelect({
         options={options}
         isClearable={true}
         isSearchable={true}
-        defaultValue={null}
+        defaultValue={defaultValue}
         isDisabled={disabled}
         classNamePrefix="Select"
         defaultInputValue={defaultText}

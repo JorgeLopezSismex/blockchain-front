@@ -13,7 +13,7 @@ export default function AdminPageHeader({
   backRoute,
 }: {
   children: React.ReactNode;
-  title: string;
+  title: any;
   backRoute?: string;
 }) {
   const router = useRouter();

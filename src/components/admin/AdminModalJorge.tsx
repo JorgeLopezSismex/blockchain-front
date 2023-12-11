@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { Modal, Button, Spinner } from "react-bootstrap";
 
 export default function AdminModalJorge({
+  size,
   show,
   title,
   primaryBtnText,
@@ -15,6 +16,7 @@ export default function AdminModalJorge({
   showButtons,
   children,
 }: {
+  size?: any;
   show: boolean;
   title: string;
   primaryBtnText?: string;
@@ -30,14 +32,16 @@ export default function AdminModalJorge({
 }) {
   return (
     <Modal
+      size={size == null ? "md" : size}
       show={show}
       onHide={handleClose}
+      scrollable={true}
       backdrop={!modalLoading ? true : "static"}
     >
       <Modal.Header closeButton={!modalLoading ? true : false}>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{children}</Modal.Body>
+      <Modal.Body >{children}</Modal.Body>
       <Modal.Footer>
         {showButtons == true ? (
           <Fragment>

@@ -1,89 +1,105 @@
 "use client";
 
-import * as formik from "formik";
-
-import Button from "react-bootstrap/Button";
 import Link from "next/link";
-import Breadcrumb from "react-bootstrap/Breadcrumb";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
+import { Formik } from "formik";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 
-import Row from "react-bootstrap/Row";
-import Form from "react-bootstrap/Form";
-import AdminCardContainer from "@/components/admin/AdminCardContainer";
-import FormInput from "@/components/form/FormInput";
-import { apiFetch } from "@/helpers/api-fetch";
+import { Breadcrumb, Row, Form } from "react-bootstrap";
 
+import ActionToast from "@/components/main/ActionToast";
+import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
+import AdminCardContainer from "@/components/admin/AdminCardContainer";
 
+import MembersForm from "../form";
+import { MemberData } from "@/types/members";
+import { apiFetch } from "@/helpers/api-fetch";
 import { getRoles } from "@/utils/select-options/roles";
-import FormAsyncSelect from "@/components/form/FormAsyncSelect";
-import { Concert_One } from "next/font/google";
-import { URL } from "next/dist/compiled/@edge-runtime/primitives/url";
 
 export default function UpdateMember() {
-  const [loadingData, setLoadingData] = useState(true);
-  const [initialValues, setInitialValues] = useState({
-    name: "",
-    lastName: "",
-    email: "",
-  });
-
-  let roles = [];
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const { Formik } = formik;
 
-  const [auth, setAuth] = useState(500);
-  const [permissions, setPermissions] = useState([]);
+  const [loadingForm, setLoadingForm] = useState(false);
+  const [loadingScreen, setLoadingScreen] = useState(true);
+  const [loadingMember, setLoadingMember] = useState(true);
+
+  const [initialValues, setInitialValues] = useState({});
+  const [member, setMember] = useState({} as MemberData);
+
+  const [showToast, setShowToast] = useState(false);
+  const [toastTitle, setToastTitle] = useState("Título");
+  const [toastMessage, setToastMessage] = useState("Mensaje.");
+  const [toastVariant, setToastVariant] = useState("success");
 
   useEffect(() => {
     // Permisos
     const permissiosnParams = new URLSearchParams();
     permissiosnParams.append("module", "MEMBERS_MODULE");
     apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
-      if (!res.success) return setAuth(500);
+      if (res.success) {
+        if (!res.data.UPDATE_MEMBER) {
+          return null;
+        }
 
-      const permissions = res.data;
-      setPermissions(permissions);
-      if (!permissions.LIST_ISSUER) return setAuth(401);
+        getMember();
+        setLoadingScreen(false);
+      }
     });
-
-    // Roles
-    const rolesParams = new URLSearchParams();
-    rolesParams.append("category", "MEMBERS");
-    apiFetch(`roles?${rolesParams.toString()}`).then((res) => {
-      console.log(res, "Estos son los roles");
-    });
-
-    getMember();
   }, []);
 
   const getMember = async () => {
-    setLoadingData(true);
-    const res = await apiFetch(`members/${id}`);
+    setLoadingMember(true);
+    apiFetch(`members/${id}`).then((res) => {
+      if (res.success) {
+        const member = res.data as MemberData;
+        setInitialValues({
+          name: member.name,
+          lastName: member.lastName,
+          email: member.email,
+          roleId: member.roleId,
+        });
 
-    if (res.success) {
-      setLoadingData(false);
-      const member = res.data;
-
-      setInitialValues({
-        name: member.name,
-        lastName: member.lastName,
-        email: member.email,
-      });
-    }
+        setMember(res.data);
+        setLoadingMember(false);
+      }
+    });
   };
 
-  return (
+  const updateMember = async (values: any) => {
+    setLoadingForm(true);
+    apiFetch(`members/${id}`, "PUT", values).then((res) => {
+      if (res.success) {
+        setShowToast(true);
+        setLoadingForm(false);
+        setToastTitle("Miembros");
+        setToastVariant("success");
+        setToastMessage(res.message);
+
+        return;
+      }
+
+      setShowToast(true);
+      setLoadingForm(false);
+      setToastTitle("Miembros");
+      setToastVariant("danger");
+      setToastMessage(res.message);
+
+      return;
+    });
+  };
+
+  return loadingScreen ? (
+    <AdminTableSpinner />
+  ) : (
     <Fragment>
       <AdminPageHeader title="Editar miembro">
         <Breadcrumb className="float-sm-right">
           <Link className="breadcrumb-item" href={"../admin"}>
             Inicio
           </Link>
-          <Link className="breadcrumb-item" href={"../members"}>
+          <Link className="breadcrumb-item" href={"../admin/members"}>
             Miembros
           </Link>
           <Breadcrumb.Item active>Editar</Breadcrumb.Item>
@@ -91,10 +107,14 @@ export default function UpdateMember() {
       </AdminPageHeader>
 
       <AdminCardContainer xs={12}>
-        {loadingData ? (
+        {loadingMember ? (
           <AdminTableSpinner />
         ) : (
-          <Formik initialValues={initialValues} onSubmit={() => {}}>
+          <Formik
+            onSubmit={updateMember}
+            initialValues={initialValues}
+            validationSchema={null}
+          >
             {({
               values,
               errors,
@@ -102,82 +122,30 @@ export default function UpdateMember() {
               handleChange,
               setFieldValue,
             }) => (
-              <Form noValidate onSubmit={handleSubmit}>
-                <Row className="mb-3">
-                  <FormInput
-                    md={6}
-                    sm={12}
-                    type="text"
-                    label="Nombre(s)"
-                    disabled={false}
-                    name="email"
-                    value={values.name}
-                    errors={null}
-                    controlId="ds"
-                    handleChange={handleChange}
-                    placeholder=""
-                  />
-
-                  <FormInput
-                    md={6}
-                    sm={12}
-                    type="text"
-                    label="Apellido(s)"
-                    disabled={false}
-                    name="email"
-                    value={values.lastName}
-                    errors={null}
-                    controlId="ds"
-                    handleChange={handleChange}
-                    placeholder=""
-                  />
-
-                  <FormInput
-                    md={6}
-                    sm={12}
-                    type="text"
-                    label="Correo electrónico"
-                    disabled={true}
-                    name="email"
-                    value={values.email}
-                    errors={null}
-                    controlId="ds"
-                    handleChange={handleChange}
-                    placeholder=""
-                  />
-
-                  <FormAsyncSelect
-                    sm={12}
-                    md={6}
-                    name="role"
-                    label="Rol"
-                    getOptions={getRoles}
-                    setFieldValue={setFieldValue}
-                    placeholder="Selecciona un rol"
-                  />
-                </Row>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row-reverse",
-                  }}
-                >
-                  <Button type="submit" variant="primary">
-                    Guardar
-                  </Button>
-                  <Button
-                    variant="outline-secondary"
-                    style={{ marginInline: 10 }}
-                  >
-                    Atrás
-                  </Button>
-                </div>
-              </Form>
+              <MembersForm
+                values={values}
+                errors={errors}
+                member={member}
+                newMember={false}
+                getRoles={getRoles}
+                loading={loadingForm}
+                handleSubmit={handleSubmit}
+                handleChange={handleChange}
+                setFieldValue={setFieldValue}
+              />
             )}
           </Formik>
         )}
       </AdminCardContainer>
+
+      <ActionToast
+        delay={3000}
+        show={showToast}
+        title={toastTitle}
+        message={toastMessage}
+        variant={toastVariant}
+        onClose={() => setShowToast(false)}
+      />
     </Fragment>
   );
 }

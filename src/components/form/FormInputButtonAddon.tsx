@@ -13,15 +13,21 @@ export default function FormInputButtonAddon({
   label,
   errors,
   btnText,
+  disbaleButton,
   handleClick,
   placeholder,
   handleChange,
-}:any) {
+}: any) {
   return (
     <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={id}>
       <Form.Label>{label}</Form.Label>
       <InputGroup hasValidation>
-        <Button variant="outline-secondary" id={btnId} onClick={handleClick}>
+        <Button
+          id={btnId}
+          onClick={handleClick}
+          disabled={disbaleButton}
+          variant="outline-secondary"
+        >
           {btnText}
         </Button>
         <Form.Control

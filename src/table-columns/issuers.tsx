@@ -5,7 +5,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 
-import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const p = {
@@ -28,7 +28,7 @@ export default function issuersTableColumns(
   setShowRejectModal: any
 ) {
   const columnHelper = createColumnHelper<IssuerData>();
-  
+
   return [
     columnHelper.accessor("name", {
       header: () => "Nombre",
@@ -66,29 +66,42 @@ export default function issuersTableColumns(
 
         return (
           <ButtonGroup aria-label="Basic example">
+            {/* Botón de detalles */}
+            <AdminTableActionButton
+              icon={faEye}
+              disabled={!permissions.UPDATE_ISSUER ? true : false}
+              tooltip="Detalles"
+              onClick={() => {}}
+            />
+
+            {/* Botón de editar */}
             <AdminTableActionButton
               icon={faPencil}
               tooltip="Editar"
-              disabled={permissions.UPDATE_ISSUER ? false : true}
+              disabled={!permissions.UPDATE_ISSUER ? true : false}
               onClick={() => {}}
             />
+
+            {/* Botón de eliminar */}
             <AdminTableActionButton
               icon={faTrash}
+              disabled={!permissions.DELETE_ISSUER ? true : false}
               tooltip="Eliminar"
-              disabled={permissions.DELETE_ISSUER ? false : true}
               onClick={() => {
                 setShowDeleteModal(true);
                 setSelectedIssuer(data);
               }}
             />
+
+            {/* Botón de veriricar */}
             <AdminTableActionButton
               icon={faCheck}
               tooltip="Verificar"
               disabled={
-                p.VERIFY_ISSUER
-                  ? data.issuerVerificationStatusKey == "VERIFIED"
-                    ? true
-                    : false
+                !permissions.VERIFY_ISSUER
+                  ? true
+                  : data.issuerVerificationStatusKey != "UNVERIFIED"
+                  ? true
                   : false
               }
               onClick={() => {
@@ -96,10 +109,18 @@ export default function issuersTableColumns(
                 setSelectedIssuer(data);
               }}
             />
+
+            {/* Botón de rechazar */}
             <AdminTableActionButton
               icon={faXmark}
               tooltip="Rechazar"
-              disabled={p.REJECT_ISSUER ? false : true}
+              disabled={
+                !permissions.REJECT_ISSUER
+                  ? true
+                  : data.issuerVerificationStatusKey != "UNVERIFIED"
+                  ? true
+                  : false
+              }
               onClick={() => {
                 setShowRejectModal(true);
                 setSelectedIssuer(data);

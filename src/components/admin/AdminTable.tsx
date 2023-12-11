@@ -44,6 +44,9 @@ export default function AdminTable({
     initialState: {},
   });
 
+  console.log(columns);
+  console.log(defaultData);
+
   return (
     <Fragment>
       <Row style={{ marginBottom: 10 }}>

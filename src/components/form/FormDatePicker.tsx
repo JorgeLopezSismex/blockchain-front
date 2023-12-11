@@ -30,7 +30,7 @@ export default function FormDatePicker({
       <Form.Label>{label}</Form.Label>
       <InputGroup>
         <Datetime
-        displayTimeZone=""
+          displayTimeZone=""
           locale="es-mx"
           timeFormat={false}
           closeOnSelect={true}
@@ -44,6 +44,11 @@ export default function FormDatePicker({
             onChange: (selectedOption) => {
               console.log(selectedOption);
               setFieldValue(name, selectedOption);
+            },
+            onKeyDown: (e) => {
+              if (e.key != "Backspace") {
+                return e.preventDefault();
+              }
             },
           }}
           isValidDate={(current) => {
