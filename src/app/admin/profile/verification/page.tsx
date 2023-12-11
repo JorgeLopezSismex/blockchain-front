@@ -229,6 +229,7 @@ export default function Verification() {
                 handleSubmit={handleSubmit}
                 suburbOptions={suburbOptios}
                 setSuburbOptions={setSuburbOptions}
+                setDisableSuburbs={setDisableSuburbs}
                 setFieldValue={setFieldValue}
                 disableSuburbs={disableSuburbs}
                 disableSearchZipCode={disableSearchZipCode}

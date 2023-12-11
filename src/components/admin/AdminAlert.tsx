@@ -19,6 +19,7 @@ export default function AdminAlert({
   text: string;
   noPadding?: boolean;
   buttons?: boolean;
+  primaryButton?: any;
 }) {
   const noPaddingStyle = {
     padding: 0,

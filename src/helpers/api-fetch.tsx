@@ -3,7 +3,7 @@
 export const apiFetch = async (
   url: string,
   method = "GET" as string,
-  body?: object,
+  body?: any,
   files = false as boolean
 ) => {
   let formData = new FormData();
@@ -11,7 +11,6 @@ export const apiFetch = async (
 
   if (files) {
     for (const key in body) {
-      console.log("Este es el key", key);
       formData.append(key, body[key]);
     }
   }

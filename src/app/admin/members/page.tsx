@@ -19,7 +19,7 @@ import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
 import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
 
-import { MemberData } from "@/types/members";
+import { MemberData, MembersPermissionsData } from "@/types/members";
 import { apiFetch } from "@/helpers/api-fetch";
 import { getRoles } from "@/utils/select-options/roles";
 import { getIssuerOptionList } from "@/utils/select-options/issuers";
@@ -27,7 +27,7 @@ import { getIssuerOptionList } from "@/utils/select-options/issuers";
 export default function MemberList() {
   const router = useRouter();
 
-  const [permissions, setPermissions] = useState([]);
+  const [permissions, setPermissions] = useState({} as MembersPermissionsData);
   const [loadingModal, setLoadingModal] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
 

@@ -22,12 +22,12 @@ export const createInvitationBatchScheme = yup.object().shape({
   file: yup
     .mixed()
     .required("Este campo es obligatorio.")
-    .test("fileFormat", "Por favor, ingresa un archivo .xlsx", (value) => {
-      if (!value) return true;
-      const allowedFileTypes = ["application/xlsx"];
+    // .test("fileFormat", "Por favor, ingresa un archivo .xlsx", (value) => {
+    //   if (!value) return true;
+    //   const allowedFileTypes = ["application/xlsx"];
 
-      return allowedFileTypes.includes(value.type);
-    })
+    //   return allowedFileTypes.includes(value.type);
+    // })
     .test(
       "fileSize",
       "Por favor, ingresa un archivo de menos de 10 MB",
