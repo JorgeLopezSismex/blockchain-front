@@ -81,13 +81,19 @@ export default function SignIn() {
 
   return (
     <Fragment>
-      <div className={styles.authTitle}>
-        <h4>BlockChain</h4>
+      <div className="d-flex justify-content-center">
+        <img
+          alt="SingularDocs logo"
+          src="/images/singulardocs_logo.png"
+          style={{ width: "60%", marginBottom: 20 }}
+        />
+      </div>
+
+      <div className="d-flex justify-content-center">
+        <h3>Iniciar sesión</h3>
       </div>
 
       <div className={styles.authFormTitle}>
-        <h3>Inicio de sesión</h3>
-
         {loadingCheck ? (
           <Row style={{ marginTop: 30, marginBottom: 30 }}>
             <Col xs={12} className="d-flex justify-content-center">

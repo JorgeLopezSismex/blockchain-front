@@ -5,8 +5,7 @@ import { useState, Fragment } from "react";
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
 
-import Row from "react-bootstrap/Row";
-import Form from "react-bootstrap/Form";
+import { Col, Row, Form } from "react-bootstrap";
 
 import AuthLink from "@/components/auth/AuthLink";
 import AuthInput from "@/components/auth/AuthInput";
@@ -30,85 +29,99 @@ export default function ForgotPassword() {
 
   const forgotPassword = async (values: ForgotPasswordData) => {
     setLoading(true);
-    const res = await apiFetch("authorization/forgot-password", "POST", values);
 
-    if (res.success) {
+    apiFetch("authorization/forgot-password", "POST", values).then((res) => {
+      console.log("Este es el res de la petcicion", res);
+
+      if (res.success) {
+        setLoading(false);
+        setShowToast(true);
+
+        setToastVariant("success");
+        setToastTitle("Autenticación");
+        setToastMessage(res.message);
+        return true;
+      }
+
       setLoading(false);
       setShowToast(true);
 
-      setToastVariant("success");
+      setToastVariant("danger");
       setToastTitle("Autenticación");
       setToastMessage(res.message);
-      return true;
-    }
 
-    setLoading(false);
-    setShowToast(true);
-
-    setToastVariant("danger");
-    setToastTitle("Autenticación");
-    setToastMessage(res.message);
+      return false;
+    });
 
     return false;
   };
 
   return (
     <Fragment>
-      <div className={styles.authTitle}>
-        <h2>Sismex - Blockchain</h2>
+      <div className="d-flex justify-content-center">
+        <img
+          alt="SingularDocs logo"
+          src="/images/singulardocs_logo.png"
+          style={{ width: "60%", marginBottom: 20 }}
+        />
       </div>
 
       <div className={styles.authFormTitle}>
-        <h3>Olvide mi contraseña</h3>
-        <Formik
-          validationSchema={forgotPasswordSchema}
-          initialValues={{
-            email: "",
-          }}
-          onSubmit={async (values, { resetForm }) => {
-            let res = await forgotPassword(values);
-            if (res) {
-              resetForm({
-                values: {
-                  email: "",
-                },
-              });
-            }
-          }}
-        >
-          {({ handleSubmit, handleChange, values, touched, errors }) => (
-            <Form noValidate onSubmit={handleSubmit}>
-              <Row className="mb-3">
-                <AuthInput
-                  type={"text"}
-                  name={"email"}
-                  value={values.email}
-                  errors={errors.email}
-                  handleChange={handleChange}
-                  label={"Correo electrónico"}
-                  placeholder={"ejemplo@gmail.com"}
-                />
-              </Row>
+        <Fragment>
+          <div className="d-flex justify-content-center">
+            <h3>Olvidé mi contraseña</h3>
+          </div>
 
-              <Row className="mb-3">
-                <AuthButton
-                  loading={loading}
-                  text={"Solicitar cambiar contraseña"}
-                />
-              </Row>
-            </Form>
-          )}
-        </Formik>
+          <Formik
+            validationSchema={forgotPasswordSchema}
+            initialValues={{
+              email: "",
+            }}
+            onSubmit={async (values, { resetForm }) => {
+              let res = await forgotPassword(values);
+              if (res) {
+                resetForm({
+                  values: {
+                    email: "",
+                  },
+                });
+              }
+            }}
+          >
+            {({ handleSubmit, handleChange, values, touched, errors }) => (
+              <Form noValidate onSubmit={handleSubmit}>
+                <Row className="mb-3">
+                  <AuthInput
+                    type={"text"}
+                    name={"email"}
+                    value={values.email}
+                    errors={errors.email}
+                    handleChange={handleChange}
+                    label={"Correo electrónico"}
+                    placeholder={"ejemplo@gmail.com"}
+                  />
+                </Row>
 
-        <AuthLink
-          link={"sign-in"}
-          text={"¿Ya tienes una cuenta? - Iniciar sesión"}
-        />
-        <br />
-        <AuthLink
-          link={"sign-up"}
-          text={"¿No tienes cuenta? - Registrate aquí"}
-        />
+                <Row className="mb-3">
+                  <AuthButton
+                    loading={loading}
+                    text={"Solicitar cambiar contraseña"}
+                  />
+                </Row>
+              </Form>
+            )}
+          </Formik>
+
+          <AuthLink
+            link={"sign-in"}
+            text={"¿Ya tienes una cuenta? - Iniciar sesión"}
+          />
+          <br />
+          <AuthLink
+            link={"sign-up"}
+            text={"¿No tienes cuenta? - Registrate aquí"}
+          />
+        </Fragment>
       </div>
 
       <ActionToast

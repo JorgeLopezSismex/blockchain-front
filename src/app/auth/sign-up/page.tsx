@@ -3,9 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect, Fragment } from "react";
 
-
-
-
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -68,78 +65,88 @@ export default function SignUp() {
 
   return (
     <Fragment>
-      <div className={styles.authTitle}>
-        <h2>Sismex - Blockchain</h2>
+      <div className="d-flex justify-content-center">
+        <img
+          alt="SingularDocs logo"
+          src="/images/singulardocs_logo.png"
+          style={{ width: "60%", marginBottom: 20 }}
+        />
       </div>
 
-      <div className={styles.authFormTitle}>
-        <h3>Crear cuenta</h3>
-        <Formik
-          onSubmit={signUp}
-          validationSchema={signUpSchema}
-          initialValues={{
-            name: "",
-            email: "",
-            password: "",
-            repeatPassword: "",
-            phone: "",
-            address: "",
-            stateID: 0,
-          }}
-        >
-          {({ handleSubmit, handleChange, values, touched, errors }) => (
-            <Form noValidate onSubmit={handleSubmit}>
-              <Row className="mb-3">
-                <AuthInput
-                  type={"text"}
-                  name={"email"}
-                  value={values.email}
-                  errors={errors.email}
-                  handleChange={handleChange}
-                  label={"Correo electrónico"}
-                  placeholder={"ejemplo@gmail.com"}
-                />
-              </Row>
+      <div className={styles.authTitle}>
+        <div className="d-flex justify-content-center">
+          <h3>Crear cuenta</h3>
+        </div>
 
-              <Row className="mb-3">
-                <AuthInput
-                  type={"password"}
-                  name={"password"}
-                  label={"Contraseña"}
-                  value={values.password}
-                  errors={errors.password}
-                  handleChange={handleChange}
-                  placeholder={"Micontraseña123*"}
-                />
-              </Row>
+        <Fragment>
+          <Formik
+            onSubmit={signUp}
+            validationSchema={signUpSchema}
+            initialValues={{
+              name: "",
+              email: "",
+              password: "",
+              repeatPassword: "",
+              phone: "",
+              address: "",
+              stateID: 0,
+            }}
+          >
+            {({ handleSubmit, handleChange, values, touched, errors }) => (
+              <Form noValidate onSubmit={handleSubmit}>
+                <Row className="mb-3">
+                  <AuthInput
+                    type={"text"}
+                    name={"email"}
+                    value={values.email}
+                    errors={errors.email}
+                    handleChange={handleChange}
+                    label={"Correo electrónico"}
+                    placeholder={"ejemplo@gmail.com"}
+                  />
+                </Row>
 
-              <Row className="mb-3">
-                <AuthInput
-                  type={"password"}
-                  name={"repeatPassword"}
-                  handleChange={handleChange}
-                  label={"Repetir contraseña"}
-                  value={values.repeatPassword}
-                  errors={errors.repeatPassword}
-                  placeholder={"Micontraseña123*"}
-                />
-              </Row>
+                <Row className="mb-3">
+                  <AuthInput
+                    type={"password"}
+                    name={"password"}
+                    label={"Contraseña"}
+                    value={values.password}
+                    errors={errors.password}
+                    handleChange={handleChange}
+                    placeholder={"Micontraseña123*"}
+                  />
+                </Row>
 
-              
+                <Row className="mb-3">
+                  <AuthInput
+                    type={"password"}
+                    name={"repeatPassword"}
+                    handleChange={handleChange}
+                    label={"Repetir contraseña"}
+                    value={values.repeatPassword}
+                    errors={errors.repeatPassword}
+                    placeholder={"Micontraseña123*"}
+                  />
+                </Row>
 
-              <Row className="mb-3">
-                <AuthButton text={"Registrarse"} loading={loading} />
-              </Row>
-            </Form>
-          )}
-        </Formik>
+                <Row className="mb-3">
+                  <AuthButton text={"Registrarse"} loading={loading} />
+                </Row>
+              </Form>
+            )}
+          </Formik>
 
-        <AuthLink link={"forgot-password"} text={"¿Olvidaste tu contraseña?"} />
-        <br />
-        <AuthLink
-          link={"sign-in"}
-          text={"¿Ya tienes una cuenta? - Iniciar sesión"}
-        />
+          <AuthLink
+            link={"forgot-password"}
+            text={"¿Olvidaste tu contraseña?"}
+          />
+          <br />
+          <AuthLink
+            link={"sign-in"}
+            text={"¿Ya tienes una cuenta? - Iniciar sesión"}
+          />
+        </Fragment>
       </div>
 
       <ActionToast
