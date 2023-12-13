@@ -13,6 +13,7 @@ import AuthLink from "@/components/auth/AuthLink";
 import AuthInput from "@/components/auth/AuthInput";
 import AuthButton from "@/components/auth/AuthButton";
 import ActionToast from "@/components/main/ActionToast";
+import AuthReCaptcha from "@/components/auth/AuthReCaptcha";
 
 import { SignUpData } from "@/types/auth";
 import { apiFetch } from "@/helpers/api-fetch";
@@ -23,8 +24,11 @@ import styles from "../styles.module.css";
 export default function SignUp() {
   const { Formik } = formik;
   const router = useRouter();
+  const [recaptchaKey, setRecaptchaKey] = useState(1);
 
   const [loading, setLoading] = useState(false);
+  const [loadignReCaptcha, setLoadingReCaptcha] = useState(true);
+
   const [showToast, setShowToast] = useState(false);
   const [toastTitle, setToastTitle] = useState("Título");
   const [toastMessage, setToastMessage] = useState("Mensaje.");
@@ -56,9 +60,10 @@ export default function SignUp() {
     setToastTitle("Autenticación");
     setToastMessage(res.message);
 
+    localStorage.setItem("token", res.data);
     setTimeout(() => {
-      router.replace("/auth/sign-in");
-    }, 6000);
+      router.replace("/admin");
+    }, 1000);
 
     return;
   };
@@ -90,9 +95,17 @@ export default function SignUp() {
               phone: "",
               address: "",
               stateID: 0,
+              reCaptcha: "",
             }}
           >
-            {({ handleSubmit, handleChange, values, touched, errors }) => (
+            {({
+              errors,
+              values,
+              touched,
+              handleSubmit,
+              handleChange,
+              setFieldValue,
+            }) => (
               <Form noValidate onSubmit={handleSubmit}>
                 <Row className="mb-3">
                   <AuthInput
@@ -129,6 +142,13 @@ export default function SignUp() {
                     placeholder={"Micontraseña123*"}
                   />
                 </Row>
+
+                <AuthReCaptcha
+                  key={recaptchaKey}
+                  errors={errors.reCaptcha}
+                  setFieldValue={setFieldValue}
+                  setLoadingReCaptcha={setLoadingReCaptcha}
+                />
 
                 <Row className="mb-3">
                   <AuthButton text={"Registrarse"} loading={loading} />
