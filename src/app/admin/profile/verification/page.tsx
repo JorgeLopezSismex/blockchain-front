@@ -34,7 +34,11 @@ import AdminFormBackButton from "@/components/admin/AdminFormBackButton";
 import { VerificationData } from "@/types/issuers";
 import IssuersForm from "../../issuers/form";
 
+import { useRouter } from "next/navigation";
+
 export default function Verification() {
+  const router = useRouter();
+
   const [loadingData, setLoadingData] = useState(true);
   const [initialValues, setInitialValues] = useState({});
   const [issuer, setIssuer] = useState({} as IssuerData);
@@ -58,6 +62,8 @@ export default function Verification() {
   const [suburbOptios, setSuburbOptions] = useState([] as any[]);
   const [disableSearchZipCode, setDisableSearchZipCode] = useState(true);
 
+  const [hasContacts, setHasContacts] = useState(false);
+
   useEffect(() => {
     // Permisos
     const permissiosnParams = new URLSearchParams();
@@ -69,11 +75,31 @@ export default function Verification() {
           return null;
         }
 
+        // Contactos
+        getContacts();
+
+        //Quitar prara puebas!!!
+        setLoadingScreen(false);
+
         // Información de verificación
-        getVerificationData();
+        // getVerificationData();
       }
     });
   }, []);
+
+  const getContacts = async () => {
+    apiFetch("contacts").then((res) => {
+      if (res.success) {
+        if (res.data.length > 0) {
+          // Tiene contactos, puede comenzar el proceso.
+          setHasContacts(true);
+          getVerificationData();
+        }
+
+        // No tiene contactos.
+      }
+    });
+  };
 
   const getVerificationData = async () => {
     setLoadingVerificationData(true);
@@ -180,61 +206,106 @@ export default function Verification() {
 
   const { Formik } = formik;
 
-  return loadingScreen ? (
-    <AdminTableSpinner />
-  ) : (
+  if (loadingScreen) {
+    return <AdminTableSpinner />;
+  }
+
+  return (
     <Fragment>
       <AdminPageHeader title="Verificación">
         <Breadcrumb className="float-sm-right">
-          <Link className="breadcrumb-item" href={"../admin"}>
+          <Link className="breadcrumb-item" href={"../../admin"}>
             Inicio
           </Link>
-          <Link className="breadcrumb-item" href={"../admin/profile"}>
+          <Link className="breadcrumb-item" href={"../../admin/profile"}>
             Perfil
           </Link>
           <Breadcrumb.Item active>Verificación</Breadcrumb.Item>
         </Breadcrumb>
       </AdminPageHeader>
 
-      <AdminAlert
-        title={alertTitle}
-        text={alertMessage}
-        variant={alertVariant}
-      />
+      {hasContacts ? (
+        <AdminAlert
+          title={alertTitle}
+          text={alertMessage}
+          variant={alertVariant}
+        />
+      ) : (
+        <AdminAlert
+          variant="warning"
+          title="No cuentas con ningun contacto"
+          text="asdasda"
+        >
+          <div className="d-flex justify-content-end">
+            <Button
+              variant="outline-warning"
+              onClick={() => router.push("../../admin/profile/contacts")}
+            >
+              Añadir contactos
+            </Button>
+          </div>
+        </AdminAlert>
+      )}
 
       <AdminCardContainer xs={12}>
-        {loadingVerificationData ? (
+        {!hasContacts ? null : loadingVerificationData ? (
           <AdminTableSpinner />
         ) : (
           <Formik
-            onSubmit={() => {
-              alert("Se hace submit");
-            }}
-            initialValues={initialValues}
-            validationSchema={verifyIssuerScheme}
+            onSubmit={() => alert("Se hace submit")}
+            initialValues={{ name: "", taxId: null }}
           >
             {({
-              handleSubmit,
-              handleChange,
-              setFieldValue,
               values,
               errors,
+              handleChange,
+              handleSubmit,
+              setFieldValue,
             }) => (
-              <IssuersForm
-                values={values}
-                errors={errors}
-                getSuburbs={getSuburbs}
-                disbaleForm={disbaleForm}
-                handleChange={handleChange}
-                handleSubmit={handleSubmit}
-                suburbOptions={suburbOptios}
-                setSuburbOptions={setSuburbOptions}
-                setDisableSuburbs={setDisableSuburbs}
-                setFieldValue={setFieldValue}
-                disableSuburbs={disableSuburbs}
-                disableSearchZipCode={disableSearchZipCode}
-                setDisableSearchZipCode={setDisableSearchZipCode}
-              />
+              <Form noValidate onSubmit={handleSubmit}>
+                <Row className="mb-3">
+                  <FormInput
+                    md={6}
+                    sm={12}
+                    type="text"
+                    name="name"
+                    controlId="name"
+                    label="Nombre comercial"
+                    value={values.name}
+                    errors={errors.name}
+                    disabled={disbaleForm}
+                    handleChange={handleChange}
+                    placeholder="Nombre comercial"
+                  />
+
+                  <FormInputFile
+                    md={6}
+                    sm={12}
+                    name="taxId"
+                    controlId="taxId"
+                    value={values.taxId}
+                    errors={errors.taxId}
+                    label="Cedula fiscal"
+                    accept="application/pdf"
+                    setFieldValue={setFieldValue}
+                  />
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row-reverse",
+                    }}
+                  >
+                    {disbaleForm ? null : (
+                      <AdminFormSubmitButton loading={false} />
+                    )}
+                    <AdminFormBackButton
+                      loading={false}
+                      backUrl="../../admin/profile"
+                    />
+                  </div>
+                </Row>
+              </Form>
             )}
           </Formik>
         )}

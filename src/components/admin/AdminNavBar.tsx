@@ -19,41 +19,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EnvelopeFill } from "react-bootstrap-icons";
 
 import Dropdown from "react-bootstrap/Dropdown";
-import {
-  faUser,
-  faUsers,
-  faBell,
-  faUserGroup,
-  faFileCircleCheck,
-  faEnvelope,
-  faBook,
-} from "@fortawesome/free-solid-svg-icons";
 
-const options = [
-  { id: 1, title: "Emisores", icon: faUser, link: "/../admin/issuers" },
-  { id: 2, title: "Miembros", icon: faUserGroup, link: "/../admin/members" },
-  {
-    id: 3,
-    title: "Notificaciones",
-    icon: faBell,
-    link: "/../admin/notifications",
-  },
-  {
-    id: 4,
-    title: "Invitaciones",
-    icon: faEnvelope,
-    link: "/../admin/invitations",
-  },
-  {
-    id: 5,
-    title: "Certificados",
-    icon: faFileCircleCheck,
-    link: "/../admin/certificates",
-  },
-  { id: 6, title: "Bitácora", icon: faBook, link: "/../admin/event-log" },
-];
+import { DrawerOption } from "@/types/drawer";
 
-export default function AdminNavBar() {
+
+export default function AdminNavBar({
+  email,
+  initials,
+  options,
+}: {
+  email: string;
+  initials: string;
+  options: DrawerOption[];
+}) {
   const expand = "xs";
   const router = useRouter();
   const [show, setShow] = useState(false);
@@ -88,10 +66,10 @@ export default function AdminNavBar() {
 
         <div style={{ display: "inline-flex" }}>
           <p
-            style={{ marginBottom: 0, marginRight: 15 }}
+            style={{ marginBottom: 0, marginRight: 15, color: "white" }}
             className="d-flex align-items-center"
           >
-            jalopez@sismex.com
+            {email}
           </p>
           <Dropdown
             autoClose={true}
@@ -106,7 +84,7 @@ export default function AdminNavBar() {
               split={true}
             >
               <div className="circle" id="dropdown-custom-components">
-                <span className="initials">JA</span>
+                <span className="initials">{initials}</span>
               </div>
             </Dropdown.Toggle>
 

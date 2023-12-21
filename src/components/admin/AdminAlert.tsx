@@ -11,15 +11,13 @@ export default function AdminAlert({
   title,
   text,
   noPadding,
-  buttons,
-  primaryButton,
+  children,
 }: {
   variant: string;
   title: string;
   text: string;
   noPadding?: boolean;
-  buttons?: boolean;
-  primaryButton?: any;
+  children?: React.ReactNode;
 }) {
   const noPaddingStyle = {
     padding: 0,
@@ -34,19 +32,10 @@ export default function AdminAlert({
           <Alert variant={variant}>
             <Alert.Heading>{title}</Alert.Heading>
             <p>{text}</p>
-            {!buttons ? null : (
-              <Fragment>
-                <hr />
-                <div className="d-flex justify-content-end">
-                  <Button
-                    onClick={() => alert("Holas")}
-                    variant="outline-primary"
-                  >
-                    Descargar plantilla
-                  </Button>
-                </div>
-              </Fragment>
-            )}
+
+            {children == null ? null : <hr />}
+
+            {children}
           </Alert>
         </Col>
       </Row>
