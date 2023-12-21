@@ -142,7 +142,6 @@ export default function CreateInvitation() {
           </Tab>
           <Tab eventKey="batch-create" title="Invitaciones por lote">
             <AdminAlert
-              buttons={true}
               noPadding={true}
               variant="primary"
               title="¿Cómo crear invitaciones por lote?"
