@@ -77,3 +77,7 @@ export const resetPasswordSchema = yup.object().shape({
     .max(16, "Por favor, no escribas más de 16 caracteres.")
     .oneOf([yup.ref("password"), null], "Las contraseñas no coinciden"),
 });
+
+export const verifyOwnershipSchema = yup.object().shape({
+  reCaptcha: yup.string().required("La casilla reCaptcha es obligatoria."),
+});

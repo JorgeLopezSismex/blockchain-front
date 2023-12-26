@@ -78,9 +78,6 @@ export default function Verification() {
         // Contactos
         getContacts();
 
-        //Quitar prara puebas!!!
-        setLoadingScreen(false);
-
         // Información de verificación
         // getVerificationData();
       }
@@ -93,6 +90,7 @@ export default function Verification() {
         if (res.data.length > 0) {
           // Tiene contactos, puede comenzar el proceso.
           setHasContacts(true);
+          setLoadingScreen(false);
           getVerificationData();
         }
 
@@ -140,7 +138,9 @@ export default function Verification() {
           taxSituationStatement: null,
         });
 
-        if (data.issuerVerificationStatusKey == "UNVERIFIED") {
+        const status = data.issuerVerificationStatusKey;
+
+        if (status == "UNVERIFIED") {
           setAlertTitle("Emisor sin verificar");
           setAlertVariant("warning");
           setAlertMessage(
@@ -151,55 +151,31 @@ export default function Verification() {
           );
         }
 
-        if (data.issuerVerificationStatusKey == "VERIFIED") {
+        if (status == "VERIFIED") {
           setAlertTitle("Emisor verificado");
           setAlertVariant("success");
           setAlertMessage("");
         }
 
-        if (data.issuerVerificationStatusKey == "PENDING_VERIFICATION") {
-          setAlertTitle("Solicitud de verificación en revisión");
+        if (status == "PENDING_OWNERSHIP_VERIFICATION") {
+          setAlertTitle("Veriicaciond epropiedad");
           setAlertVariant("warning");
           setAlertMessage("");
         }
 
-        if (data.issuerVerificationStatusKey == "REJECTED") {
+        if (status == "PENDING_VERIFICATION") {
+          setAlertTitle("Verificación de propiedad pendiente");
+          setAlertVariant("warning");
+          setAlertMessage("");
+        }
+
+        if (status == "REJECTED") {
           setAlertTitle("Solicitud de verificación rechazada");
           setAlertVariant("danger");
           setAlertMessage("");
         }
 
-        getSuburbs(res.data.zipCode, null);
-      }
-    });
-  };
-
-  const getSuburbs = async (zipCode: string, setFieldValue: any) => {
-    setDisableSuburbs(true);
-    const zipCodeParams = new URLSearchParams();
-    zipCodeParams.append("zipCode", zipCode);
-    apiFetch(`zip-code?${zipCodeParams.toString()}`).then((res) => {
-      if (res.success) {
-        var options: any[] = [];
-        const suburbs = res.data;
-
-        res.data.map((suburb: any) => {
-          options[options.length] = {
-            value: suburb.d_asenta,
-            label: suburb.d_asenta,
-          };
-        });
-
-        setSuburbOptions(options);
-
-        if (setFieldValue != null || setFieldValue != undefined) {
-          setFieldValue("city", res.data[0].d_mnpio);
-          setFieldValue("state", res.data[0].d_estado);
-        }
-
-        setLoadingScreen(false);
-        setDisableSuburbs(false);
-        setLoadingVerificationData(false);
+        // getSuburbs(res.data.zipCode, null);
       }
     });
   };
@@ -224,7 +200,7 @@ export default function Verification() {
         </Breadcrumb>
       </AdminPageHeader>
 
-      {hasContacts ? (
+      {loadingScreen ? null : hasContacts ? (
         <AdminAlert
           title={alertTitle}
           text={alertMessage}
@@ -232,9 +208,9 @@ export default function Verification() {
         />
       ) : (
         <AdminAlert
+          text="asdasda"
           variant="warning"
           title="No cuentas con ningun contacto"
-          text="asdasda"
         >
           <div className="d-flex justify-content-end">
             <Button
@@ -313,3 +289,36 @@ export default function Verification() {
     </Fragment>
   );
 }
+
+/*
+  const getSuburbs = async (zipCode: string, setFieldValue: any) => {
+    setDisableSuburbs(true);
+    const zipCodeParams = new URLSearchParams();
+    zipCodeParams.append("zipCode", zipCode);
+    apiFetch(`zip-code?${zipCodeParams.toString()}`).then((res) => {
+      if (res.success) {
+        var options: any[] = [];
+        const suburbs = res.data;
+
+        res.data.map((suburb: any) => {
+          options[options.length] = {
+            value: suburb.d_asenta,
+            label: suburb.d_asenta,
+          };
+        });
+
+        setSuburbOptions(options);
+
+        if (setFieldValue != null || setFieldValue != undefined) {
+          setFieldValue("city", res.data[0].d_mnpio);
+          setFieldValue("state", res.data[0].d_estado);
+        }
+
+        setLoadingScreen(false);
+        setDisableSuburbs(false);
+        setLoadingVerificationData(false);
+      }
+    });
+  };
+
+*/
