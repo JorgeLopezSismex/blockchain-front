@@ -111,6 +111,7 @@ export default function ContatcsList() {
                   md={12}
                   errors={null}
                   label="Emisor"
+                  disabled={false}
                   name="issuerId"
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un emisor"

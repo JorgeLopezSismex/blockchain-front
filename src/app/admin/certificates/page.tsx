@@ -1,175 +1,180 @@
 "use client";
-//Certificados ο(=•ω＜=)ρ⌒☆
+
 import moment from "moment";
 import Link from "next/link";
+import { Formik } from "formik";
 import { Fragment, useState, useEffect } from "react";
-// import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 
+import { Certificate } from "@blockcerts/cert-verifier-js";
+
+import Row from "react-bootstrap/Row";
+import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import AdminModal from "@/components/admin/AdminModal";
+
 import AdminTable from "@/components/admin/AdminTable";
+import FormDatePicker from "@/components/form/FormDatePicker";
+import FormAsyncSelect from "@/components/form/FormAsyncSelect";
+import AdminModalJorge from "@/components/admin/AdminModalJorge";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
-import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
+import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
+import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
 
-import { faEye, faXmark, faShare } from "@fortawesome/free-solid-svg-icons";
-
-import { IssuerData } from "@/types/issuers";
 import { apiFetch } from "@/helpers/api-fetch";
-import { createColumnHelper } from "@tanstack/react-table";
+import { CertificateData } from "@/types/certificates";
+import { CertificatesPermissionsData } from "@/types/certificates";
+import certificatesTableColums from "@/table-columns/certificates";
+import { getIssuerOptionList } from "@/utils/select-options/issuers";
+import { getTemplatesOptionList } from "@/utils/select-options/templates";
 
-// const alchemyKey = 'E5vywOK-yRVjfzIhbu5hsusAcRPPvfPt';
-// const alchemyURL = 'https://eth-sepolia.g.alchemy.com/v2/E5vywOK-yRVjfzIhbu5hsusAcRPPvfPt';
-// const web3 = createAlchemyWeb3(alchemyURL);
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import ButtonMUI from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 
-interface TransactionStatus {
-  status: string;
-}
+const steps = [
+  {
+    label: "Select campaign settings",
+    description: `For each ad campaign that you create, you can control how much
+              you're willing to spend on clicks and conversions, which networks
+              and geographical locations you want your ads to show on, and more.`,
+  },
+  {
+    label: "Create an ad group",
+    description:
+      "An ad group contains one or more ads which target a shared set of keywords.",
+  },
+  {
+    label: "Create an ad",
+    description: `Try out different ad text to see what brings in the most customers,
+              and learn how to enhance your ads using features like ad extensions.
+              If you run into any problems with your ads, find out how to tell if
+              they're running and how to resolve approval issues.`,
+  },
+];
 
-export default function Certificate(){
-  const [issuers, setIssuers] = useState([]);
-  const [dataLoading, setDataLoading] = useState(true);
-  const columnHelper = createColumnHelper<IssuerData>();
+export default function CertificateList() {
+  const [loadingScreen, setLoadingScreen] = useState(true);
+  const [loadingCertificates, setLoadingCertificates] = useState(true);
 
-  const [shareModal, setShareModal] = useState(false);
-  const [detailsModal, setDetailsModal] = useState(false);
-  const [cancelModal, setCancelModal] = useState(false);
+  const [permissions, setPermissions] = useState(
+    {} as CertificatesPermissionsData
+  );
 
-  // //Ethereum------
-  // const [transactionHashes] = useState<string[]>([
-  //   '0xa7382afb7ee642aced8afb04a2b882e79772e88bc9de809bd7eb3a65860756d0',
-  //   '0x30ae256294b9772df0a08da3fde158899bc2f5a158b08c834421933e14c301b0',
-  //   // ... Agrega más hashes según sea necesario
-  // ]);
-  // const [transactionStatuses, setTransactionStatuses] = useState<Record<string, TransactionStatus>>({});
-  // //--------------
+  const [certificates, setCertificates] = useState([]);
+  const [selectedCertificate, setSelectedCertificate] = useState(
+    {} as CertificateData
+  );
+
+  const [showVerifyModal, setShowVerifyModal] = useState(false);
+
+  const [activeStep, setActiveStep] = React.useState(0);
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
 
   useEffect(() => {
-    loadRoles();
-    getIssuers();
-
-    // //Ethereum--------
-    // const obtenerEstadoTransaccion = async (txHash: string) => {
-    //   try {
-    //     const estado = await web3.eth.getTransactionReceipt(txHash);
-    //     setTransactionStatuses((prevStatuses) => ({
-    //       ...prevStatuses,
-    //       [txHash]: { status: estado ? 'Completada' : 'Pendiente' },
-    //     }));
-    //   } catch (error) {
-    //     console.error(`Error al obtener el estado de la transacción ${txHash}:`, error);
-    //     setTransactionStatuses((prevStatuses) => ({
-    //       ...prevStatuses,
-    //       [txHash]: { status: 'Error al obtener el estado' },
-    //     }));
-    //   }
-    // };
-
-    // // Iterar sobre la lista de hashes y obtener el estado de cada transacción
-    // transactionHashes.forEach((txHash) => {
-    //   obtenerEstadoTransaccion(txHash);
-    // });
-    //----------------
-  }, []);
-
-  // transactionHashes
-
-  const openShareModal = () => {
-    setShareModal(true);
-  };
-
-  const openDetailsModal = () => {
-    setDetailsModal(true);
-  };
-
-  const openCancelModal = () => {
-    setCancelModal(true);
-  };
-
-  const handleShare = () => {
-    console.log("El certificado será compartido");
-    setShareModal(false);
-  };
-
-  const handleDetails = () => {
-    console.log("Detalles del certificado");
-    setDetailsModal(false);
-  };
-
-  const handleCancel = () => {
-    console.log("El certificado será cancelado.");
-    setCancelModal(false);
-  };
-
-  const loadRoles = async () => {
-    try {
-      const res = await apiFetch("roles");
-      if (res.data) {
-        const data = res.data;
-
-        const options = data.map((item: any) => ({
-          value: item.roleId,
-          label: item.name,
-        }));
-
-        return options;
+    // Permisos
+    const permissiosnParams = new URLSearchParams();
+    permissiosnParams.append("module", "CERTIFICATES_MODULE");
+    apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
+      if (!res.success) {
+        return alert("Ocurrió un error.");
       }
 
-      return [];
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
+      setPermissions(res.data);
+      if (!res.data.LIST_CERTIFICATE) {
+        return alert("No tienes permisos para entrar a esta pantalla.");
+      }
+
+      test();
+
+      getCertificates();
+    });
+  }, []);
+
+  const test = async () => {
+    /***/
+
+    var request = new XMLHttpRequest();
+    request.open(
+      "GET",
+      "http://localhost:3000/testing/certificate.json",
+      false
+    );
+    request.send(null);
+    var my_JSON_object = JSON.parse(request.responseText);
+
+    let certificate = new Certificate(my_JSON_object, { locale: "es-ES" });
+    await certificate.init();
+
+    console.log(certificate);
+
+    /***/
   };
 
-  const getIssuers = async () => {
-    setDataLoading(true);
-    const res = await apiFetch("issuers");
-    // alert("Termino la peticion de datos");
-    console.log(res);
+  const getCertificates = async () => {
+    apiFetch("certificates").then((res) => {
+      setLoadingCertificates(false);
+      console.log("estos son los certificados", res);
+      if (!res.success) {
+        alert("Ocurrió un error al cargar los certificados");
+        return;
+      }
 
-    if (res.success) {
-      setDataLoading(false);
-      setIssuers(res.data);
-    }
+      setCertificates(res.data);
+      setLoadingCertificates(false);
+      setLoadingScreen(false);
+    });
   };
 
-  const columns = [
-    columnHelper.accessor("issuerId", {
-      header: () => "Id",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("name", {
-      header: () => "Receptor",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("createdAt", {
-      header: () => "Fecha",
-      cell: (info) => moment(info.getValue()).format("DD/MM/YYYY"),
-    }),
-    columnHelper.accessor("issuerVerificationStatusName", {
-      header: () => "Estado",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.display({
-      id: "actions",
-      header: () => "Acciones",
-      cell: (info) => {
-        return (
-          <ButtonGroup aria-label="Basic example">
-            {/* <AdminTableActionButton icon={faEye} tooltip="Ver" onClick={() => openDetailsModal()}/>
-            <AdminTableActionButton icon={faShare} tooltip="Compartir" onClick={() => openShareModal()}/>
-            <AdminTableActionButton icon={faXmark} tooltip="Cancelar" onClick={() => openCancelModal()}/> */}
-          </ButtonGroup>
-        );
-      },
-    }),
-  ];
+  const getFilteredCertificates = async (values: any) => {
+    const certificatesParams = new URLSearchParams();
+    if (values.issuerId != null) {
+      certificatesParams.append("issuerId", values.issuerId);
+    }
 
-  return (
+    if (values.templateId != null) {
+      certificatesParams.append("templateId", values.templateId);
+    }
+
+    if (values.createdAtFrom != null) {
+      certificatesParams.append("createdAtFrom", values.createdAtFrom);
+    }
+
+    if (values.createdAtTo != null) {
+      certificatesParams.append("createdAtTo", values.createdAtTo);
+    }
+
+    setLoadingCertificates(true);
+    apiFetch(`certificates?${certificatesParams.toString()}`).then((res) => {
+      if (res.success) {
+        setCertificates(res.data);
+        setLoadingScreen(false);
+        setLoadingCertificates(false);
+      }
+    });
+  };
+
+  return loadingScreen ? (
+    <AdminTableSpinner />
+  ) : (
     <Fragment>
       <AdminPageHeader title="Certificados">
         <Breadcrumb className="float-sm-right">
@@ -180,67 +185,154 @@ export default function Certificate(){
         </Breadcrumb>
       </AdminPageHeader>
 
-      <AdminModal
-        show={detailsModal}
-        onHide={() => setDetailsModal(false)}
-        onClick={() => handleDetails()}
-        title="Detalles"
-        text="Detalles del certificado."
-        buttonText="Algo"
-      />
+      <AdminFilterContainer>
+        <Formik
+          onSubmit={getFilteredCertificates}
+          initialValues={{
+            issuerId: null,
+            templateId: null,
+            createdAtFrom: null,
+            createdAtTo: null,
+          }}
+        >
+          {({ values, errors, handleChange, handleSubmit, setFieldValue }) => (
+            <Form noValidate onSubmit={handleSubmit}>
+              <Row className="mb-3">
+                <FormAsyncSelect
+                  md={6}
+                  sm={12}
+                  errors={null}
+                  label="Emisor"
+                  name="issuerId"
+                  disabled={false}
+                  setFieldValue={setFieldValue}
+                  placeholder="Selecciona un emisor"
+                  getOptions={() => getIssuerOptionList()}
+                />
 
-      <AdminModal
-        show={shareModal}
-        onHide={() => setShareModal(false)}
-        onClick={() => handleShare()}
-        title="Compartir"
-        text="Compartir certificado."
-        buttonText="Compartit"
-      />
+                <FormAsyncSelect
+                  md={6}
+                  sm={12}
+                  errors={null}
+                  disabled={false}
+                  label="Plantilla"
+                  name="templateId"
+                  setFieldValue={setFieldValue}
+                  placeholder="Selecciona una plantilla"
+                  getOptions={() => getTemplatesOptionList()}
+                />
 
-      <AdminModal
-        show={cancelModal}
-        onHide={() => setCancelModal(false)}
-        onClick={() => handleCancel()}
-        title="Cancelar"
-        text="Certificado cancelado"
-        buttonText="Cancelar"
-      />
+                <FormDatePicker
+                  md={6}
+                  sm={12}
+                  name="createdAtFrom"
+                  setFieldValue={setFieldValue}
+                  placeholder="Selecciona una fecha"
+                  maxDate={moment(values.createdAtTo)}
+                  label="Fecha de creación del certificado mínima"
+                />
+
+                <FormDatePicker
+                  md={6}
+                  sm={12}
+                  name="createdAtTo"
+                  setFieldValue={setFieldValue}
+                  placeholder="Selecciona una fecha"
+                  minDate={moment(values.createdAtFrom)}
+                  label="Fecha de creación del certificado máxima"
+                />
+
+                <div className="d-flex justify-content-end">
+                  <AdminFormSubmitButton
+                    label="Filtrar"
+                    loading={loadingCertificates}
+                  />
+                </div>
+              </Row>
+            </Form>
+          )}
+        </Formik>
+      </AdminFilterContainer>
 
       <AdminCardContainer xs={12}>
-        {dataLoading ? (
+        {loadingCertificates ? (
           <AdminTableSpinner />
         ) : (
-          <AdminTable columns={columns} defaultData={issuers}>
-            <Link href={"/admin/certificates/create-certificate"}>
-              <Button variant="primary">Nuevo</Button>
-            </Link>
+          <AdminTable
+            defaultData={certificates}
+            columns={certificatesTableColums(
+              permissions,
+              setSelectedCertificate,
+              setShowVerifyModal,
+              null
+            )}
+          >
+            {!permissions.CREATE_CERTIFICATE ? null : (
+              <Link href={"/admin/certificates/create"}>
+                <Button variant="primary">Nuevo</Button>
+              </Link>
+            )}
           </AdminTable>
         )}
       </AdminCardContainer>
 
-      {/* <AdminCardContainer xs={12}>
-      <div className="mx-3">
-        <h1>Lista de Transacciones</h1> <hr />
-        {transactionHashes.map((txHash) => (
-          <div key={txHash}>
-            <p>
-              <strong>Hash:</strong> {txHash}
-            </p>
-            <p>
-              <strong>Estado:</strong>{' '}
-              {transactionStatuses[txHash] ? (
-                <span>{transactionStatuses[txHash].status}</span>
-              ) : (
-                'Cargando...'
-              )}
-            </p>
-          </div>
-        ))}
-      </div>
-      </AdminCardContainer> */}
-
-
+      <AdminModalJorge
+        title="Verificar"
+        show={showVerifyModal}
+        showButtons={true}
+        handleSubmit={() => setShowVerifyModal(false)}
+        modalLoading={false}
+        handleClose={() => setShowVerifyModal(false)}
+      >
+        <Box sx={{ maxWidth: 400 }}>
+          <Stepper activeStep={activeStep} orientation="vertical">
+            {steps.map((step, index) => (
+              <Step key={step.label}>
+                <StepLabel
+                  optional={
+                    index === 2 ? (
+                      <Typography variant="caption">Last step</Typography>
+                    ) : null
+                  }
+                >
+                  {step.label}
+                </StepLabel>
+                <StepContent>
+                  <Typography>{step.description}</Typography>
+                  <Box sx={{ mb: 2 }}>
+                    <div>
+                      <ButtonMUI
+                        variant="contained"
+                        onClick={handleNext}
+                        sx={{ mt: 1, mr: 1 }}
+                      >
+                        {index === steps.length - 1 ? "Finish" : "Continue"}
+                      </ButtonMUI>
+                      <ButtonMUI
+                        disabled={index === 0}
+                        onClick={handleBack}
+                        sx={{ mt: 1, mr: 1 }}
+                      >
+                        Back
+                      </ButtonMUI>
+                    </div>
+                  </Box>
+                </StepContent>
+              </Step>
+            ))}
+          </Stepper>
+          {activeStep === steps.length && (
+            <Paper square elevation={0} sx={{ p: 3 }}>
+              <Typography>
+                All steps completed - you&apos;re finished
+              </Typography>
+              <ButtonMUI onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                Reset
+              </ButtonMUI>
+            </Paper>
+          )}
+        </Box>
+      </AdminModalJorge>
     </Fragment>
   );
 }

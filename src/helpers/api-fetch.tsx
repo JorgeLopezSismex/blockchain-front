@@ -19,8 +19,6 @@ export const apiFetch = async (
     console.log(key, value);
   });
 
-  console.log(body, "res");
-
   const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + url, {
     method: method,
     headers: !files

@@ -231,6 +231,7 @@ export default function Invitations() {
                   errors={null}
                   label="Emisor"
                   name="issuerId"
+                  disabled={false}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un emisor"
                   getOptions={() => getIssuerOptionList()}
@@ -241,6 +242,7 @@ export default function Invitations() {
                   sm={12}
                   errors={null}
                   label="Estado"
+                  disabled={false}
                   name="invitationStatusId"
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un estado"

@@ -13,6 +13,7 @@ export default function FormAsyncSelect({
   name,
   label,
   errors,
+  disabled,
   placeholder,
   getOptions,
   defaultValueId,
@@ -24,6 +25,7 @@ export default function FormAsyncSelect({
   name: string;
   label: string;
   errors: any;
+  disabled: boolean;
   placeholder: string;
   getOptions: any;
   defaultValueId?: any;
@@ -40,7 +42,13 @@ export default function FormAsyncSelect({
   }
 
   return (
-    <Form.Group className="mb-3" as={Col} sm={sm} md={md}>
+    <Form.Group
+      className="mb-3"
+      as={Col}
+      sm={sm}
+      md={md}
+      style={{ zIndex: 10 }}
+    >
       <Form.Label>{label}</Form.Label>
 
       <InputGroup>
@@ -49,13 +57,15 @@ export default function FormAsyncSelect({
         </Form.Control> */}
         <AsyncSelect
           id={name}
-          isClearable={true}
           name={name}
           cacheOptions
           defaultOptions
+          isClearable={true}
           styles={customStyles}
+          isDisabled={disabled}
           loadOptions={getOptions}
           placeholder={placeholder}
+          noOptionsMessage={() => "Sin opciones"}
           defaultValue={
             defaultValueId == null && defaultValue == null
               ? null

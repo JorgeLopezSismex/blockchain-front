@@ -1,0 +1,27 @@
+{
+    "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://w3id.org/blockcerts/v3"
+    ],
+    "type": [
+        "VerifiableCredential",
+        "BlockcertsCredential"
+    ],
+    "issuer": "https://raw.githubusercontent.com/JorgeLopezSismex/test-blockchain/main/issuer.json",
+    "issuanceDate": "2024-01-07T21:45:21Z",
+    "id": "urn:uuid:0f76cf26-a6ea-4d4e-942a-9b2bf3f62021",
+    "credentialSubject": {
+        "id": "test2",
+        "alumniOf": {
+            "id": "https://sismex.com/web/"
+        }
+    },
+    "nonce": "41234132515436324tdgfdfdgt55egdst2523423",
+    "proof": {
+        "type": "MerkleProof2019",
+        "created": "2024-01-07T16:13:31.321047",
+        "proofValue": "zfeAW1rS91tR75aFWsJpoohvnfutU2amJDMq8HV7m8eaPPiVBt7Hdo5ZRwNC8uwxwTUr3PpxmDn74rZa7Qp24g7y81tLL6P1AdAsGSc9ZCdS4ukxDxWkoAA1L2hpyeRFGzxw5akYsJ3hXZPk95K37KFKooycSu4DeLGuxAaCzZ8nXtEjaEu6dq85crFXySwwPVoSWuLBS5WwTcJfKsXxm346YC3kjB1M9nrnLuYkG6Xdkb4s4nHXP9bJqb4M5LpECWX9B27nPSzUH1AUvdNBcVpVG9hHfznSSK9ie5hW6h3ZLwP26mVrR2haWd7ie2csAB4hDwj1VUNQjij2gqDrmxThyBizCojsw7jD4TAaDd75uxGnwURgc54LEpDaESMgjyk2JwLGGgVZRdzE17fdzTgdR3LLJsx4PALJrpdZj9JKFSxf8tqkac7d7SmgkC9DbrZxaESAcNHu7ZKJzxLspD7sqgZfEi8sPVS3NeQTPCVmwgL6WB4ZbuHzR8vQkVbFfahw6z9FZ4dFbkkLekBh51wcZAzqytujYFK376AGx18t3ZBWhuskjND7HoJN3QQoWz8muWQqYHaNbpWf4zfe1uJpbpUbzfZRHyTjr7nMLtvAwnP5nheRY1cSm4xcDZGBycV9CWtd6MUpWLYvaZBtaYWjaaXEdzHiYaHfCFZDch5d5v9o1m8G8botBcDa4uyzrajKZYukVijsHijzgS7UEXqtu867dZVXemZbopMMfoEW4B7qMUUZHKqNzxH7D3qBPB1dMStpt7HUGmptZTYH2NJeJVDZxYGSHQoBiX3yen86nPhWRDQH1nh7KSkRKcGBBH96hSyc591Lmnhjarw71Xjdtf7KQoKiCW1R1dsEnxC3cmEept6K2PuAbAdi4YhZb1qh5LNACKoy7vJ42q36axiJMqBU9dQpANgaXgkBsTgDVvpywRW5iwQQQHqe5CUSskGm8qnAwwjZQGErR8a7qhe9tmXY84cpv1nzZTmDKv4dXaXc21Z4gNABFj4Zyb8yUhVGMMjYkas2jgH5ZoschS5smnuZSVLb4NPcb1KuxDPvGkZiSe1gHTcDTxoaXHGyQjykw5pDKFxpaXJVCSbkQBXvAA1DAUKD2mWhq8pRpk5MxX1aPV7jvNTsSuU6d6UzHj7cdMC9QzAPKyHoG7L9KBJrseuv22zy2KkDavm5QcFLePPnGrsK5z8PgCFwQXWhmirQTQT2b1KeT3U7QbpdVLZA352VFmCypXrw2UpnVaBnvVXkdBxXxDF",
+        "proofPurpose": "assertionMethod",
+        "verificationMethod": null
+    }
+}

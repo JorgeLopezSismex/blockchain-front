@@ -17,3 +17,7 @@ export interface ResetPasswordData {
   password: string;
   repeatPassword: string;
 }
+
+export type ChangePasswordPermissionsData = {
+  UPDATE_PASSWORD: boolean;
+};

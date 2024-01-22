@@ -172,7 +172,7 @@ export default function SignIn() {
             <br />
             <AuthLink
               link={"sign-up"}
-              text={"¿No tienes cuenta? - Registrate aquí"}
+              text={"¿No tienes cuenta? - Regístrate aquí"}
             />
           </Fragment>
         )}

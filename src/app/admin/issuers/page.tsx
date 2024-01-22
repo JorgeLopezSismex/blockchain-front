@@ -130,6 +130,7 @@ export default function IssuerList() {
 
   const deleteIssuer = async () => {
     alert("Proceso de eliminar emisor");
+    console.log("Este es el emisor seleccionado", selectedIssuer);
   };
 
   const verifyIssuer = async () => {
@@ -193,9 +194,10 @@ export default function IssuerList() {
                 <FormAsyncSelect
                   md={6}
                   sm={12}
-                  name="roleId"
                   label="Rol"
                   errors={null}
+                  name="roleId"
+                  disabled={false}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un rol"
                   getOptions={() => getRoles("ISSUERS")}
@@ -205,6 +207,7 @@ export default function IssuerList() {
                   md={6}
                   sm={12}
                   errors={null}
+                  disabled={false}
                   setFieldValue={setFieldValue}
                   label="Estado de verificación"
                   name="issuerVerificationStatusId"

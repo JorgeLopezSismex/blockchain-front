@@ -6,15 +6,19 @@ import { Container } from "react-bootstrap";
 export default function AdminCardContainer({
   children,
   xs,
+  marginBottom,
 }: {
   children: React.ReactNode;
   xs: number;
+  marginBottom?: number;
 }) {
   return (
     <Container fluid>
       <Row>
         <Col xs={xs}>
-          <Card style={{ marginBottom: 60 }}>
+          <Card
+            style={{ marginBottom: marginBottom != null ? marginBottom : 60 }}
+          >
             <Card.Body>{children}</Card.Body>
           </Card>
         </Col>

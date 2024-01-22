@@ -15,6 +15,7 @@ export default function AdminModalJorge({
   handleClose,
   showButtons,
   children,
+  noSecondaryButton,
 }: {
   size?: any;
   show: boolean;
@@ -29,6 +30,7 @@ export default function AdminModalJorge({
   handleClose: any;
   showButtons?: boolean;
   children: React.ReactNode;
+  noSecondaryButton?: boolean;
 }) {
   return (
     <Modal
@@ -41,20 +43,24 @@ export default function AdminModalJorge({
       <Modal.Header closeButton={!modalLoading ? true : false}>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body >{children}</Modal.Body>
+      <Modal.Body>{children}</Modal.Body>
       <Modal.Footer>
         {showButtons == true ? (
           <Fragment>
             {" "}
-            <Button
-              onClick={handleClose}
-              disabled={modalLoading}
-              variant={
-                secondaryBtnVariant != null ? secondaryBtnVariant : "secondary"
-              }
-            >
-              {secondaryBtnText != null ? secondaryBtnText : "Cerrar"}
-            </Button>
+            {noSecondaryButton ? null : (
+              <Button
+                onClick={handleClose}
+                disabled={modalLoading}
+                variant={
+                  secondaryBtnVariant != null
+                    ? secondaryBtnVariant
+                    : "secondary"
+                }
+              >
+                {secondaryBtnText != null ? secondaryBtnText : "Cerrar"}
+              </Button>
+            )}
             <Button
               onClick={handleSubmit != null ? handleSubmit : null}
               disabled={modalLoading}

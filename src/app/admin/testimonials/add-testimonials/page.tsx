@@ -161,6 +161,7 @@ export default function AddTestimonials() {
                       sm={12}
                       accept="*"
                       name="photo"
+                      required={true}
                       label="Imagen"
                       controlId="photo"
                       value={values.photo}

@@ -30,6 +30,7 @@ export default function InvitationsBatchForm({
           md={12}
           name="file"
           label="Excel"
+          required={true}
           controlId="file"
           value={values.file}
           errors={errors.file}

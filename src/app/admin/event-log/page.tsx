@@ -150,6 +150,7 @@ export default function StockLog() {
                   md={12}
                   label="Módulo"
                   name="moduleId"
+                  disabled={false}
                   errors={errors.moduleId}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un módulo"
@@ -161,6 +162,7 @@ export default function StockLog() {
                   sm={12}
                   label="Emisor"
                   name="issuerId"
+                  disabled={false}
                   errors={errors.moduleId}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un emisor"
@@ -172,6 +174,7 @@ export default function StockLog() {
                   sm={12}
                   label="Miembro"
                   name="memberId"
+                  disabled={false}
                   errors={errors.moduleId}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un miembro"
@@ -181,6 +184,7 @@ export default function StockLog() {
                 <FormAsyncSelect
                   sm={12}
                   md={6}
+                  disabled={false}
                   name="eventLogTypeId"
                   label="Tipo de evento"
                   errors={errors.moduleId}
@@ -192,6 +196,7 @@ export default function StockLog() {
                 <FormAsyncSelect
                   sm={12}
                   md={6}
+                  disabled={false}
                   name="eventLogLevelId"
                   label="Nivel de evento"
                   errors={errors.moduleId}

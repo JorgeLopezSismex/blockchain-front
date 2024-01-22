@@ -99,7 +99,7 @@ export default function Profile() {
                 text1={"Creado el: "}
                 text2={moment(profile.createdAt).format("DD/MM/YYYY")}
                 action={"Cambiar contraseña"}
-                link={"/admin/update"}
+                link={"/admin/profile/change-password"}
               />
             )}
           </Col>

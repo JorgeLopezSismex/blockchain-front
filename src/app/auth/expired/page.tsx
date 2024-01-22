@@ -42,7 +42,7 @@ export default function Expired() {
 
         <AuthLink
           link={"sign-up"}
-          text={"¿No tienes cuenta? - Registrate aquí"}
+          text={"¿No tienes cuenta? - Regístrate aquí"}
         />
 
         <AuthLink link={"forgot-password"} text={"¿Olvidaste tu contraseña?"} />

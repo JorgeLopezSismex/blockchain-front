@@ -18,8 +18,6 @@ export default function AdminLayout({
   const [drawerOptions, setDrawetOptions] = useState([]);
 
   useEffect(() => {
-    console.log("SE RENDERIZA");
-
     // Datos
     apiFetch("authorization/side-menu").then((res) => {
       if (res.success) {

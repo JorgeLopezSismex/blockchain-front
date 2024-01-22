@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Form, Row } from "react-bootstrap";
 
 import FormInput from "@/components/form/FormInput";
@@ -8,6 +10,10 @@ import FormInputButtonAddon from "@/components/form/FormInputButtonAddon";
 import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
 import { apiFetch } from "@/helpers/api-fetch";
 import FormSelect from "@/components/form/FormSelect";
+import FormAsyncSelect from "@/components/form/FormAsyncSelect";
+
+import { getSuburbsOptionList } from "@/utils/select-options/suburbs";
+import { getIssuerVerificationStatus } from "@/utils/select-options/issuerVerificationStatus";
 
 export default function IssuersForm({
   values,
@@ -22,6 +28,10 @@ export default function IssuersForm({
   suburbOptions,
   setSuburbOptions,
   disableSuburbs,
+  setDisableSuburbs,
+  countryKey,
+  suburbsKey,
+  setSuburbsKey,
 }: {
   values: any;
   errors: any;
@@ -36,8 +46,10 @@ export default function IssuersForm({
   setSuburbOptions: any;
   disableSuburbs: boolean;
   setDisableSuburbs: any;
+  countryKey: number;
+  suburbsKey: number;
+  setSuburbsKey: any;
 }) {
-  console.log(errors);
   return (
     <Form noValidate onSubmit={handleSubmit}>
       <Row className="mb-3">
@@ -76,29 +88,45 @@ export default function IssuersForm({
           name={"zipCode"}
           btnText={"Buscar"}
           btnId={"btnZipCode"}
-          disbaleButton={disableSearchZipCode}
           placeholder={"12345"}
           value={values.zipCode}
           errors={errors.zipCode}
           label={"Código postal"}
+          disbaleButton={disableSearchZipCode}
+          handleClick={() =>
+            getSuburbsOptionList(
+              values.zipCode,
+              setDisableSuburbs,
+              suburbsKey,
+              setSuburbsKey,
+              true
+            )
+          }
           handleChange={(event: any) => {
+            let options: any[] = [];
             let value = event.target.value;
-            setFieldValue("zipCode", value);
-            if (value == undefined || value == "" || value == null) {
-              setSuburbOptions([]);
-              setDisableSearchZipCode(true);
-              console.log("Se limpia y se descantiva");
 
+            setSuburbOptions(options);
+            setFieldValue("zipCode", value);
+
+            setFieldValue("country", "");
+            setFieldValue("state", "");
+            setFieldValue("city", "");
+
+            if (value != undefined && value != "" && value != null) {
+              setDisableSearchZipCode(false);
+              // setDisableSuburbs(false);
               return;
             }
 
-            setDisableSearchZipCode(false);
+            setDisableSuburbs(true);
+            setDisableSearchZipCode(true);
             return;
           }}
-          handleClick={() => getSuburbs(values.zipCode, setFieldValue)}
         />
 
         <FormInput
+          key={countryKey}
           md={6}
           sm={12}
           type={"text"}
@@ -140,16 +168,33 @@ export default function IssuersForm({
           handleChange={handleChange}
         />
 
-        <FormSelect
+        <FormAsyncSelect
+          key={suburbsKey}
+          md={6}
+          sm={12}
           disabled={disableSuburbs}
-          label={"Colonia"}
-          options={suburbOptions}
-          defaultText="Selecciona una colonia"
-          defaultValue={
-            values.suburb == null
-              ? null
-              : { value: values.suburb, label: values.suburb }
-          }
+          errors={null}
+          name="suburb"
+          label="Colonia"
+          setFieldValue={setFieldValue}
+          placeholder="Selecciona un estado de verificación"
+          getOptions={async () => {
+            let options = await getSuburbsOptionList(
+              values.zipCode,
+              setDisableSuburbs,
+              suburbsKey,
+              setSuburbsKey,
+              false
+            );
+
+            console.log(options, "Estas son las opciones");
+
+            if (options.length > 0) {
+              console.log("Tiene opciones");
+              setDisableSuburbs(false);
+              // setSuburbsKey(suburbsKey + 1);
+            }
+          }}
         />
 
         <FormInput
@@ -195,7 +240,7 @@ export default function IssuersForm({
         />
 
         <FormInput
-          md={6}
+          md={12}
           sm={12}
           type={"email"}
           name={"email"}
@@ -236,17 +281,18 @@ export default function IssuersForm({
           placeholder={"RFC de la empresa."}
         />
 
-        <FormInputFile
+        {/* <FormInputFile
           md={6}
           sm={12}
           name="taxId"
           controlId="taxId"
           value={values.taxId}
           errors={errors.taxId}
-          label="Cedula fiscal"
+          label="Cédula fiscal"
           accept="application/pdf"
           setFieldValue={setFieldValue}
-        />
+          required={true}
+        /> */}
 
         <FormTextarea
           md={12}
@@ -265,6 +311,7 @@ export default function IssuersForm({
         <FormInputFile
           md={6}
           sm={12}
+          required={true}
           name="constitutiveAct"
           accept="application/pdf"
           label="Acta constitutiva"
@@ -275,8 +322,22 @@ export default function IssuersForm({
         />
 
         <FormInputFile
-          sm={12}
           md={6}
+          sm={12}
+          required={true}
+          accept="application/pdf"
+          name="taxSituationStatement"
+          setFieldValue={setFieldValue}
+          controlId="taxSituationStatement"
+          label="Estado de situación fiscal."
+          value={values.taxSituationStatement}
+          errors={errors.taxSituationStatement}
+        />
+        
+        <FormInputFile
+          md={6}
+          sm={12}
+          required={true}
           accept="application/pdf"
           name="taxSituationStatement"
           setFieldValue={setFieldValue}

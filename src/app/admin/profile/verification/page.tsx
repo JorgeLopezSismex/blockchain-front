@@ -1,19 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import * as formik from "formik";
+
 import { Fragment, useEffect, useState } from "react";
 
 import { verifyIssuerScheme } from "@/validations/issuer-validations";
 
-import Row from "react-bootstrap/Row";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-import FormInput from "@/components/form/FormInput";
 import FormSelect from "@/components/form/FormSelect";
 
-import FormInputFile from "@/components/form/FormInputFile";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 
 import { IssuerData } from "@/types/issuers";
@@ -28,27 +24,52 @@ import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 
 import { ProfilePermissionsData } from "@/types/profile";
 import { Issuer } from "@mercadopago/sdk-react/coreMethods/util/types";
-import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
-import AdminFormBackButton from "@/components/admin/AdminFormBackButton";
 
 import { VerificationData } from "@/types/issuers";
 import IssuersForm from "../../issuers/form";
 
 import { useRouter } from "next/navigation";
+import { stat } from "fs";
+import { faL } from "@fortawesome/free-solid-svg-icons";
+import SubmitedData from "./submited-data";
+import { TypeH2 } from "react-bootstrap-icons";
+import VerificationFirstStepForm from "./first-step-form";
+
+import ActionToast from "@/components/main/ActionToast";
+import AdminModalJorge from "@/components/admin/AdminModalJorge";
 
 export default function Verification() {
   const router = useRouter();
 
+  const [loadingForm, setLoadingForm] = useState(false);
+  const [loadingScreen, setLoadingScreen] = useState(true);
+  const [loadingVerificationData, setLoadingVerificationData] = useState(false);
+
+  const [modalText, setModalText] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  const [showToast, setShowToast] = useState(false);
+  const [toastTitle, setToastTitle] = useState("Título");
+  const [toastVariant, setToastVariant] = useState("success");
+  const [toastMessage, setToastMessage] = useState("Mensaje.");
+
+  /*No se que es esto*/
+  /*No se que es esto*/
+  /*No se que es esto*/
+  /*No se que es esto*/
+  /*No se que es esto*/
+  /*No se que es esto*/
+  /*No se que es esto*/
+  /*No se que es esto*/
   const [loadingData, setLoadingData] = useState(true);
   const [initialValues, setInitialValues] = useState({});
+
   const [issuer, setIssuer] = useState({} as IssuerData);
 
   const [alertTitle, setAlertTitle] = useState("");
   const [alertVariant, setAlertVariant] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
-
-  const [loadingScreen, setLoadingScreen] = useState(true);
-  const [loadingVerificationData, setLoadingVerificationData] = useState(false);
 
   const [permissions, setPermissions] = useState({} as ProfilePermissionsData);
 
@@ -60,9 +81,21 @@ export default function Verification() {
   const [disableSuburbs, setDisableSuburbs] = useState(true);
 
   const [suburbOptios, setSuburbOptions] = useState([] as any[]);
-  const [disableSearchZipCode, setDisableSearchZipCode] = useState(true);
+  const [disableSearchZipCode, setDisableSearchZipCode] = useState(false);
 
   const [hasContacts, setHasContacts] = useState(false);
+  const [issuerVerificationStatus, setIssuerVerificationStatus] = useState("");
+
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+
+  const [suburbsKey, setSuburbsKey] = useState(1);
+  const [countryKey, setCountryKey] = useState(1000);
+
+  const [submitedData, setSubmitedData] = useState({});
+
+  /* CAMBIAR PARA HACER PRUEBAS!!!!!!!! */
+  const [fullForm, setFullForm] = useState(true);
 
   useEffect(() => {
     // Permisos
@@ -95,6 +128,7 @@ export default function Verification() {
         }
 
         // No tiene contactos.
+        return;
       }
     });
   };
@@ -103,9 +137,8 @@ export default function Verification() {
     setLoadingVerificationData(true);
     apiFetch("verification").then((res) => {
       if (res.success) {
-        console.log(res);
+        console.log(res, "Estos son los datos");
         setVerificationData(res.data);
-        setAttachments(res.attachments);
 
         const data = res.data as IssuerData;
 
@@ -116,45 +149,22 @@ export default function Verification() {
             : false
         );
 
-        setInitialValues({
-          name: data.name,
-          legalName: data.legalName,
-          // sdfsdfsfsd
-          zipCode: data.zipCode,
-          country: data.country,
-          state: data.state,
-          city: data.city,
-          //Colonia
-          street: data.street,
-          internalNumber:
-            data.internalNumber != null ? data.internalNumber : "",
-          externalNumber: data.externalNumber,
-          email: data.email,
-          phone: data.phone,
-          rfc: data.rfc,
-          taxId: null,
-          description: data.description,
-          constitutiveAct: null,
-          taxSituationStatement: null,
-        });
-
         const status = data.issuerVerificationStatusKey;
+        setIssuerVerificationStatus(data.issuerVerificationStatusKey);
 
         if (status == "UNVERIFIED") {
-          setAlertTitle("Emisor sin verificar");
           setAlertVariant("warning");
+          setAlertTitle("Emisor sin verificar");
           setAlertMessage(
             "Para utilizar las funciones de la plataforma, debes ser verificado por " +
               "la administración. Para ello, completa el siguiente formulario. La administración revisará " +
               "tu solicitud y recibirás un correo electrónico con la respuesta. Así mismo, prodras consultar el estado " +
               "de tu solicitud en esta página."
           );
-        }
 
-        if (status == "VERIFIED") {
-          setAlertTitle("Emisor verificado");
-          setAlertVariant("success");
-          setAlertMessage("");
+          setFullForm(false);
+          setLoadingVerificationData(false);
+          return;
         }
 
         if (status == "PENDING_OWNERSHIP_VERIFICATION") {
@@ -163,9 +173,27 @@ export default function Verification() {
           setAlertMessage("");
         }
 
+        if (status == "OWNERSHIP_VERIFIED") {
+          getIssuerLegalData();
+        }
+
         if (status == "PENDING_VERIFICATION") {
-          setAlertTitle("Verificación de propiedad pendiente");
+          setSubmitedData(res.data);
+          setAttachments(res.attachments);
+          setLoadingVerificationData(false);
+
           setAlertVariant("warning");
+          setAlertTitle("Solicitud de verificación en proceso");
+          setAlertMessage(
+            "Tú solicitud de verificación fue enviada exitosamente. La administracion de la plataforma revisará la información y recibirás un correo con la respuesta."
+          );
+
+          return;
+        }
+
+        if (status == "VERIFIED") {
+          setAlertTitle("Emisor verificado");
+          setAlertVariant("success");
           setAlertMessage("");
         }
 
@@ -174,60 +202,281 @@ export default function Verification() {
           setAlertVariant("danger");
           setAlertMessage("");
         }
-
-        // getSuburbs(res.data.zipCode, null);
       }
     });
   };
 
-  const { Formik } = formik;
+  const getIssuerLegalData = async () => {
+    apiFetch("issuers/legal-data").then((res) => {
+      console.log("Estos son los datos legales", res);
+      if (!res.success) {
+        return;
+      }
 
-  if (loadingScreen) {
-    return <AdminTableSpinner />;
-  }
+      const legalData = res.data;
+      let state: string | null = null;
+      let city: string | null = null;
+
+      const zipCodeParams = new URLSearchParams();
+      zipCodeParams.append("zipCode", legalData.zipCode);
+      console.log("1");
+      apiFetch(`zip-code?${zipCodeParams.toString()}`).then((res) => {
+        console.log(res, "Esta es la respuesta del primerzip Code");
+        if (res.success) {
+          var options: any[] = [];
+          const suburbs = res.data;
+
+          state = suburbs[0].d_estado;
+          setCountryKey(countryKey + 1);
+
+          city = suburbs[0].d_mnpio;
+          console.log(state, "Este es el estado");
+          console.log(city, "Esta es la ciudad", city);
+
+          res.data.map((suburb: any) => {
+            options[options.length] = {
+              value: suburb.d_asenta,
+              label: suburb.d_asenta,
+            };
+          });
+
+          setSuburbOptions(options);
+        }
+
+        setInitialValues({
+          legalName: legalData.legalName,
+          zipCode: legalData.zipCode,
+          country: legalData.country,
+          state: state,
+          city: city,
+          street: "",
+          externalNumber: legalData.externalNumber,
+          internalNumber: legalData.internalNumber,
+          email: legalData.email,
+          phone: "",
+          rfc: legalData.rfc,
+          description: legalData.description,
+          constitutiveAct: null,
+          taxSituationStatement: null,
+        });
+
+        setLoadingVerificationData(false);
+      });
+    });
+  };
+
+  const getSuburbs = async (zipCode: string, setFieldValue: any) => {
+    setDisableSearchZipCode(true);
+    const zipCodeParams = new URLSearchParams();
+    zipCodeParams.append("zipCode", zipCode);
+
+    apiFetch(`zip-code?${zipCodeParams.toString()}`).then((res) => {
+      if (res.success) {
+        var options: any[] = [];
+        const suburbs = res.data;
+
+        res.data.map((suburb: any) => {
+          options[options.length] = {
+            value: suburb.d_asenta,
+            label: suburb.d_asenta,
+          };
+        });
+
+        console.log("Esto se ejecuta");
+
+        setSuburbOptions(options);
+        setCountryKey(countryKey + 1);
+
+        if (setFieldValue != null || setFieldValue != undefined) {
+          if (options.length > 0) {
+            setFieldValue("country", "México");
+            setFieldValue("city", res.data[0].d_mnpio);
+            setFieldValue("state", res.data[0].d_estado);
+          }
+        }
+
+        setDisableSuburbs(false);
+        setDisableSearchZipCode(false);
+
+        setSuburbsKey(suburbsKey + 1);
+
+        setLoadingScreen(false);
+        setDisableSuburbs(false);
+        setLoadingVerificationData(false);
+      }
+    });
+  };
+
+  const submitVerificationData = async (values: any) => {
+    console.log(values, "Estos son los valores");
+  };
 
   return (
     <Fragment>
-      <AdminPageHeader title="Verificación">
-        <Breadcrumb className="float-sm-right">
-          <Link className="breadcrumb-item" href={"../../admin"}>
-            Inicio
-          </Link>
-          <Link className="breadcrumb-item" href={"../../admin/profile"}>
-            Perfil
-          </Link>
-          <Breadcrumb.Item active>Verificación</Breadcrumb.Item>
-        </Breadcrumb>
-      </AdminPageHeader>
-
-      {loadingScreen ? null : hasContacts ? (
-        <AdminAlert
-          title={alertTitle}
-          text={alertMessage}
-          variant={alertVariant}
-        />
+      {loadingScreen ? (
+        <AdminTableSpinner />
       ) : (
-        <AdminAlert
-          text="asdasda"
-          variant="warning"
-          title="No cuentas con ningun contacto"
-        >
-          <div className="d-flex justify-content-end">
-            <Button
-              variant="outline-warning"
-              onClick={() => router.push("../../admin/profile/contacts")}
-            >
-              Añadir contactos
-            </Button>
-          </div>
-        </AdminAlert>
+        <Fragment>
+          {/* -------------------------------- Breadcrum ------------------------------- */}
+          <AdminPageHeader title="Verificación">
+            <Breadcrumb className="float-sm-right">
+              <Link className="breadcrumb-item" href={"../../admin"}>
+                Inicio
+              </Link>
+              <Link className="breadcrumb-item" href={"../../admin/profile"}>
+                Perfil
+              </Link>
+              <Breadcrumb.Item active>Verificación</Breadcrumb.Item>
+            </Breadcrumb>
+          </AdminPageHeader>
+
+          {loadingScreen ? (
+            <AdminTableSpinner />
+          ) : (
+            <Fragment>
+              {/* -------------------- Alerta de estado de verificación -------------------- */}
+              {loadingScreen ? null : hasContacts ? (
+                <AdminAlert
+                  title={alertTitle}
+                  text={alertMessage}
+                  variant={alertVariant}
+                />
+              ) : (
+                <AdminAlert
+                  text="asdasda"
+                  variant="warning"
+                  title="No cuentas con ningun contacto"
+                >
+                  <div className="d-flex justify-content-end">
+                    <Button
+                      variant="outline-warning"
+                      onClick={() =>
+                        router.push("../../admin/profile/contacts")
+                      }
+                    >
+                      Añadir contactos
+                    </Button>
+                  </div>
+                </AdminAlert>
+              )}
+
+              {/* ---------------------- Formulario o resumen de datos --------------------- */}
+              {!hasContacts ? null : loadingVerificationData ? (
+                <AdminTableSpinner />
+              ) : !fullForm ? (
+                <AdminCardContainer xs={12}>
+                  <VerificationFirstStepForm
+                    loadingForm={loadingForm}
+                    setModalText={setModalText}
+                    setShowModal={setShowModal}
+                    setModalTitle={setModalTitle}
+                    setLoadingForm={setLoadingForm}
+                    setShowToast={setShowToast}
+                    setToastTitle={setToastTitle}
+                    setToastVariant={setToastVariant}
+                    setToastMessage={setToastMessage}
+                  />
+                </AdminCardContainer>
+              ) : issuerVerificationStatus != "PENDING_VERIFICATION" &&
+                issuerVerificationStatus != "OWNERSHIP_VERIFIED" ? (
+                <h1>Formulario completo</h1>
+              ) : (
+                <SubmitedData
+                  attachments={attachments}
+                  submitedData={submitedData}
+                />
+              )}
+            </Fragment>
+          )}
+        </Fragment>
       )}
 
+      <AdminModalJorge
+        showButtons={true}
+        show={showModal}
+        title={modalTitle}
+        primaryBtnVariant="danger"
+        handleSubmit={() => alert("hola subit")}
+        modalLoading={true}
+        handleClose={() => alert("hola subit")}
+      >
+        {modalText}
+      </AdminModalJorge>
+
+      <ActionToast
+        delay={3000}
+        show={showToast}
+        title={toastTitle}
+        message={toastMessage}
+        variant={toastVariant}
+        onClose={() => setShowToast(false)}
+      />
+    </Fragment>
+  );
+}
+
+/*
+
+  return (
+    <Fragment>
       <AdminCardContainer xs={12}>
         {!hasContacts ? null : loadingVerificationData ? (
           <AdminTableSpinner />
+        ) : !fullForm ? (
+          <h1>Se carga el formulario pequeño</h1>
+        ) : issuerVerificationStatus == "" ? (
+          <h1>hola munfo</h1>
         ) : (
+          
+        )}
+      </AdminCardContainer>
+    </Fragment>
+  );
+
+*/
+
+/*
+
           <Formik
+            validateOnBlur={false}
+            initialValues={initialValues}
+            onSubmit={submitVerificationData}
+            // validationSchema={verifyIssuerScheme}
+          >
+            {({
+              values,
+              errors,
+              handleSubmit,
+              handleChange,
+              setFieldValue,
+            }) => (
+              <IssuersForm
+                values={values}
+                errors={errors}
+                disbaleForm={false}
+                handleSubmit={handleSubmit}
+                handleChange={handleChange}
+                setFieldValue={setFieldValue}
+                disableSearchZipCode={disableSearchZipCode}
+                setDisableSearchZipCode={setDisableSearchZipCode}
+                getSuburbs={getSuburbs}
+                suburbOptions={suburbOptios}
+                setSuburbOptions={setSuburbOptions}
+                disableSuburbs={disableSuburbs}
+                setDisableSuburbs={setDisableSuburbs}
+                countryKey={countryKey}
+                suburbsKey={suburbsKey}
+                setSuburbsKey={setSuburbsKey}
+              />
+            )}
+          </Formik>
+
+*/
+
+/*
+
+
+<Formik
             onSubmit={() => alert("Se hace submit")}
             initialValues={{ name: "", taxId: null }}
           >
@@ -266,59 +515,36 @@ export default function Verification() {
                     setFieldValue={setFieldValue}
                   />
 
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row-reverse",
-                    }}
-                  >
-                    {disbaleForm ? null : (
-                      <AdminFormSubmitButton loading={false} />
-                    )}
-                    <AdminFormBackButton
-                      loading={false}
-                      backUrl="../../admin/profile"
-                    />
-                  </div>
+                  
                 </Row>
               </Form>
             )}
           </Formik>
-        )}
-      </AdminCardContainer>
-    </Fragment>
-  );
-}
+
+*/
 
 /*
-  const getSuburbs = async (zipCode: string, setFieldValue: any) => {
-    setDisableSuburbs(true);
-    const zipCodeParams = new URLSearchParams();
-    zipCodeParams.append("zipCode", zipCode);
-    apiFetch(`zip-code?${zipCodeParams.toString()}`).then((res) => {
-      if (res.success) {
-        var options: any[] = [];
-        const suburbs = res.data;
 
-        res.data.map((suburb: any) => {
-          options[options.length] = {
-            value: suburb.d_asenta,
-            label: suburb.d_asenta,
-          };
+        setInitialValues({
+          name: data.name,
+          legalName: data.legalName,
+          // sdfsdfsfsd
+          zipCode: data.zipCode,
+          country: data.country,
+          state: data.state,
+          city: data.city,
+          //Colonia
+          street: data.street,
+          internalNumber:
+            data.internalNumber != null ? data.internalNumber : "",
+          externalNumber: data.externalNumber,
+          email: data.email,
+          phone: data.phone,
+          rfc: data.rfc,
+          taxId: null,
+          description: data.description,
+          constitutiveAct: null,
+          taxSituationStatement: null,
         });
-
-        setSuburbOptions(options);
-
-        if (setFieldValue != null || setFieldValue != undefined) {
-          setFieldValue("city", res.data[0].d_mnpio);
-          setFieldValue("state", res.data[0].d_estado);
-        }
-
-        setLoadingScreen(false);
-        setDisableSuburbs(false);
-        setLoadingVerificationData(false);
-      }
-    });
-  };
 
 */

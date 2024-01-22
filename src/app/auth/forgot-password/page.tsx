@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, Fragment } from "react";
-
+import moment from "moment";
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
+import { useState, Fragment } from "react";
 
 import { Col, Row, Form } from "react-bootstrap";
 
@@ -11,6 +11,7 @@ import AuthLink from "@/components/auth/AuthLink";
 import AuthInput from "@/components/auth/AuthInput";
 import AuthButton from "@/components/auth/AuthButton";
 import ActionToast from "@/components/main/ActionToast";
+import AuthCountdownTimer from "@/components/auth/AuthCountdownTimer";
 
 import { apiFetch } from "@/helpers/api-fetch";
 import { ForgotPasswordData } from "@/types/auth";
@@ -28,18 +29,28 @@ export default function ForgotPassword() {
   const [toastVariant, setToastVariant] = useState("success");
 
   const forgotPassword = async (values: ForgotPasswordData) => {
+    const now = moment(); // Get current date/time
+    const futureTime = now.add(120, "seconds"); // Add 30 seconds to the current time
+    const unixTimestamp = futureTime.unix(); // Convert the updated time to Unix timestamp
+
+    console.log(now, "Esto es ahora");
+    console.log(now.add(30, "seconds"), "esto es el futuro");
+
+    return;
+
     setLoading(true);
 
     apiFetch("authorization/forgot-password", "POST", values).then((res) => {
-      console.log("Este es el res de la petcicion", res);
-
       if (res.success) {
         setLoading(false);
         setShowToast(true);
 
         setToastVariant("success");
-        setToastTitle("Autenticación");
         setToastMessage(res.message);
+        setToastTitle("Autenticación");
+
+        localStorage.setItem("test", res.data);
+
         return true;
       }
 
@@ -108,6 +119,8 @@ export default function ForgotPassword() {
                     text={"Solicitar cambiar contraseña"}
                   />
                 </Row>
+
+                <AuthCountdownTimer countdownTimestampMs={123} />
               </Form>
             )}
           </Formik>
@@ -119,7 +132,7 @@ export default function ForgotPassword() {
           <br />
           <AuthLink
             link={"sign-up"}
-            text={"¿No tienes cuenta? - Registrate aquí"}
+            text={"¿No tienes cuenta? - Regístrate aquí"}
           />
         </Fragment>
       </div>

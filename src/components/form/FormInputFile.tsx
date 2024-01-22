@@ -1,6 +1,8 @@
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import { InputGroup } from "react-bootstrap";
+import Link from "next/link";
+import { Award } from "react-bootstrap-icons";
 
 export default function FormInputFile({
   sm,
@@ -12,10 +14,25 @@ export default function FormInputFile({
   errors,
   controlId,
   setFieldValue,
-}: any) {
+  required,
+}: {
+  sm: number;
+  md: number;
+  name: string;
+  label: string;
+  value: any;
+  accept: string;
+  errors: any;
+  controlId: string;
+  setFieldValue: any;
+  required: boolean;
+}) {
   return (
     <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={controlId}>
-      <Form.Label>{label}</Form.Label>
+      <Form.Label>
+        {label}{" "}
+        {!required ? null : <small className="text-danger">Requerido</small>}
+      </Form.Label>
       <InputGroup hasValidation>
         <Form.Control
           type="file"

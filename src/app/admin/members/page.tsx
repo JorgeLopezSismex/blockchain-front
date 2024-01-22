@@ -145,6 +145,7 @@ export default function MemberList() {
                   errors={null}
                   label="Emisor"
                   name="issuerId"
+                  disabled={false}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un emisor"
                   getOptions={() => getIssuerOptionList()}
@@ -156,6 +157,7 @@ export default function MemberList() {
                   errors={errors.roleId}
                   name="roleId"
                   label="Rol"
+                  disabled={false}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un rol"
                   getOptions={() => getRoles("MEMBERS")}

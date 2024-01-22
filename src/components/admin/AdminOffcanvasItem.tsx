@@ -38,9 +38,7 @@ export default function AdminOffcanvasItem({
 }) {
   let IconDefinition = null;
   if (icon.includes("faBell") || icon.includes("faFileCircleCheck")) {
-    console.log(icon, "Este es el icono");
     IconDefinition = fas[icon.replace("fas-", "")];
-    console.log(IconDefinition, "Este es el onsole log");
   } else {
     IconDefinition = fas[icon.replace("fa-", "")];
   }

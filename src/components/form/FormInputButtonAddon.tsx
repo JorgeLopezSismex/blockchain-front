@@ -24,6 +24,7 @@ export default function FormInputButtonAddon({
       <InputGroup hasValidation>
         <Button
           id={btnId}
+          type="button"
           onClick={handleClick}
           disabled={disbaleButton}
           variant="outline-secondary"

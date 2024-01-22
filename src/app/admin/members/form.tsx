@@ -80,6 +80,7 @@ export default function MembersForm({
           errors={errors.roleId}
           name="roleId"
           label="Rol"
+          disabled={false}
           setFieldValue={setFieldValue}
           defaultValue={member.roleName}
           defaultValueId={member.roleId}
