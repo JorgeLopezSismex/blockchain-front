@@ -1,56 +1,46 @@
 "use client";
-//Invitaciones o(TヘTo)
+
 import moment from "moment";
 import Link from "next/link";
 import { Formik } from "formik";
+import { useSearchParams } from "next/navigation";
 import { Fragment, useState, useEffect } from "react";
 
-import AdminModalJorge from "@/components/admin/AdminModalJorge";
-
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import FormModal from "@/components/form/FormModal";
-import FormInput from "@/components/form/FormInput";
+import Container from "react-bootstrap/Container";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
+
 import AdminTable from "@/components/admin/AdminTable";
-import AdminModal from "@/components/admin/AdminModal";
 import ActionToast from "@/components/main/ActionToast";
+import FormTextarea from "@/components/form/FormTextarea";
+import FormDatePicker from "@/components/form/FormDatePicker";
+import FormAsyncSelect from "@/components/form/FormAsyncSelect";
+import AdminModalJorge from "@/components/admin/AdminModalJorge";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
-import AdminInvitationModal from "@/components/admin/AdminInvitationModal";
-import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
-
-import { cancelInvitationScheme } from "@/validations/invitation-validations";
+import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
+import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
 
 import { apiFetch } from "@/helpers/api-fetch";
-
-import { InvitationsPermissionsData } from "@/types/invitation";
-
-// import { cancelFormSchema } from "@/validations/validation_request";
-//import { InvitationsData } from "@/types/invitation"; //Debería quitarlo
-
-import invitationsTableColums from "@/table-columns/invitations";
-
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Modal from "react-bootstrap/Modal";
-import Row from "react-bootstrap/Row";
 import { InvitationsData } from "@/types/invitation";
-
-import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
-
-import FormTextarea from "@/components/form/FormTextarea";
-import FormAsyncSelect from "@/components/form/FormAsyncSelect";
-
-import FormDatePicker from "@/components/form/FormDatePicker";
-
-import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
+import { IssuersPermissionsData } from "@/types/issuers";
+import { InvitationsPermissionsData } from "@/types/invitation";
+import invitationsTableColums from "@/table-columns/invitations";
 import { getIssuerOptionList } from "@/utils/select-options/issuers";
+import { cancelInvitationScheme } from "@/validations/invitation-validations";
 import { getInvitationStatusOptionList } from "@/utils/select-options/invitation-status";
 
 export default function Invitations() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [actions, setActions] = useState(false);
+
   const [dataLoading, setDataLoading] = useState(true);
   const [loadingModal, setLoadingModal] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
@@ -64,10 +54,6 @@ export default function Invitations() {
   const [showResendModal, setShowResendModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
 
-  const [sendModal, setSendModal] = useState(false);
-  const [cancelModal, setCancelModal] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
-
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertVariant, setAlertVariant] = useState("");
@@ -76,6 +62,10 @@ export default function Invitations() {
   const [permissions, setPermissions] = useState(
     {} as InvitationsPermissionsData
   );
+  const [issuerPermissions, setIssuerPermissions] = useState(
+    {} as IssuersPermissionsData
+  );
+
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [loadingInvitations, setLoadingInvitations] = useState(false);
 
@@ -85,7 +75,35 @@ export default function Invitations() {
   const [toastVariant, setToastVariant] = useState("success");
 
   useEffect(() => {
-    // Permisos
+    if (id == null || id == null || id == undefined) {
+      // Permisos para miembros del usuario
+      setActions(true);
+      getInvitationsPermissions(getInvitations());
+      return;
+    }
+
+    // Permisos para invitaciones de un emisor
+    const permissiosnParams = new URLSearchParams();
+    permissiosnParams.append("module", "ISSUERS_MODULE");
+    apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
+      if (res.success) {
+        setIssuerPermissions(res.data);
+
+        if (res.data.LIST_ISSUER) {
+          setIsAdmin(true);
+        }
+
+        if (!res.data.DETAIL_ISSUER) {
+          return null;
+        }
+
+        // Invitaciones
+        getInvitationsPermissions(getInvitations(parseInt(id)));
+      }
+    });
+  }, []);
+
+  const getInvitationsPermissions = async (getInvitations: any) => {
     const permissiosnParams = new URLSearchParams();
     permissiosnParams.append("module", "INVITATIONS_MODULE");
     apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
@@ -100,11 +118,22 @@ export default function Invitations() {
         getInvitations();
       }
     });
-  }, []);
+  };
 
-  const getInvitations = async () => {
+  const getInvitations = async (issuerId: number | null = null) => {
     setLoadingInvitations(true);
-    apiFetch("invitations").then((res) => {
+
+    const membersParams = new URLSearchParams();
+    if (issuerId != null) {
+      membersParams.append("issuerId", issuerId.toString());
+    }
+
+    const url =
+      membersParams.toString() === ""
+        ? "invitations"
+        : `invitations?${membersParams.toString()}`;
+
+    apiFetch(url).then((res) => {
       console.log(res);
       if (res.success) {
         setInvitations(res.data);
@@ -291,11 +320,12 @@ export default function Invitations() {
               setSelectedInvitation,
               setShowDetailsModal,
               setShowResendModal,
-              setShowCancelModal
+              setShowCancelModal,
+              actions
             )}
             defaultData={invitations}
           >
-            {!permissions.CREATE_INVITATION ? null : (
+            {!permissions.CREATE_INVITATION ? null : !actions ? null : (
               <Link href={"/admin/invitations/create"}>
                 <Button variant="primary">Nuevo</Button>
               </Link>

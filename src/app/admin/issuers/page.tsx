@@ -3,6 +3,7 @@
 import moment from "moment";
 import Link from "next/link";
 import * as formik from "formik";
+import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
 import { Breadcrumb, Row, Form } from "react-bootstrap";
@@ -27,6 +28,7 @@ import { getIssuerVerificationStatus } from "@/utils/select-options/issuerVerifi
 
 export default function IssuerList() {
   const { Formik } = formik;
+  const router = useRouter();
 
   const [permissions, setPermissions] = useState([]);
   const [modalLoading, setModalLoading] = useState(false);
@@ -294,6 +296,7 @@ export default function IssuerList() {
           <AdminTable
             defaultData={issuers}
             columns={issuersTableColumns(
+              router,
               permissions,
               setSelectedIssuer,
               setShowDeleteModal,

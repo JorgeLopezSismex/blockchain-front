@@ -11,11 +11,12 @@ export default function contactsTableColumns(
   router: any,
   permissions: any,
   setSelectedContact: any,
-  setShowDeleteModal: any
+  setShowDeleteModal: any,
+  showActions: boolean = true
 ) {
   const columnHelper = createColumnHelper<ContactsData>();
 
-  return [
+  let columns = [
     columnHelper.accessor("issuerName", {
       header: () => "Emisor",
       cell: (info) => info.getValue(),
@@ -34,37 +35,45 @@ export default function contactsTableColumns(
     }),
     columnHelper.accessor("position", {
       header: () => "Posición",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.display({
-      id: "actions",
-      header: () => "Acciones",
-      cell: (info) => {
-        const contact = info.row.original;
-
-        return (
-          <ButtonGroup aria-label="Action button group">
-            <AdminTableActionButton
-              icon={faPencil}
-              tooltip="Editar"
-              disabled={!permissions.UPDATE_CONTACT ? true : false}
-              onClick={() => {
-                router.push(`contacts/update?id=${contact.contactId}`);
-              }}
-            />
-
-            <AdminTableActionButton
-              icon={faTrash}
-              tooltip="Eliminar"
-              disabled={!permissions.DELETE_CONTACT ? true : false}
-              onClick={async () => {
-                setShowDeleteModal(true);
-                setSelectedContact(contact);
-              }}
-            />
-          </ButtonGroup>
-        );
-      },
+      cell: (info) =>
+        info.getValue() == null ? "Sin posición" : info.getValue(),
     }),
   ];
+
+  if (showActions) {
+    columns.push(
+      columnHelper.display({
+        id: "actions",
+        header: () => "Acciones",
+        cell: (info) => {
+          const contact = info.row.original;
+
+          return (
+            <ButtonGroup aria-label="Action button group">
+              <AdminTableActionButton
+                icon={faPencil}
+                tooltip="Editar"
+                disabled={!permissions.UPDATE_CONTACT ? true : false}
+                onClick={() => {
+                  router.push(`contacts/update?id=${contact.contactId}`);
+                }}
+              />
+
+              <AdminTableActionButton
+                icon={faTrash}
+                tooltip="Eliminar"
+                disabled={!permissions.DELETE_CONTACT ? true : false}
+                onClick={async () => {
+                  setShowDeleteModal(true);
+                  setSelectedContact(contact);
+                }}
+              />
+            </ButtonGroup>
+          );
+        },
+      })
+    );
+  }
+
+  return columns;
 }

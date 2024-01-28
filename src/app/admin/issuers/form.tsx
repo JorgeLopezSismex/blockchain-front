@@ -333,7 +333,7 @@ export default function IssuersForm({
           value={values.taxSituationStatement}
           errors={errors.taxSituationStatement}
         />
-        
+
         <FormInputFile
           md={6}
           sm={12}
@@ -359,16 +359,4 @@ export default function IssuersForm({
       </div>
     </Form>
   );
-}
-
-{
-  /* <FormSelect
-              md={6}
-              sm={12}
-              name={"suburb"}
-              disabled={false}
-              options={suburbs}
-              label={"Colonia"}
-              defaultText={"fdfsd"}
-            /> */
 }

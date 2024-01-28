@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
 import { Breadcrumb, Button, Row, Form } from "react-bootstrap";
-
-import membersTableColumns from "@/table-columns/members";
 
 import AdminTable from "@/components/admin/AdminTable";
 import ActionToast from "@/components/main/ActionToast";
@@ -19,15 +18,26 @@ import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
 import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
 
-import { MemberData, MembersPermissionsData } from "@/types/members";
 import { apiFetch } from "@/helpers/api-fetch";
 import { getRoles } from "@/utils/select-options/roles";
+import { IssuersPermissionsData } from "@/types/issuers";
+import membersTableColumns from "@/table-columns/members";
 import { getIssuerOptionList } from "@/utils/select-options/issuers";
+import { MemberData, MembersPermissionsData } from "@/types/members";
 
 export default function MemberList() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [actions, setActions] = useState(false);
 
   const [permissions, setPermissions] = useState({} as MembersPermissionsData);
+  const [issuerPermissions, setIssuerPermissions] = useState(
+    {} as IssuersPermissionsData
+  );
+
   const [loadingModal, setLoadingModal] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
 
@@ -43,30 +53,68 @@ export default function MemberList() {
   const [toastVariant, setToastVariant] = useState("success");
 
   useEffect(() => {
-    // Permisos
+    if (id == null || id == null || id == undefined) {
+      // Permisos para miembros del usuario
+      setActions(true);
+      getMembersPermissions(getMembers());
+      return;
+    }
+
+    // Permisos para miembros de un emisor
+    const permissiosnParams = new URLSearchParams();
+    permissiosnParams.append("module", "ISSUERS_MODULE");
+    apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
+      if (res.success) {
+        setIssuerPermissions(res.data);
+
+        if (res.data.LIST_ISSUER) {
+          setIsAdmin(true);
+        }
+
+        if (!res.data.DETAIL_ISSUER) {
+          return null;
+        }
+
+        // Miembros
+        getMembersPermissions(getMembers(parseInt(id)));
+      }
+    });
+  }, []);
+
+  const getMembersPermissions = async (getMembers: any) => {
     const permissiosnParams = new URLSearchParams();
     permissiosnParams.append("module", "MEMBERS_MODULE");
     apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
+      console.log("Estos son los permisos del modulo de miembros", res);
       if (res.success) {
         setPermissions(res.data);
         if (!res.data.LIST_MEMBER) {
           return null;
         }
 
-        // Emisores
         getMembers();
       }
     });
-  }, []);
+  };
 
-  const getMembers = async () => {
+  const getMembers = async (issuerId: number | null = null) => {
     setLoadingMembers(true);
-    apiFetch("members").then((res) => {
+
+    const membersParams = new URLSearchParams();
+    if (issuerId != null) {
+      membersParams.append("issuerId", issuerId.toString());
+    }
+
+    const url =
+      membersParams.toString() === ""
+        ? "members"
+        : `members?${membersParams.toString()}`;
+
+    apiFetch(url).then((res) => {
       if (res.success) {
         setMembers(res.data);
         setLoadingScreen(false);
         setLoadingMembers(false);
-        console.log(res.data, "Estos son los miembros");
       }
     });
   };
@@ -131,49 +179,59 @@ export default function MemberList() {
         </Breadcrumb>
       </AdminPageHeader>
 
-      <AdminFilterContainer>
-        <Formik
-          onSubmit={getFilteredMembers}
-          initialValues={{ issuerId: null, roleId: null }}
-        >
-          {({ handleChange, handleSubmit, setFieldValue, values, errors }) => (
-            <Form noValidate onSubmit={handleSubmit}>
-              <Row className="mb-3">
-                <FormAsyncSelect
-                  md={6}
-                  sm={12}
-                  errors={null}
-                  label="Emisor"
-                  name="issuerId"
-                  disabled={false}
-                  setFieldValue={setFieldValue}
-                  placeholder="Selecciona un emisor"
-                  getOptions={() => getIssuerOptionList()}
-                />
+      {!isAdmin ? null : (
+        <AdminFilterContainer>
+          <Formik
+            onSubmit={getFilteredMembers}
+            initialValues={{ issuerId: null, roleId: null }}
+          >
+            {({
+              handleChange,
+              handleSubmit,
+              setFieldValue,
+              values,
+              errors,
+            }) => (
+              <Form noValidate onSubmit={handleSubmit}>
+                <Row className="mb-3">
+                  {!isAdmin ? null : !actions ? null : (
+                    <FormAsyncSelect
+                      md={6}
+                      sm={12}
+                      errors={null}
+                      label="Emisor"
+                      name="issuerId"
+                      disabled={false}
+                      setFieldValue={setFieldValue}
+                      placeholder="Selecciona un emisor"
+                      getOptions={() => getIssuerOptionList()}
+                    />
+                  )}
 
-                <FormAsyncSelect
-                  sm={12}
-                  md={6}
-                  errors={errors.roleId}
-                  name="roleId"
-                  label="Rol"
-                  disabled={false}
-                  setFieldValue={setFieldValue}
-                  placeholder="Selecciona un rol"
-                  getOptions={() => getRoles("MEMBERS")}
-                />
-              </Row>
+                  <FormAsyncSelect
+                    sm={12}
+                    label="Rol"
+                    name="roleId"
+                    disabled={false}
+                    md={!isAdmin ? 12 : !actions ? 12 : 6}
+                    errors={errors.roleId}
+                    setFieldValue={setFieldValue}
+                    placeholder="Selecciona un rol"
+                    getOptions={() => getRoles("MEMBERS")}
+                  />
+                </Row>
 
-              <div className="d-flex justify-content-end">
-                <AdminFormSubmitButton
-                  label="Filtrar"
-                  loading={loadingMembers}
-                />
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </AdminFilterContainer>
+                <div className="d-flex justify-content-end">
+                  <AdminFormSubmitButton
+                    label="Filtrar"
+                    loading={loadingMembers}
+                  />
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </AdminFilterContainer>
+      )}
 
       <AdminCardContainer xs={12}>
         {loadingMembers ? (
@@ -185,10 +243,11 @@ export default function MemberList() {
               router,
               permissions,
               setSelectedMember,
-              setShowDeleteModal
+              setShowDeleteModal,
+              actions
             )}
           >
-            {!permissions.CREATE_MEMBER ? null : (
+            {!permissions.CREATE_MEMBER ? null : !actions ? null : (
               <Button
                 variant="primary"
                 onClick={() => router.push("members/create")}

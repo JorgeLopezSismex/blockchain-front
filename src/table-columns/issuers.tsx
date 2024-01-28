@@ -21,6 +21,7 @@ const p = {
 const openVerifyIssuerModal = (row: any) => {};
 
 export default function issuersTableColumns(
+  router: any,
   permissions: any,
   setSelectedIssuer: any,
   setShowDeleteModal: any,
@@ -69,9 +70,11 @@ export default function issuersTableColumns(
             {/* Botón de detalles */}
             <AdminTableActionButton
               icon={faEye}
-              disabled={!permissions.UPDATE_ISSUER ? true : false}
               tooltip="Detalles"
-              onClick={() => {}}
+              disabled={!permissions.UPDATE_ISSUER ? true : false}
+              onClick={() => {
+                router.push(`issuers/details?id=${data.issuerId}`);
+              }}
             />
 
             {/* Botón de editar */}
@@ -79,7 +82,9 @@ export default function issuersTableColumns(
               icon={faPencil}
               tooltip="Editar"
               disabled={!permissions.UPDATE_ISSUER ? true : false}
-              onClick={() => {}}
+              onClick={() => {
+                router.push(`issuers/update?id=${data.issuerId}`);
+              }}
             />
 
             {/* Botón de eliminar */}

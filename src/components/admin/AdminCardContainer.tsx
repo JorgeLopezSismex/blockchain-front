@@ -7,15 +7,17 @@ export default function AdminCardContainer({
   children,
   xs,
   marginBottom,
+  noPadding,
 }: {
   children: React.ReactNode;
   xs: number;
   marginBottom?: number;
+  noPadding?: boolean;
 }) {
   return (
     <Container fluid>
       <Row>
-        <Col xs={xs}>
+        <Col xs={xs} style={{ padding: noPadding != null ? 0 : "auto" }}>
           <Card
             style={{ marginBottom: marginBottom != null ? marginBottom : 60 }}
           >

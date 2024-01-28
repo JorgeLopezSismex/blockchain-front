@@ -16,9 +16,9 @@ import { CertificateData } from "@/types/certificates";
 
 export default function certificatesTableColums(
   permissions: any,
+  verifyCertificate: any,
   setSelectedCertificate: any,
-  setShowVerifyModal: any,
-  setShowDeleteModal: any
+  setShowVerifyModal: any
 ) {
   const columnHelper = createColumnHelper<CertificateData>();
 
@@ -64,11 +64,10 @@ export default function certificatesTableColums(
               icon={faEye}
               tooltip="Verificar"
               disabled={permissions.READ_INVITATION ? true : false}
-              onClick={async () => {
+              onClick={() => {
+                verifyCertificate();
                 setShowVerifyModal(true);
                 setSelectedCertificate(data);
-
-                
               }}
             />
 

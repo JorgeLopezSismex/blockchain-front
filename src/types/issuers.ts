@@ -1,3 +1,14 @@
+export type IssuersPermissionsData = {
+  LIST_ISSUER: boolean;
+  CREATE_ISSUER: boolean;
+  READ_ISSUER: boolean;
+  UPDATE_ISSUER: boolean;
+  DELETE_ISSUER: boolean;
+  DETAIL_ISSUER: boolean;
+  VERIFY_ISSUER: boolean;
+  REJECT_ISSUER: boolean;
+};
+
 export type IssuerData = {
   issuerId: number;
   name: string | null;

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
 import { Breadcrumb, Button, Row, Form } from "react-bootstrap";
@@ -18,13 +19,22 @@ import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
 import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
 
 import { apiFetch } from "@/helpers/api-fetch";
+import { IssuersPermissionsData } from "@/types/issuers";
 import { getIssuerOptionList } from "@/utils/select-options/issuers";
 import { ContactsPermissionsData, ContactsData } from "@/types/contatcs";
 
 export default function ContatcsList() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [actions, setActions] = useState(false);
 
   const [permissions, setPermissions] = useState({} as ContactsPermissionsData);
+  const [issuerPermissions, setIssuerPermissions] = useState(
+    {} as IssuersPermissionsData
+  );
 
   const [loadingModal, setLoadingModal] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
@@ -36,7 +46,35 @@ export default function ContatcsList() {
   const [selectedContact, setSelectedContact] = useState({} as ContactsData);
 
   useEffect(() => {
-    // Permisos
+    if (id == null || id == null || id == undefined) {
+      // Permisos para contactos del usuario
+      setActions(true);
+      getContactsPermissions(getContacts());
+      return;
+    }
+
+    // Permisos para contactos de un emisor
+    const permissiosnParams = new URLSearchParams();
+    permissiosnParams.append("module", "ISSUERS_MODULE");
+    apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
+      if (res.success) {
+        setIssuerPermissions(res.data);
+
+        if (res.data.LIST_ISSUER) {
+          setIsAdmin(true);
+        }
+
+        if (!res.data.DETAIL_ISSUER) {
+          return null;
+        }
+
+        // Miembros
+        getContactsPermissions(getContacts(parseInt(id)));
+      }
+    });
+  }, []);
+
+  const getContactsPermissions = async (getContacts: any) => {
     const permissiosnParams = new URLSearchParams();
     permissiosnParams.append("module", "CONTACTS_MODULE");
     apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
@@ -49,12 +87,22 @@ export default function ContatcsList() {
         getContacts();
       }
     });
-  }, []);
+  };
 
-  const getContacts = async () => {
+  const getContacts = async (issuerId: number | null = null) => {
     setLoadingContacts(true);
-    apiFetch("contacts").then((res) => {
-      console.log("Estos son los contacots", res);
+
+    const contactsParams = new URLSearchParams();
+    if (issuerId != null) {
+      contactsParams.append("issuerId", issuerId.toString());
+    }
+
+    const url =
+      contactsParams.toString() === ""
+        ? "members"
+        : `members?${contactsParams.toString()}`;
+
+    apiFetch(url).then((res) => {
       if (res.success) {
         setContacts(res.data);
         setLoadingContacts(false);
@@ -140,17 +188,18 @@ export default function ContatcsList() {
               router,
               permissions,
               setSelectedContact,
-              setShowDeleteModal
+              setShowDeleteModal,
+              actions
             )}
           >
-            <Link href={"/admin/profile/contacts/create"}>
+            {!permissions.CREATE_CONTACT ? null : !actions ? null : (
               <Button
                 variant="primary"
-                disabled={!permissions.CREATE_CONTACT ? true : false}
+                onClick={() => router.push("contacts/create")}
               >
                 Nuevo
               </Button>
-            </Link>
+            )}
           </AdminTable>
         )}
       </AdminCardContainer>
