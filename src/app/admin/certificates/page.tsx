@@ -120,45 +120,45 @@ export default function CertificateList() {
   };
 
   const verifyCertificate = async () => {
-    setLoadingCertificateData(true);
-    setLoadingVerification(true);
-    fetch("http://localhost:3000/testing/certificate.json")
-      .then((response) => {
-        return response.json();
-      })
-      .then(async (data) => {
-        let certificate = new Certificate(data, { locale: "es-ES" });
-        await certificate.init();
-        setSteps([]);
-        const verification = await certificate.verify(
-          ({
-            code,
-            label,
-            status,
-            errorMessage,
-          }: {
-            code: any;
-            label: any;
-            status: any;
-            errorMessage: any;
-          }) => {
-            console.log("Sub step update:", code, label, status, errorMessage);
-            setSteps((steps: any) => [
-              ...steps,
-              {
-                code: code,
-                label: label,
-                status: status,
-                errorMessage: errorMessage,
-              },
-            ]);
-          }
-        );
-        setLoadingVerification(false);
-        setLoadingCertificateData(false);
-        setCertificateData(certificate);
-        setVerificationData(verification);
-      });
+    // setLoadingCertificateData(true);
+    // setLoadingVerification(true);
+    // fetch("http://localhost:3000/testing/certificate.json")
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then(async (data) => {
+    //     let certificate = new Certificate(data, { locale: "es-ES" });
+    //     await certificate.init();
+    //     setSteps([]);
+    //     const verification = await certificate.verify(
+    //       ({
+    //         code,
+    //         label,
+    //         status,
+    //         errorMessage,
+    //       }: {
+    //         code: any;
+    //         label: any;
+    //         status: any;
+    //         errorMessage: any;
+    //       }) => {
+    //         console.log("Sub step update:", code, label, status, errorMessage);
+    //         setSteps((steps: any) => [
+    //           ...steps,
+    //           {
+    //             code: code,
+    //             label: label,
+    //             status: status,
+    //             errorMessage: errorMessage,
+    //           },
+    //         ]);
+    //       }
+    //     );
+    //     setLoadingVerification(false);
+    //     setLoadingCertificateData(false);
+    //     setCertificateData(certificate);
+    //     setVerificationData(verification);
+    //   });
   };
 
   return loadingScreen ? (
