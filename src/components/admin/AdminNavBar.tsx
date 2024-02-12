@@ -22,7 +22,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import { DrawerOption } from "@/types/drawer";
 
-
 export default function AdminNavBar({
   email,
   initials,
@@ -57,20 +56,28 @@ export default function AdminNavBar({
         <div className="d-flex align-items-center">
           <Navbar.Toggle
             onClick={toggleOffCanvas}
+            style={{ marginRight: 15 }}
             aria-controls={`offcanvasNavbar-expand-${expand}`}
           />
           <Navbar.Brand style={{ color: "white" }} href="#">
-            Blockchain - Admin
+            <img
+              height="30"
+              alt="React Bootstrap logo"
+              src="/images/singulardocs_main.png"
+              className="d-inline-block align-top"
+            />
           </Navbar.Brand>
         </div>
 
         <div style={{ display: "inline-flex" }}>
-          <p
-            style={{ marginBottom: 0, marginRight: 15, color: "white" }}
-            className="d-flex align-items-center"
-          >
-            {email}
-          </p>
+          <div className="d-flex align-items-center">
+            <p
+              style={{ marginBottom: 0, marginRight: 15, color: "white" }}
+              className="d-none d-sm-block"
+            >
+              {email}
+            </p>
+          </div>
           <Dropdown
             autoClose={true}
             align={{ xs: "start" }}
@@ -121,7 +128,12 @@ export default function AdminNavBar({
               style={{ color: "white" }}
               id={`offcanvasNavbarLabel-expand-${expand}`}
             >
-              Blockchain
+              <img
+                height="30"
+                alt="React Bootstrap logo"
+                src="/images/singulardocs_main.png"
+                className="d-inline-block align-top"
+              />
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body style={{ paddingTop: "1rem", paddingLeft: "1.5rem" }}>
