@@ -9,7 +9,8 @@ export type TemplatesPermissionsData = {
 export type TemplateData = {
   templateId: number;
   name: string;
-  body: string;
+  htmlPath: string;
+  designPath: string;
   issuerId: number;
   issuerName: string;
   createdAt: string;

@@ -9,8 +9,10 @@ import AdminTableActionButton from "@/components/admin/AdminTableActionButton";
 import { TemplateData } from "@/types/templates";
 
 export default function templatesTableColums(
+  router: any,
   permissions: any,
   setSelectedTemplate: any,
+  setShowDetailsModal: any,
   setShowDeleteModal: any
 ) {
   const columnHelper = createColumnHelper<TemplateData>();
@@ -24,6 +26,10 @@ export default function templatesTableColums(
       header: () => "Nombre",
       cell: (info) => info.getValue(),
     }),
+    columnHelper.accessor("name", {
+      header: () => "Identificador",
+      cell: (info) => info.getValue(),
+    }),
     columnHelper.accessor("createdAt", {
       header: () => "Fecha-Hora de creación",
       cell: (info) => moment(info.getValue()).format("DD/MM/YYYY hh:mm:ss"),
@@ -32,7 +38,7 @@ export default function templatesTableColums(
       id: "actions",
       header: () => "Acciones",
       cell: (info) => {
-        const data = info.row.original;
+        const template = info.row.original;
         /* Añadir el negaod to disable porp on admin action buttons!!!! */
 
         return (
@@ -46,8 +52,9 @@ export default function templatesTableColums(
               tooltip="Detalles"
               disabled={permissions.READ_INVITATION ? true : false}
               onClick={async () => {
-                // setShowDetailsModal(true);
-                setSelectedTemplate(data);
+                setShowDetailsModal(true);
+
+                setSelectedTemplate(template);
               }}
             />
 
@@ -56,7 +63,9 @@ export default function templatesTableColums(
               icon={faPencil}
               tooltip="Editar"
               disabled={!permissions.UPDATE_TEMPLATE ? true : false}
-              onClick={() => {}}
+              onClick={() => {
+                router.push(`templates/update?id=${template.templateId}`);
+              }}
             />
 
             {/* Botón de eliminar */}
@@ -66,7 +75,7 @@ export default function templatesTableColums(
               tooltip="Eliminar"
               onClick={() => {
                 setShowDeleteModal(true);
-                setSelectedTemplate(data);
+                setSelectedTemplate(template);
               }}
             />
           </ButtonGroup>

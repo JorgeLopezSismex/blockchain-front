@@ -2,7 +2,6 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
 
 import {
   faUser,
@@ -21,6 +20,7 @@ import {
   faMailReply,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 import { findIconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 export default function AdminOffcanvasItem({
@@ -38,7 +38,7 @@ export default function AdminOffcanvasItem({
 }) {
   let IconDefinition = null;
   if (icon.includes("faBell") || icon.includes("faFileCircleCheck")) {
-    IconDefinition = fas[icon.replace("fas-", "")];
+    IconDefinition = fas[icon.replace("fas-", "fa-")];
   } else {
     IconDefinition = fas[icon.replace("fa-", "")];
   }

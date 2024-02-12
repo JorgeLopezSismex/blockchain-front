@@ -160,7 +160,8 @@ export default function IssuerList() {
   };
 
   const rejectIssuer = async () => {
-    alert("Proceso de rechazar emisor");
+    setModalLoading(true);
+    apiFetch("issuers")
   };
 
   return loadingScreen ? (

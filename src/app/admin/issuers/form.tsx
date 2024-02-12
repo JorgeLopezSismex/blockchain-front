@@ -15,6 +15,9 @@ import FormAsyncSelect from "@/components/form/FormAsyncSelect";
 import { getSuburbsOptionList } from "@/utils/select-options/suburbs";
 import { getIssuerVerificationStatus } from "@/utils/select-options/issuerVerificationStatus";
 
+import AsyncSelect from "react-select/async";
+import Select from "react-select";
+
 export default function IssuersForm({
   values,
   errors,
@@ -50,6 +53,9 @@ export default function IssuersForm({
   suburbsKey: number;
   setSuburbsKey: any;
 }) {
+  const [loadingSuburbs, setLoadingSuburbs] = useState(false);
+  const [suburbs, setSuburbs] = useState([]);
+
   return (
     <Form noValidate onSubmit={handleSubmit}>
       <Row className="mb-3">
@@ -96,10 +102,9 @@ export default function IssuersForm({
           handleClick={() =>
             getSuburbsOptionList(
               values.zipCode,
-              setDisableSuburbs,
-              suburbsKey,
-              setSuburbsKey,
-              true
+              suburbs,
+              setSuburbs,
+              setLoadingSuburbs
             )
           }
           handleChange={(event: any) => {
@@ -168,7 +173,7 @@ export default function IssuersForm({
           handleChange={handleChange}
         />
 
-        <FormAsyncSelect
+        {/* <FormAsyncSelect
           key={suburbsKey}
           md={6}
           sm={12}
@@ -195,7 +200,32 @@ export default function IssuersForm({
               // setSuburbsKey(suburbsKey + 1);
             }
           }}
-        />
+        /> */}
+
+        <Select
+          isDisabled={loadingSuburbs}
+          isLoading={loadingSuburbs}
+          options={suburbs}
+        ></Select>
+
+        {/* <AsyncSelect
+          key={suburbsKey}
+          cacheOptions
+          defaultOptions
+          loadOptions={async () => {
+            let options = await getSuburbsOptionList(
+              values.zipCode,
+              setDisableSuburbs,
+              suburbsKey,
+              setSuburbsKey,
+              false
+            );
+
+            console.log(options, "Estas son las opciones");
+
+            return options;
+          }}
+        ></AsyncSelect> */}
 
         <FormInput
           md={12}

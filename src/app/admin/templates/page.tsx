@@ -3,6 +3,8 @@
 import moment from "moment";
 import Link from "next/link";
 import { Formik } from "formik";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Fragment, useState, useEffect } from "react";
 
 import Row from "react-bootstrap/Row";
@@ -24,8 +26,10 @@ import { apiFetch } from "@/helpers/api-fetch";
 import templatesTableColums from "@/table-columns/templates";
 import { getIssuerOptionList } from "@/utils/select-options/issuers";
 import { TemplateData, TemplatesPermissionsData } from "@/types/templates";
+import AdminCertificateViwer from "@/components/admin/AdminCertificateViwer";
 
 export default function TemplateList() {
+  const router = useRouter();
   const [modalLoading, setModalLoading] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [loadingTemplates, setLoadingTemplates] = useState(false);
@@ -34,10 +38,13 @@ export default function TemplateList() {
     {} as TemplatesPermissionsData
   );
 
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState({} as TemplateData);
+
+  const [htmlString, setHtmlString] = useState("");
 
   useEffect(() => {
     // Permisos
@@ -54,6 +61,7 @@ export default function TemplateList() {
       }
 
       getTemplates();
+      getCertificateHtml();
     });
   }, []);
 
@@ -93,6 +101,17 @@ export default function TemplateList() {
         setLoadingTemplates(false);
       }
     });
+  };
+
+  const getCertificateHtml = async () => {
+    fetch("http://localhost:3000/testing/certificateExterno.json")
+      .then((response) => {
+        return response.json();
+      })
+      .then(async (data) => {
+        setHtmlString(data.displayHtml);
+        console.log(data.displayHtml);
+      });
   };
 
   const deleteTemplate = async () => {
@@ -175,8 +194,10 @@ export default function TemplateList() {
           <AdminTable
             defaultData={templates}
             columns={templatesTableColums(
+              router,
               permissions,
               setSelectedTemplate,
+              setShowDetailsModal,
               setShowDeleteModal
             )}
           >
@@ -188,6 +209,19 @@ export default function TemplateList() {
           </AdminTable>
         )}
       </AdminCardContainer>
+
+      <AdminModalJorge
+        showButtons={true}
+        show={showDetailsModal}
+        title="Detalles de plantilla"
+        primaryBtnVariant="danger"
+        handleSubmit={deleteTemplate}
+        modalLoading={modalLoading}
+        noSecondaryButton={false}
+        handleClose={() => setShowDetailsModal(false)}
+      >
+        <AdminCertificateViwer htmlString={htmlString} />
+      </AdminModalJorge>
 
       <AdminModalJorge
         showButtons={true}

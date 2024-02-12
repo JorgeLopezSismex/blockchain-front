@@ -94,7 +94,7 @@ export default function UpdateIssuer() {
         </Breadcrumb>
       </AdminPageHeader>
 
-      {/* <AdminCardContainer xs={12}>
+      <AdminCardContainer xs={12}>
         {loadingIssuer ? (
           <AdminTableSpinner />
         ) : (
@@ -127,7 +127,7 @@ export default function UpdateIssuer() {
             )}
           </Formik>
         )}
-      </AdminCardContainer> */}
+      </AdminCardContainer>
     </Fragment>
   );
 }

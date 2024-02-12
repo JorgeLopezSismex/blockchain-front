@@ -3,12 +3,13 @@ import { number } from "yup";
 
 export const getSuburbsOptionList = async (
   zipCode: string,
-  setDisableSuburbs: any,
-  suburbsKey: number,
-  setSuburbsKey: any,
-  refresh: boolean
+  suburbs: any[],
+  setSuburbs: any,
+  setLoadingSuburbs: any
 ) => {
   try {
+    setLoadingSuburbs(true);
+
     if (zipCode == "" || zipCode == null || zipCode == undefined) {
       return [];
     }
@@ -17,7 +18,6 @@ export const getSuburbsOptionList = async (
     const zipCodeParams = new URLSearchParams();
     zipCodeParams.append("zipCode", zipCode);
 
-    console.log("3");
     res = await apiFetch(`zip-code?${zipCodeParams.toString()}`);
 
     if (!res.success) {
@@ -25,6 +25,7 @@ export const getSuburbsOptionList = async (
     }
 
     if (res.data.length <= 0) {
+      setLoadingSuburbs(false);
       return [];
     }
 
@@ -34,15 +35,18 @@ export const getSuburbsOptionList = async (
       label: item.d_asenta,
     }));
 
-    console.log("Este es el refrhes", refresh);
-    if (options.length > 0) {
-      setDisableSuburbs(false);
-    }
+    setSuburbs(options);
+    setLoadingSuburbs(false);
 
-    if (refresh) {
-      setSuburbsKey(suburbsKey + 1);
-    } else {
-    }
+    // console.log("Este es el refrhes", refresh);
+    // if (options.length > 0) {
+    //   setDisableSuburbs(false);
+    // }
+
+    // if (refresh) {
+    //   setSuburbsKey(suburbsKey + 1);
+    // } else {
+    // }
 
     return options;
   } catch (error) {

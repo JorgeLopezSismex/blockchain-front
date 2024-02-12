@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Formik } from "formik";
 import { Fragment, useState, useEffect } from "react";
 // import { Certificate, VerificationSubstep } from "@blockcerts/cert-verifier-js";
-import { Certificate } from '@blockcerts/cert-verifier-js';
+import { Certificate } from "@blockcerts/cert-verifier-js";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -35,6 +35,9 @@ import { getIssuerOptionList } from "@/utils/select-options/issuers";
 import { getTemplatesOptionList } from "@/utils/select-options/templates";
 
 export default function CertificateList() {
+  // const {
+  //   Certificate,
+  // } = require("@blockcerts/cert-verifier-js/dist/verifier-node/index");
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [loadingCertificates, setLoadingCertificates] = useState(true);
   const [loadingVerification, setLoadingVerification] = useState(false);
@@ -51,7 +54,7 @@ export default function CertificateList() {
     {} as CertificateData
   );
 
-  // const [certificateData, setCertificateData] = useState({} as Certificate);
+  const [certificateData, setCertificateData] = useState({} as Certificate);
   const [verificationData, setVerificationData] = useState({} as any);
 
   useEffect(() => {
@@ -123,27 +126,39 @@ export default function CertificateList() {
         return response.json();
       })
       .then(async (data) => {
-        // let certificate = new Certificate(data, { locale: "es-ES" });
-        // await certificate.init();
-        // setSteps([]);
-        // const verification = await certificate.verify(
-        //   ({ code, label, status, errorMessage }) => {
-        //     console.log("Sub step update:", code, label, status, errorMessage);
-        //     setSteps((steps: any) => [
-        //       ...steps,
-        //       {
-        //         code: code,
-        //         label: label,
-        //         status: status,
-        //         errorMessage: errorMessage,
-        //       },
-        //     ]);
-        //   }
-        // );
-        // setLoadingVerification(false);
-        // setLoadingCertificateData(false);
-        // setCertificateData(certificate);
-        // setVerificationData(verification);
+        let certificate = new Certificate(data, { locale: "es-ES" });
+
+        await certificate.init();
+        setSteps([]);
+
+        const verification = await certificate.verify(
+          ({
+            code,
+            label,
+            status,
+            errorMessage,
+          }: {
+            code: any;
+            label: any;
+            status: any;
+            errorMessage: any;
+          }) => {
+            console.log("Sub step update:", code, label, status, errorMessage);
+            setSteps((steps: any) => [
+              ...steps,
+              {
+                code: code,
+                label: label,
+                status: status,
+                errorMessage: errorMessage,
+              },
+            ]);
+          }
+        );
+        setLoadingVerification(false);
+        setLoadingCertificateData(false);
+        setCertificateData(certificate);
+        setVerificationData(verification);
       });
   };
 
@@ -259,8 +274,7 @@ export default function CertificateList() {
         handleClose={() => setShowVerifyModal(false)}
         handleSubmit={() => setShowVerifyModal(false)}
       >
-        <h1>Modal</h1>
-        {/* <Fragment>
+        <Fragment>
           {Object.keys(certificateData).length === 0 ? (
             <AdminTableSpinner />
           ) : (
@@ -334,7 +348,7 @@ export default function CertificateList() {
               )}
             </Fragment>
           )}
-        </Fragment> */}
+        </Fragment>
       </AdminModalJorge>
     </Fragment>
   );
