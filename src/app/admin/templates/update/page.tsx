@@ -77,36 +77,15 @@ export default function UpdateTemplate() {
   };
 
   const getDesign = async (template: TemplateData) => {
-    fetch(
-      "http://68.178.207.49:8109/Files/Issuers/Mw==/Templates/bcWi1Q6kvGsIj4IxQb1vQCzbCTPZmNfvULWFOjyNmr1zBOIFUx/bcWi1Q6kvGsIj4IxQb1vQCzbCTPZmNfvULWFOjyNmr1zBOIFUx-design.json",
-      {
-        mode: "no-cors",
-      }
-    ).then((res) => {
-      console.log("Estos son los datos", res);
-    });
-
-    // try {
-    //   const response = await axios.get(
-    //     "http://68.178.207.49:8109/Files/Issuers/Mw==/Templates/bcWi1Q6kvGsIj4IxQb1vQCzbCTPZmNfvULWFOjyNmr1zBOIFUx/bcWi1Q6kvGsIj4IxQb1vQCzbCTPZmNfvULWFOjyNmr1zBOIFUx-design.json"
-    //   );
-    //   return response.data;
-    // } catch (error) {
-    //   console.error("Error fetching data:", error);
-    //   return null;
-    // }
-
-    // fetch(
-    //   "http://68.178.207.49:8109/Files/Issuers/Mw==/Templates/bcWi1Q6kvGsIj4IxQb1vQCzbCTPZmNfvULWFOjyNmr1zBOIFUx/bcWi1Q6kvGsIj4IxQb1vQCzbCTPZmNfvULWFOjyNmr1zBOIFUx-design.json"
-    // )
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     setDesign(data);
-    //     loadDesign();
-    //     setLoadingScreen(false);
-    //   });
+    fetch(template.designPath)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setDesign(data);
+        loadDesign();
+        setLoadingScreen(false);
+      });
   };
 
   const updateTemplate = async (values: any) => {
