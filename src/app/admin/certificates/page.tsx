@@ -162,7 +162,7 @@ export default function CertificateList() {
   };
 
   return loadingScreen ? (
-    <AdminTableSpinner></AdminTableSpinner>
+    <AdminTableSpinner />
   ) : (
     <Fragment>
       <AdminPageHeader title="Certificados">

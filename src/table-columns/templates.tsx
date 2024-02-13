@@ -11,6 +11,7 @@ import { TemplateData } from "@/types/templates";
 export default function templatesTableColums(
   router: any,
   permissions: any,
+  getTemplateHtml: any,
   setSelectedTemplate: any,
   setShowDetailsModal: any,
   setShowDeleteModal: any
@@ -53,8 +54,8 @@ export default function templatesTableColums(
               disabled={permissions.READ_INVITATION ? true : false}
               onClick={async () => {
                 setShowDetailsModal(true);
-
                 setSelectedTemplate(template);
+                getTemplateHtml(template.htmlPath);
               }}
             />
 

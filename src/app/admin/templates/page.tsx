@@ -13,6 +13,7 @@ import Button from "react-bootstrap/Button";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 
 import AdminTable from "@/components/admin/AdminTable";
+import ActionToast from "@/components/main/ActionToast";
 import FormDatePicker from "@/components/form/FormDatePicker";
 import FormAsyncSelect from "@/components/form/FormAsyncSelect";
 import AdminModalJorge from "@/components/admin/AdminModalJorge";
@@ -31,6 +32,9 @@ import AdminCertificateViwer from "@/components/admin/AdminCertificateViwer";
 export default function TemplateList() {
   const router = useRouter();
   const [modalLoading, setModalLoading] = useState(false);
+
+  const [loadingHtml, setLoadingHtml] = useState(false);
+  const [loadingModal, setLoadingModal] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [loadingTemplates, setLoadingTemplates] = useState(false);
 
@@ -45,6 +49,10 @@ export default function TemplateList() {
   const [selectedTemplate, setSelectedTemplate] = useState({} as TemplateData);
 
   const [htmlString, setHtmlString] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const [toastTitle, setToastTitle] = useState("Título");
+  const [toastMessage, setToastMessage] = useState("Mensaje.");
+  const [toastVariant, setToastVariant] = useState("success");
 
   useEffect(() => {
     // Permisos
@@ -61,7 +69,6 @@ export default function TemplateList() {
       }
 
       getTemplates();
-      getCertificateHtml();
     });
   }, []);
 
@@ -103,19 +110,50 @@ export default function TemplateList() {
     });
   };
 
-  const getCertificateHtml = async () => {
-    fetch("http://localhost:3000/testing/certificateExterno.json")
+  const getTemplateHtml = async (htmlPath: string) => {
+    setLoadingHtml(true);
+    fetch(htmlPath)
       .then((response) => {
-        return response.json();
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.text();
       })
-      .then(async (data) => {
-        setHtmlString(data.displayHtml);
-        console.log(data.displayHtml);
+      .then((html) => {
+        setHtmlString(html);
+        setLoadingHtml(false);
+      })
+      .catch((error) => {
+        console.error("There was a problem with your fetch operation:", error);
       });
   };
 
   const deleteTemplate = async () => {
-    alert("Procesos para borrar plantilla...");
+    setLoadingModal(true);
+    apiFetch(`templates/${selectedTemplate.templateId}`, "DELETE").then(
+      (res) => {
+        setLoadingModal(false);
+        setShowDeleteModal(false);
+
+        if (res.success) {
+          getTemplates();
+
+          setShowToast(true);
+          setToastVariant("success");
+          setToastTitle("Plantillas");
+          setToastMessage(res.message);
+
+          return;
+        }
+
+        setShowToast(true);
+        setToastVariant("danger");
+        setToastTitle("Plantillas");
+        setToastMessage(res.message);
+
+        return;
+      }
+    );
   };
 
   return loadingScreen ? (
@@ -196,6 +234,7 @@ export default function TemplateList() {
             columns={templatesTableColums(
               router,
               permissions,
+              getTemplateHtml,
               setSelectedTemplate,
               setShowDetailsModal,
               setShowDeleteModal
@@ -211,6 +250,7 @@ export default function TemplateList() {
       </AdminCardContainer>
 
       <AdminModalJorge
+        size={"lg"}
         showButtons={true}
         show={showDetailsModal}
         title="Detalles de plantilla"
@@ -220,7 +260,11 @@ export default function TemplateList() {
         noSecondaryButton={false}
         handleClose={() => setShowDetailsModal(false)}
       >
-        <AdminCertificateViwer htmlString={htmlString} />
+        {loadingHtml ? (
+          <AdminTableSpinner />
+        ) : (
+          <AdminCertificateViwer htmlString={htmlString} />
+        )}
       </AdminModalJorge>
 
       <AdminModalJorge
@@ -235,6 +279,15 @@ export default function TemplateList() {
       >
         ¿Estás seguro de querer eliminar esta plantilla?
       </AdminModalJorge>
+
+      <ActionToast
+        delay={3000}
+        show={showToast}
+        title={toastTitle}
+        message={toastMessage}
+        variant={toastVariant}
+        onClose={() => setShowToast(false)}
+      />
     </Fragment>
   );
 }

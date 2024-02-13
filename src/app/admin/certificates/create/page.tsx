@@ -12,11 +12,43 @@ import { createCertificate } from "@/validations/certificates-validation";
 import CertificatesForm from "../form";
 import { getTemplatesOptionList } from "@/utils/select-options/templates";
 
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import CertificateBatchForm from "../batchForm";
+import { error } from "console";
+import { apiFetch } from "@/helpers/api-fetch";
+
 export default function CreateCertificate() {
-  const [initialValues, setInitialValues] = useState({});
   const [loadingScreen, setLoadingScreen] = useState(true);
 
+  const [initialValues, setInitialValues] = useState({});
+  const [batchInitialValues, setBatchInitialValues] = useState({});
+
   const createCertificate = async (values: any) => {};
+
+  useEffect(() => {
+    // Permisos
+    const permissiosnParams = new URLSearchParams();
+    permissiosnParams.append("module", "CERTIFICATES_MODULE");
+    apiFetch(`permissions?${permissiosnParams.toString()}`).then((res) => {
+      if (res.success) {
+        if (!res.data.CREATE_CERTIFICATE) {
+          return null;
+        }
+
+        setInitialValues({
+          templateId: null,
+          roster: null,
+        });
+
+        setBatchInitialValues({
+          templateId: null,
+          roster: null,
+          signatureDate: null,
+        });
+      }
+    });
+  });
 
   return (
     <Fragment>
@@ -33,22 +65,64 @@ export default function CreateCertificate() {
       </AdminPageHeader>
 
       <AdminCardContainer xs={12}>
-        <Formik
-          onSubmit={createCertificate}
-          initialValues={initialValues}
-          validationSchema={createCertificate}
+        <Tabs
+          className="mb-3"
+          id="invitations-tab"
+          defaultActiveKey="single-create"
         >
-          {({ values, errors, handleSubmit, handleChange, setFieldValue }) => (
-            <CertificatesForm
-              values={values}
-              errors={errors}
-              loadingForm={loadingScreen}
-              handleSubmit={handleSubmit}
-              setFieldValue={setFieldValue}
-              getTemplates={getTemplatesOptionList}
-            />
-          )}
-        </Formik>
+          <Tab eventKey="single-create" title="Certificado individual">
+            <Formik
+              onSubmit={createCertificate}
+              initialValues={initialValues}
+              validationSchema={createCertificate}
+            >
+              {({
+                values,
+                errors,
+                handleSubmit,
+                handleChange,
+                setFieldValue,
+              }) => (
+                <CertificatesForm
+                  values={values}
+                  errors={errors}
+                  loadingForm={loadingScreen}
+                  handleSubmit={handleSubmit}
+                  setFieldValue={setFieldValue}
+                  getTemplates={getTemplatesOptionList}
+                />
+              )}
+            </Formik>
+          </Tab>
+          <Tab eventKey="batch-create" title="Certificados por lote">
+            <Formik
+              onSubmit={createCertificate}
+              initialValues={{
+                templateId: null,
+                roster: null,
+                signatureDate: null,
+              }}
+              validationSchema={createCertificate}
+            >
+              {({
+                values,
+                errors,
+                handleSubmit,
+                handleChange,
+                setFieldValue,
+              }) => (
+                <CertificateBatchForm
+                  values={values}
+                  errors={errors}
+                  loadingForm={loadingScreen}
+                  handleSubmit={handleSubmit}
+                  setFieldValue={setFieldValue}
+                  getTemplates={getTemplatesOptionList}
+                />
+              )}
+            </Formik>
+          </Tab>
+        </Tabs>
       </AdminCardContainer>
     </Fragment>
   );

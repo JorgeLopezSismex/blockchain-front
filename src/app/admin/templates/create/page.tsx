@@ -12,12 +12,10 @@ import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 
-import { apiFetch } from "@/helpers/api-fetch";
-import { TemplateData, TemplatesPermissionsData } from "@/types/templates";
-
 import TemplatesForm from "../form";
-
+import { apiFetch } from "@/helpers/api-fetch";
 import { createTemplateScheme } from "@/validations/templates-validation";
+import { TemplateData, TemplatesPermissionsData } from "@/types/templates";
 
 export default function TemplateEditor() {
   const [loadingScreen, setLoadingScreen] = useState(true);

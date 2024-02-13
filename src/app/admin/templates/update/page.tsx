@@ -89,7 +89,6 @@ export default function UpdateTemplate() {
   };
 
   const updateTemplate = async (values: any) => {
-    alert("Se ejecuta la actualizacion");
     const unlayer = emailEditorRef.current?.editor;
 
     unlayer?.exportHtml((data: any) => {
@@ -99,9 +98,6 @@ export default function UpdateTemplate() {
       values.design = design;
 
       setLoadingForm(true);
-
-      console.log("Esto es lo que envio", values);
-      return;
 
       apiFetch(`templates/${id}`, "PUT", values).then((res) => {
         if (res.success) {
