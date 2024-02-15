@@ -30,6 +30,10 @@ export default function UpdateIssuer() {
 
   const [suburbsKey, setSuburbsKey] = useState(1);
 
+  const [loadingSuburbs, setLoadingSuburbs] = useState(false);
+  const [suburbs, setSuburbs] = useState([]);
+  const [defaultSuburb, setDefaultSuburb] = useState({});
+
   useEffect(() => {
     // Permisos
     const permissiosnParams = new URLSearchParams();
@@ -51,6 +55,18 @@ export default function UpdateIssuer() {
       console.log("Estos son los datos del emisor", res);
       if (res.success) {
         const issuer = res.data as IssuerData;
+
+        if (issuer.zipCode != null || issuer.zipCode != "") {
+          let zip = issuer.zipCode;
+          getSuburbsOptionList(
+            issuer.zipCode!,
+            suburbs,
+            setSuburbs,
+            setLoadingSuburbs
+          );
+
+          setDefaultSuburb({ label: issuer.suburb, value: issuer.suburb });
+        }
         setInitialValues({
           name: issuer.name,
           legalName: issuer.legalName,
@@ -123,6 +139,12 @@ export default function UpdateIssuer() {
                 countryKey={1}
                 suburbsKey={suburbsKey}
                 setSuburbsKey={setSuburbsKey}
+                suburbs={suburbs}
+                setSuburbs={setSuburbs}
+                loadingSuburbs={loadingSuburbs}
+                setLoadingSuburbs={setLoadingSuburbs}
+                defaultSuburb={defaultSuburb}
+                setDefaultSuburb={setDefaultSuburb}
               ></IssuersForm>
             )}
           </Formik>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Form, Row } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 
 import FormInput from "@/components/form/FormInput";
 import FormTextarea from "@/components/form/FormTextarea";
@@ -35,6 +35,12 @@ export default function IssuersForm({
   countryKey,
   suburbsKey,
   setSuburbsKey,
+  suburbs,
+  setSuburbs,
+  loadingSuburbs,
+  setLoadingSuburbs,
+  defaultSuburb,
+  setDefaultSuburb,
 }: {
   values: any;
   errors: any;
@@ -52,10 +58,13 @@ export default function IssuersForm({
   countryKey: number;
   suburbsKey: number;
   setSuburbsKey: any;
+  suburbs: any;
+  setSuburbs: any;
+  loadingSuburbs: any;
+  setLoadingSuburbs: any;
+  defaultSuburb: any;
+  setDefaultSuburb: any;
 }) {
-  const [loadingSuburbs, setLoadingSuburbs] = useState(false);
-  const [suburbs, setSuburbs] = useState([]);
-
   return (
     <Form noValidate onSubmit={handleSubmit}>
       <Row className="mb-3">
@@ -202,11 +211,22 @@ export default function IssuersForm({
           }}
         /> */}
 
-        <Select
-          isDisabled={loadingSuburbs}
-          isLoading={loadingSuburbs}
-          options={suburbs}
-        ></Select>
+        <Form.Group
+          className="mb-3"
+          as={Col}
+          sm={12}
+          md={6}
+          controlId={"suburb"}
+        >
+          <Form.Label>Colonia</Form.Label>
+          <Select
+            isDisabled={loadingSuburbs}
+            isLoading={loadingSuburbs}
+            options={suburbs}
+            placeholder="Selecciona una colonia"
+            defaultValue={"Del Prado"}
+          ></Select>
+        </Form.Group>
 
         {/* <AsyncSelect
           key={suburbsKey}

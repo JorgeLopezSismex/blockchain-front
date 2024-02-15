@@ -13,9 +13,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-
 import AdminTable from "@/components/admin/AdminTable";
 import FormDatePicker from "@/components/form/FormDatePicker";
 import FormAsyncSelect from "@/components/form/FormAsyncSelect";
@@ -25,8 +22,6 @@ import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
 import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
-import AdminVerificationStep from "@/components/admin/AdminVerificationStep";
-import AdminVerificationAlert from "@/components/admin/AdminVerificationAlert";
 
 import { apiFetch } from "@/helpers/api-fetch";
 import { CertificateData } from "@/types/certificates";
@@ -34,6 +29,7 @@ import { CertificatesPermissionsData } from "@/types/certificates";
 import certificatesTableColums from "@/table-columns/certificates";
 import { getIssuerOptionList } from "@/utils/select-options/issuers";
 import { getTemplatesOptionList } from "@/utils/select-options/templates";
+import CertificateVerifier from "@/components/admin/AdminCertificateVerifier";
 
 export default function CertificateList() {
   // const {
@@ -45,6 +41,9 @@ export default function CertificateList() {
   const [loadingCertificateData, setLoadingCertificateData] = useState(false);
 
   const [steps, setSteps] = useState([] as any);
+  const [certificate, setCertificate] = useState({} as any);
+  const [verification, setVerification] = useState({} as any);
+
   const [certificates, setCertificates] = useState([]);
   const [showVerifyModal, setShowVerifyModal] = useState(false);
 
@@ -120,45 +119,42 @@ export default function CertificateList() {
   };
 
   const verifyCertificate = async () => {
-    // setLoadingCertificateData(true);
-    // setLoadingVerification(true);
-    // fetch("http://localhost:3000/testing/certificate.json")
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then(async (data) => {
-    //     let certificate = new Certificate(data, { locale: "es-ES" });
-    //     await certificate.init();
-    //     setSteps([]);
-    //     const verification = await certificate.verify(
-    //       ({
-    //         code,
-    //         label,
-    //         status,
-    //         errorMessage,
-    //       }: {
-    //         code: any;
-    //         label: any;
-    //         status: any;
-    //         errorMessage: any;
-    //       }) => {
-    //         console.log("Sub step update:", code, label, status, errorMessage);
-    //         setSteps((steps: any) => [
-    //           ...steps,
-    //           {
-    //             code: code,
-    //             label: label,
-    //             status: status,
-    //             errorMessage: errorMessage,
-    //           },
-    //         ]);
-    //       }
-    //     );
-    //     setLoadingVerification(false);
-    //     setLoadingCertificateData(false);
-    //     setCertificateData(certificate);
-    //     setVerificationData(verification);
-    //   });
+    setLoadingCertificateData(true);
+    setLoadingVerification(true);
+    fetch("http://68.178.207.49:8113/certificate-verification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        certificatePath:
+          "https://raw.githubusercontent.com/JorgeLopezSismex/test-blockchain/main/certificateExterno.json",
+      }),
+    })
+      .then((response) => {
+        console.log("Esto es el response", response);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((json) => {
+        if (!json.success) {
+          return null;
+        }
+
+        setCertificate(json.data.certificate);
+        setSteps(json.data.steps);
+        setVerification(json.data.verification);
+
+        setLoadingVerification(false);
+        setLoadingCertificateData(false);
+        setCertificateData(json.data.certificate);
+        setVerificationData(json.data.verification);
+
+        // setSteps([]);
+        const steps = json.data.steps;
+      });
   };
 
   return loadingScreen ? (
@@ -273,81 +269,12 @@ export default function CertificateList() {
         handleClose={() => setShowVerifyModal(false)}
         handleSubmit={() => setShowVerifyModal(false)}
       >
-        <Fragment>
-          {Object.keys(certificateData).length === 0 ? (
-            <AdminTableSpinner />
-          ) : (
-            <Fragment>
-              <h5>
-                Emitido en{" "}
-                {moment(certificateData.issuedOn).format("MMMM D, YYYY")} por{" "}
-                {certificateData.issuer.name}
-              </h5>
-
-              {steps.map((step: any, index: number) =>
-                step.status == "starting" ? null : step.status == "failure" ? (
-                  <AdminVerificationStep
-                    key={index}
-                    color="red"
-                    label={step.label}
-                    icon={faCircleXmark}
-                  />
-                ) : step.status == "success" ? (
-                  <AdminVerificationStep
-                    key={index}
-                    color="green"
-                    label={step.label}
-                    icon={faCircleCheck}
-                  />
-                ) : null
-              )}
-
-              {Object.keys(verificationData).length === 0 ? (
-                <Fragment>
-                  <Row style={{ marginTop: 30, marginBottom: 30 }}>
-                    <Col xs={12} className="d-flex justify-content-center">
-                      <AdminTableSpinner />
-                    </Col>
-                    <Col
-                      xs={12}
-                      style={{ marginTop: 10 }}
-                      className="d-flex justify-content-center"
-                    >
-                      <h5>Cargando...</h5>
-                    </Col>
-                  </Row>
-                </Fragment>
-              ) : loadingVerification ? (
-                <Fragment>
-                  <Row style={{ marginTop: 30, marginBottom: 30 }}>
-                    <Col xs={12} className="d-flex justify-content-center">
-                      <AdminTableSpinner />
-                    </Col>
-                    <Col
-                      xs={12}
-                      style={{ marginTop: 10 }}
-                      className="d-flex justify-content-center"
-                    >
-                      <h5>Verificando certificado...</h5>
-                    </Col>
-                  </Row>
-                </Fragment>
-              ) : verificationData.status == "failure" ? (
-                <AdminVerificationAlert
-                  variant="danger"
-                  description={verificationData.message}
-                  message="Error al verificar certificado"
-                />
-              ) : (
-                <AdminVerificationAlert
-                  variant="success"
-                  message="Certificado verificado"
-                  description="Este es un certificado válido."
-                />
-              )}
-            </Fragment>
-          )}
-        </Fragment>
+        <CertificateVerifier
+          steps={steps}
+          loading={loadingVerification}
+          certificate={certificate}
+          verification={verification}
+        />
       </AdminModalJorge>
     </Fragment>
   );
