@@ -191,6 +191,8 @@ export default function Verification() {
           setLoadingVerificationData(false);
           setFullForm(true);
 
+          console.log("Se definen los datos del forumario");
+
           setSecondStepInitialValues({
             legalName: res.data.legalName,
             zipCode: res.data.zipCode,
