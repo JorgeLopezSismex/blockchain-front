@@ -151,6 +151,7 @@ export default function Verification() {
         );
 
         const status = data.issuerVerificationStatusKey;
+        console.log(status, "Este es el estatus");
         setIssuerVerificationStatus(data.issuerVerificationStatusKey);
 
         if (status == "UNVERIFIED") {
