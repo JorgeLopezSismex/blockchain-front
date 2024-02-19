@@ -194,6 +194,9 @@ export default function Verification() {
 
           console.log("Se definen los datos del forumario");
 
+          console.log(res, "Eso es la solucidudad");
+          console.log(res, "Eso es la solucidudad");
+
           setSecondStepInitialValues({
             legalName: res.data.legalName,
             zipCode: res.data.zipCode,
