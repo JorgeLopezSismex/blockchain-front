@@ -39,6 +39,8 @@ import ActionToast from "@/components/main/ActionToast";
 import AdminModalJorge from "@/components/admin/AdminModalJorge";
 import VerificationSecondStepForm from "./second-step-form";
 
+import { getSuburbsOptionList } from "@/utils/select-options/suburbs";
+
 export default function Verification() {
   const router = useRouter();
 
@@ -50,19 +52,14 @@ export default function Verification() {
   const [modalTitle, setModalTitle] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  const [suburbs, setSuburbs] = useState([]);
+  const [loadingSuburbs, setLoadingSuburbs] = useState(false);
+
   const [showToast, setShowToast] = useState(false);
   const [toastTitle, setToastTitle] = useState("Título");
   const [toastVariant, setToastVariant] = useState("success");
   const [toastMessage, setToastMessage] = useState("Mensaje.");
 
-  /*No se que es esto*/
-  /*No se que es esto*/
-  /*No se que es esto*/
-  /*No se que es esto*/
-  /*No se que es esto*/
-  /*No se que es esto*/
-  /*No se que es esto*/
-  /*No se que es esto*/
   const [loadingData, setLoadingData] = useState(true);
   const [initialValues, setInitialValues] = useState({});
 
@@ -97,6 +94,9 @@ export default function Verification() {
 
   /* CAMBIAR PARA HACER PRUEBAS!!!!!!!! */
   const [fullForm, setFullForm] = useState(true);
+  const [secondStepInitialValues, setSecondStepInitialValues] = useState(
+    {} as any
+  );
 
   useEffect(() => {
     // Permisos
@@ -190,6 +190,25 @@ export default function Verification() {
           getIssuerLegalData();
           setLoadingVerificationData(false);
           setFullForm(true);
+
+          setSecondStepInitialValues({
+            legalName: res.data.legalName,
+            zipCode: res.data.zipCode,
+            country: res.data.country,
+            state: res.data.state,
+            city: res.data.city,
+            suburb: res.data.suburbs,
+            street: res.data.street,
+            internalNumber: res.data.internalNumber,
+            externalNumber: res.data.externalNumber,
+            email: res.data.email,
+            phone: res.data.phone,
+            rfc: res.data.rfc,
+            description: res.data.description,
+            constitutiveAct: null,
+            taxSituationStatement: null,
+          });
+
           return;
         }
 
@@ -397,12 +416,37 @@ export default function Verification() {
                 issuerVerificationStatus ==
                   "PENDING_OWNERSHIP_VERIFICATION" ? null : issuerVerificationStatus ==
                 "OWNERSHIP_VERIFIED" ? (
-                <VerificationSecondStepForm />
+                <AdminCardContainer xs={12}>
+                  <VerificationSecondStepForm
+                    loadingForm={loadingForm}
+                    setLoadingForm={setLoadingForm}
+                    initialValues={secondStepInitialValues}
+                    loadingSuburbs={false}
+                    suburbs={suburbs}
+                    disbaleForm={false}
+                    disableSearchZipCode={false}
+                    setDisableSuburbs={null}
+                    setDisableSearchZipCode={null}
+                    setSuburbs={setSuburbs}
+                    setLoadingSuburbs={setLoadingSuburbs}
+                    setSuburbOptions={null}
+                    getSuburbsOptionList={getSuburbsOptionList}
+                    setShowToast={null}
+                    setToastTitle={null}
+                    setToastVariant={null}
+                    setToastMessage={null}
+                    setShowModal={null}
+                    setModalTitle={null}
+                    setModalText={null}
+                  />
+                </AdminCardContainer>
               ) : (
-                <SubmitedData
-                  attachments={attachments}
-                  submitedData={submitedData}
-                />
+                <AdminCardContainer xs={12}>
+                  <SubmitedData
+                    attachments={attachments}
+                    submitedData={submitedData}
+                  />
+                </AdminCardContainer>
               )}
             </Fragment>
           )}

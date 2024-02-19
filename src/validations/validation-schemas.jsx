@@ -79,7 +79,7 @@ export const resetPasswordSchema = yup.object().shape({
 });
 
 export const verifyOwnershipSchema = yup.object().shape({
-  reCaptcha: yup.string().required("La casilla reCaptcha es obligatoria."),
+  // reCaptcha: yup.string().required("La casilla reCaptcha es obligatoria."),
 });
 
 export const changePasswordSchema = yup.object().shape({
