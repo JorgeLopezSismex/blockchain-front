@@ -37,6 +37,7 @@ import VerificationFirstStepForm from "./first-step-form";
 
 import ActionToast from "@/components/main/ActionToast";
 import AdminModalJorge from "@/components/admin/AdminModalJorge";
+import VerificationSecondStepForm from "./second-step-form";
 
 export default function Verification() {
   const router = useRouter();
@@ -168,13 +169,28 @@ export default function Verification() {
         }
 
         if (status == "PENDING_OWNERSHIP_VERIFICATION") {
-          setAlertTitle("Veriicaciond epropiedad");
+          setAlertTitle("Verificación de propiedad en proceso.");
           setAlertVariant("warning");
-          setAlertMessage("");
+          setAlertMessage(
+            "Hemos enviado un enlace de verificación de propiedad a la dicreccion de correo electrónico señalada en la cédula fiscal enviada."
+          );
+
+          setLoadingVerificationData(false);
+          setFullForm(true);
+          return;
         }
 
         if (status == "OWNERSHIP_VERIFIED") {
+          setAlertTitle("Verificación pendiente.");
+          setAlertVariant("warning");
+          setAlertMessage(
+            "La verificación de porpiedad fue realizada correctamente, completa el siguiente formulario para solicitar la verificación completa y terminar el proceso."
+          );
+
           getIssuerLegalData();
+          setLoadingVerificationData(false);
+          setFullForm(true);
+          return;
         }
 
         if (status == "PENDING_VERIFICATION") {
@@ -377,9 +393,11 @@ export default function Verification() {
                     setToastMessage={setToastMessage}
                   />
                 </AdminCardContainer>
-              ) : issuerVerificationStatus != "PENDING_VERIFICATION" &&
-                issuerVerificationStatus != "OWNERSHIP_VERIFIED" ? (
-                <h1>Formulario completo</h1>
+              ) : issuerVerificationStatus == "PENDING_VERIFICATION" ||
+                issuerVerificationStatus ==
+                  "PENDING_OWNERSHIP_VERIFICATION" ? null : issuerVerificationStatus ==
+                "OWNERSHIP_VERIFIED" ? (
+                <VerificationSecondStepForm />
               ) : (
                 <SubmitedData
                   attachments={attachments}
