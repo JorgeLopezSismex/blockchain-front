@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Formik } from "formik";
+import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
@@ -54,6 +55,7 @@ export default function CreateMember() {
   }, []);
 
   const createMember = async (values: any) => {
+
     setLoadingForm(true);
     apiFetch("members", "POST", values).then((res) => {
       if (res.success) {
@@ -87,7 +89,7 @@ export default function CreateMember() {
           <Link className="breadcrumb-item" href={"../admin"}>
             Inicio
           </Link>
-          <Link className="breadcrumb-item" href={"../admin/members"}>
+          <Link className="breadcrumb-item" href={"../members"}>
             Miembros
           </Link>
           <Breadcrumb.Item active>Crear</Breadcrumb.Item>

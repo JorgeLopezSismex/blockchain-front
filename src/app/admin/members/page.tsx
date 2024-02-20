@@ -175,7 +175,7 @@ export default function MemberList() {
           <Link className="breadcrumb-item" href={"../admin"}>
             Inicio
           </Link>
-          <Breadcrumb.Item active>Emisores</Breadcrumb.Item>
+          <Breadcrumb.Item active>Miembros</Breadcrumb.Item>
         </Breadcrumb>
       </AdminPageHeader>
 
