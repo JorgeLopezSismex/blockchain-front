@@ -3,10 +3,12 @@ import * as yup from "yup";
 export const createMemberScheme = yup.object().shape({
   name: yup
     .string()
+    .required("Este campo es obligatorio.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
     .max(100, "Por favor, no escribas más de 100 caracteres."),
   lastName: yup
     .string()
+    .required("Este campo es obligatorio.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
     .max(100, "Por favor, no escribas más de 100 caracteres."),
   email: yup
@@ -21,10 +23,12 @@ export const createMemberScheme = yup.object().shape({
 export const updateMemberScheme = yup.object().shape({
   name: yup
     .string()
+    .required("Este campo es obligatorio.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
     .max(100, "Por favor, no escribas más de 100 caracteres."),
   lastName: yup
     .string()
+    .required("Este campo es obligatorio.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
     .max(100, "Por favor, no escribas más de 100 caracteres."),
   email: yup
@@ -32,4 +36,5 @@ export const updateMemberScheme = yup.object().shape({
     .required("Este campo es obligatorio.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
     .max(100, "Por favor, no escribas más de 100 caracteres."),
+  roleId: yup.number().integer().required("Este campo es obligatorio."),
 });

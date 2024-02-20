@@ -47,7 +47,7 @@ export default function FormAsyncSelect({
       as={Col}
       sm={sm}
       md={md}
-      style={{ zIndex: 10 }}
+      // style={{ zIndex: 10 }}
     >
       <Form.Label>{label}</Form.Label>
 

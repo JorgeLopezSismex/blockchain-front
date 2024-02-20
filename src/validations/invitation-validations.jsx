@@ -4,12 +4,12 @@ export const createInvitationScheme = yup.object().shape({
   name: yup
     .string()
     .required("Este campo es obligatorio.")
-    .min(5, "Por favor, no escribas menos de 5 caracteres.")
+    .min(3, "Por favor, no escribas menos de 3 caracteres.")
     .max(100, "Por favor, no escribas más de 100 caracteres."),
   lastName: yup
     .string()
     .required("Este campo es obligatorio.")
-    .min(5, "Por favor, no escribas menos de 5 caracteres.")
+    .min(3, "Por favor, no escribas menos de 3 caracteres.")
     .max(100, "Por favor, no escribas más de 100 caracteres."),
   email: yup
     .string()

@@ -99,7 +99,7 @@ export default function UpdateMember() {
           <Link className="breadcrumb-item" href={"../admin"}>
             Inicio
           </Link>
-          <Link className="breadcrumb-item" href={"../admin/members"}>
+          <Link className="breadcrumb-item" href={"../members"}>
             Miembros
           </Link>
           <Breadcrumb.Item active>Editar</Breadcrumb.Item>
