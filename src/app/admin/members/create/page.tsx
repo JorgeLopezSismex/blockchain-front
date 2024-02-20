@@ -17,7 +17,7 @@ import MembersForm from "../form";
 import { MemberData } from "@/types/members";
 import { apiFetch } from "@/helpers/api-fetch";
 import { getRoles } from "@/utils/select-options/roles";
-import { createMemberScheme } from "@/validations/memberValidations";
+import { createMemberScheme } from "@/validations/member-validations";
 
 export default function CreateMember() {
   const [loadingForm, setLoadingForm] = useState(false);
