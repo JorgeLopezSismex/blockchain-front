@@ -85,7 +85,13 @@ export default function invitationsTableColums(
               <AdminTableActionButton
                 tooltip="Reenviar"
                 icon={faRotateRight}
-                disabled={!permissions.RESEND_INVITATION ? true : false}
+                disabled={
+                  !permissions.RESEND_INVITATION
+                    ? true
+                    : data.invitationStatusName == "Pendiente de respuesta"
+                    ? false
+                    : true
+                }
                 onClick={() => {
                   setShowResendModal(true);
                   setSelectedInvitation(data);
@@ -95,7 +101,13 @@ export default function invitationsTableColums(
               {/* Botón de cancelar */}
               <AdminTableActionButton
                 icon={faBan}
-                disabled={!permissions.CANCEL_INVITATION ? true : false}
+                disabled={
+                  !permissions.CANCEL_INVITATION
+                    ? true
+                    : data.invitationStatusName == "Pendiente de respuesta"
+                    ? false
+                    : true
+                }
                 tooltip="Cancelar"
                 onClick={() => {
                   setShowCancelModal(true);

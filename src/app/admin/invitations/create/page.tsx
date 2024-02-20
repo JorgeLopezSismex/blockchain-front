@@ -110,7 +110,7 @@ export default function CreateInvitation() {
           <Link className="breadcrumb-item" href={"../admin"}>
             Inicio
           </Link>
-          <Link className="breadcrumb-item" href={"../admin/invitations"}>
+          <Link className="breadcrumb-item" href={"../invitations"}>
             Invitaciones
           </Link>
           <Breadcrumb.Item active>Crear</Breadcrumb.Item>
