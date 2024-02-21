@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Fragment, useState, useEffect, useRef } from "react";
 import EmailEditor, { EditorRef, EmailEditorProps } from "react-email-editor";
 
@@ -18,6 +19,8 @@ import { createTemplateScheme } from "@/validations/templates-validation";
 import { TemplateData, TemplatesPermissionsData } from "@/types/templates";
 
 export default function TemplateEditor() {
+  const router = useRouter();
+
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [loadingForm, setLoadingForm] = useState(false);
 
@@ -34,9 +37,7 @@ export default function TemplateEditor() {
   const [initialValues, setInitialValues] = useState({});
 
   const exportHtml = () => {
-    alert("Se crea el string");
     const unlayer = emailEditorRef.current?.editor;
-    console.log(emailEditorRef);
 
     unlayer?.exportHtml(function (data) {});
 
@@ -104,7 +105,9 @@ export default function TemplateEditor() {
             setToastVariant("success");
             setToastMessage(res.message);
 
-            return;
+            return setTimeout(() => {
+              router.push("../templates");
+            }, 3000);
           }
           setShowToast(true);
           setLoadingForm(false);
