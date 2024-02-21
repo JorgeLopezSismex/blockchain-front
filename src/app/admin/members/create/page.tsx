@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Formik } from "formik";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
@@ -20,6 +20,8 @@ import { getRoles } from "@/utils/select-options/roles";
 import { createMemberScheme } from "@/validations/member-validations";
 
 export default function CreateMember() {
+  const router = useRouter();
+
   const [loadingForm, setLoadingForm] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [loadingMember, setLoadingMember] = useState(true);
@@ -55,7 +57,6 @@ export default function CreateMember() {
   }, []);
 
   const createMember = async (values: any) => {
-
     setLoadingForm(true);
     apiFetch("members", "POST", values).then((res) => {
       if (res.success) {
@@ -66,7 +67,9 @@ export default function CreateMember() {
         setToastVariant("success");
         setToastMessage(res.message);
 
-        return;
+        return setTimeout(() => {
+          router.push("../members");
+        }, 3000);
       }
 
       setShowToast(true);
