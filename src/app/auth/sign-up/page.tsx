@@ -63,7 +63,7 @@ export default function SignUp() {
     localStorage.setItem("token", res.data);
     setTimeout(() => {
       router.replace("/admin");
-    }, 1000);
+    }, 1500);
 
     return;
   };
