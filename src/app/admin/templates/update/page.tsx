@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Formik } from "formik";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect, useState, useRef } from "react";
 import axios from "axios";
@@ -19,6 +20,8 @@ import { TemplateData } from "@/types/templates";
 import EmailEditor, { EditorRef, EmailEditorProps } from "react-email-editor";
 
 export default function UpdateTemplate() {
+  const router = useRouter();
+
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
@@ -108,7 +111,9 @@ export default function UpdateTemplate() {
           setToastVariant("success");
           setToastMessage(res.message);
 
-          return;
+          return setTimeout(() => {
+            router.push("../templates");
+          }, 3000);
         }
 
         setShowToast(true);

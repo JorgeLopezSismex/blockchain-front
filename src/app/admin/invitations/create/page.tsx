@@ -146,7 +146,18 @@ export default function CreateInvitation() {
               variant="primary"
               title="¿Cómo crear invitaciones por lote?"
               text='Descarga la plantilla en formato .xlsx, llena las columnas solicitadas (Nombre, Apellido y Correo electrónico). Tras lo anterior, carga el archivo en el formulario, da clic en "validar" y después de recibir el resultado de la validación da clic en enviar para procesar las invitaciones.'
-            />
+            >
+              <div className="d-flex justify-content-end">
+                <a
+                  download
+                  className="btn btn-outline-primary"
+                  href="/samples/invitation-batch.xlsx"
+                >
+                  Descargar plantilla
+                </a>
+              </div>
+            </AdminAlert>
+
             <Formik
               onSubmit={batchInvitation}
               validationSchema={createInvitationBatchScheme}

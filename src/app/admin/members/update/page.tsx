@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Formik } from "formik";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
@@ -18,6 +19,8 @@ import { apiFetch } from "@/helpers/api-fetch";
 import { getRoles } from "@/utils/select-options/roles";
 
 export default function UpdateMember() {
+  const router = useRouter();
+
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
@@ -77,7 +80,9 @@ export default function UpdateMember() {
         setToastVariant("success");
         setToastMessage(res.message);
 
-        return;
+        return setTimeout(() => {
+          router.push("../members");
+        }, 3000);
       }
 
       setShowToast(true);
