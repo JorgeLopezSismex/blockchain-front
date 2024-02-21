@@ -71,7 +71,7 @@ export default function CertificateBatchForm({
           flexDirection: "row-reverse",
         }}
       >
-        <AdminFormSubmitButton loading={loadingForm} label="Validar" />
+        <AdminFormSubmitButton loading={loadingForm} label="Guradar" />
         <AdminFormBackButton loading={loadingForm} backUrl="../invitations" />
       </div>
     </Form>
