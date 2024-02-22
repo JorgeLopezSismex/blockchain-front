@@ -41,7 +41,7 @@ export const signUpSchema = yup.object().shape({
     .max(16, "Por favor, no escribas más de 16 caracteres.")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      "Por favor, la contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial (@$!%*?&)."
+      "Por favor, la contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número, un carácter especial (@$!%*?&) y no debe contener espacios."
     ),
   repeatPassword: yup
     .string()
@@ -68,7 +68,7 @@ export const resetPasswordSchema = yup.object().shape({
     .max(16, "Por favor, no escribas más de 16 caracteres.")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      "Por favor, la contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial (@$!%*?&)."
+      "Por favor, la contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número, un carácter especial (@$!%*?&) y no debe contener espacios."
     ),
   repeatPassword: yup
     .string()
@@ -95,7 +95,7 @@ export const changePasswordSchema = yup.object().shape({
     .max(16, "Por favor, no escribas más de 16 caracteres.")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      "Por favor, la contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial (@$!%*?&)."
+      "Por favor, la contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número, un carácter especial (@$!%*?&) y no debe contener espacios."
     ),
   repeatNewPassword: yup
     .string()
