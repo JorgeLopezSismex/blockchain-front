@@ -16,8 +16,8 @@ export default function AuthLayout({
 }) {
   return (
     <Container fluid style={{ height: "100vh" }}>
-      <Row>
-        <Col md={4} lg={6} className={styles.authImage}></Col>
+      <Row fluid style={{ height: "100vh" }}>
+        <Col md={4} lg={6} className={styles.sample}></Col>
         <Col md={8} lg={6}>
           <div className="login d-flex align-items-center py-5">
             <Container>
