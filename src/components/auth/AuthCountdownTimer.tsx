@@ -17,7 +17,7 @@ export default function AuthCountdownTimer({
   }, [countdownTimestampMs]);
 
   const updateRemainingTime = (countdown: number) => {
-    console.log("Hola mundo");
+    // console.log("Hola mundo");
   };
 
   return (
