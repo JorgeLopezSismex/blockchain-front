@@ -201,7 +201,7 @@ export default function Invitations() {
     });
   };
 
-  const cancelInvitation = async (values: any) => {
+  const cancelInvitation = async (values: any, resetForm: any) => {
     setLoadingModal(true);
     apiFetch("invitations/cancel", "POST", {
       invitationId: selectedInvitation.invitationId,
@@ -218,6 +218,8 @@ export default function Invitations() {
         setToastTitle("Invitaciones");
         setToastVariant("success");
 
+        resetForm({ reason: "" });
+
         return;
       }
 
@@ -225,6 +227,8 @@ export default function Invitations() {
       setToastVariant("danger");
       setToastMessage(res.message);
       setToastTitle("Invitaciones");
+
+      resetForm({ reason: "" });
     });
   };
 
@@ -404,7 +408,9 @@ export default function Invitations() {
       </AdminModalJorge>
 
       <Formik
-        onSubmit={cancelInvitation}
+        onSubmit={(values, { resetForm }) => {
+          cancelInvitation(values, resetForm);
+        }}
         initialValues={{ reason: "" }}
         validationSchema={cancelInvitationScheme}
       >
