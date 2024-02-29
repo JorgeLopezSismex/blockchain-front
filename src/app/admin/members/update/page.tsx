@@ -101,7 +101,7 @@ export default function UpdateMember() {
     <Fragment>
       <AdminPageHeader title="Editar miembro">
         <Breadcrumb className="float-sm-right">
-          <Link className="breadcrumb-item" href={"../admin"}>
+          <Link className="breadcrumb-item" href={"../"}>
             Inicio
           </Link>
           <Link className="breadcrumb-item" href={"../members"}>

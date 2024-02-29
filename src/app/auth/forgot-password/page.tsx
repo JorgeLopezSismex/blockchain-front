@@ -28,6 +28,8 @@ export default function ForgotPassword() {
   const [toastMessage, setToastMessage] = useState("Mensaje.");
   const [toastVariant, setToastVariant] = useState("success");
 
+  const [showTimer, setShowTimer] = useState(false);
+
   const forgotPassword = async (values: ForgotPasswordData) => {
     const now = moment(); // Get current date/time
     const futureTime = now.add(120, "seconds"); // Add 30 seconds to the current time
@@ -35,6 +37,8 @@ export default function ForgotPassword() {
 
     console.log(now, "Esto es ahora");
     console.log(now.add(30, "seconds"), "esto es el futuro");
+
+    setShowTimer(true);
 
     return;
 
@@ -120,7 +124,7 @@ export default function ForgotPassword() {
                   />
                 </Row>
 
-                <AuthCountdownTimer countdownTimestampMs={123} />
+                {!showTimer ? null : <AuthCountdownTimer />}
               </Form>
             )}
           </Formik>
