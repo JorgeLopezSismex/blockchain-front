@@ -200,7 +200,7 @@ export default function TemplateList() {
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona una fecha"
                   maxDate={moment(values.createdAtTo)}
-                  label="Fecha de creación del certificado mínima"
+                  label="Fecha de creación de la plantilla mínima"
                 />
 
                 <FormDatePicker
@@ -210,7 +210,7 @@ export default function TemplateList() {
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona una fecha"
                   minDate={moment(values.createdAtFrom)}
-                  label="Fecha de creación del certificado máxima"
+                  label="Fecha de creación de la plantilla máxima"
                 />
 
                 <div className="d-flex justify-content-end">
