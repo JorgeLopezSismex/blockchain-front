@@ -14,6 +14,7 @@ import AuthInput from "@/components/auth/AuthInput";
 import AuthButton from "@/components/auth/AuthButton";
 import ActionToast from "@/components/main/ActionToast";
 import AuthReCaptcha from "@/components/auth/AuthReCaptcha";
+import AuthPasswordInput from "@/components/auth/AuthPasswordInput";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 
 import { apiFetch } from "@/helpers/api-fetch";
@@ -65,8 +66,6 @@ export default function SignIn() {
     if (!res.success) {
       setLoading(false);
       setShowToast(true);
-
-      
 
       setRecaptchaKey(recaptchaKey + 1);
       return;
@@ -131,7 +130,7 @@ export default function SignIn() {
                   </Row>
 
                   <Row className="mb-3">
-                    <AuthInput
+                    <AuthPasswordInput
                       type={"password"}
                       name={"password"}
                       label={"Contraseña"}
