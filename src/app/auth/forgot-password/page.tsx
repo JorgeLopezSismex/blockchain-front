@@ -3,7 +3,7 @@
 import moment from "moment";
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 
 import { Col, Row, Form } from "react-bootstrap";
 
@@ -18,6 +18,7 @@ import { ForgotPasswordData } from "@/types/auth";
 import { forgotPasswordSchema } from "@/validations/validation-schemas";
 
 import styles from "../styles.module.css";
+import { faSleigh } from "@fortawesome/free-solid-svg-icons";
 
 export default function ForgotPassword() {
   const { Formik } = formik;
@@ -29,19 +30,22 @@ export default function ForgotPassword() {
   const [toastVariant, setToastVariant] = useState("success");
 
   const [showTimer, setShowTimer] = useState(false);
+  const [disableButton, setDisableButton] = useState(true);
 
-  const forgotPassword = async (values: ForgotPasswordData) => {
-    const now = moment(); // Get current date/time
-    const futureTime = now.add(120, "seconds"); // Add 30 seconds to the current time
-    const unixTimestamp = futureTime.unix(); // Convert the updated time to Unix timestamp
+  useEffect(() => {
+    let disabledUntil = localStorage.getItem("disabledUntil");
+    if (disabledUntil == "" || disabledUntil == null) {
+      setShowTimer(false);
+      setDisableButton(false);
 
-    console.log(now, "Esto es ahora");
-    console.log(now.add(30, "seconds"), "esto es el futuro");
+      return;
+    }
 
     setShowTimer(true);
+    setDisableButton(true);
+  }, []);
 
-    return;
-
+  const forgotPassword = async (values: ForgotPasswordData) => {
     setLoading(true);
 
     apiFetch("authorization/forgot-password", "POST", values).then((res) => {
@@ -53,9 +57,16 @@ export default function ForgotPassword() {
         setToastMessage(res.message);
         setToastTitle("Autenticación");
 
-        localStorage.setItem("test", res.data);
+        /* Se definen los 30 segundos de espera para volver a hacer una solicitud. */
+        localStorage.setItem(
+          "disabledUntil",
+          moment().add(30, "seconds").unix().toString()
+        );
 
-        return true;
+        setShowTimer(true);
+        setDisableButton(true);
+
+        return;
       }
 
       setLoading(false);
@@ -120,11 +131,17 @@ export default function ForgotPassword() {
                 <Row className="mb-3">
                   <AuthButton
                     loading={loading}
+                    disabled={disableButton}
                     text={"Solicitar cambiar contraseña"}
                   />
                 </Row>
 
-                {!showTimer ? null : <AuthCountdownTimer />}
+                {!showTimer ? null : (
+                  <AuthCountdownTimer
+                    setShowTimer={setShowTimer}
+                    setDisableButton={setDisableButton}
+                  />
+                )}
               </Form>
             )}
           </Formik>
