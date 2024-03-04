@@ -1,41 +1,71 @@
-import { useEffect, useState, useMemo } from "react";
-import { Row } from "react-bootstrap";
-
-const SECOND = 1000;
-const MINUTE = SECOND * 60;
-const HOUR = MINUTE * 60;
-const DAY = HOUR * 24;
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { Row, Col } from "react-bootstrap";
 
 export default function AuthCountdownTimer({
-  deadline = new Date().toString(),
+  setShowTimer,
+  setDisableButton,
+}: {
+  setShowTimer: any;
+  setDisableButton: any;
 }) {
-  const parsedDeadline = useMemo(() => Date.parse(deadline), [deadline]);
-  const [time, setTime] = useState(parsedDeadline - Date.now());
+  const [remainingSeconds, setRemainingSeconds] = useState(30);
 
   useEffect(() => {
-    const interval = setInterval(
-      () => setTime(parsedDeadline - Date.now()),
-      1000
-    );
+    let interval: any;
+    interval = setInterval(() => {
+      let disabledUntil = localStorage.getItem("disabledUntil");
+      if (disabledUntil == "" || disabledUntil == null) {
+        setShowTimer(false);
+        clearInterval(interval);
+        setDisableButton(false);
+
+        localStorage.removeItem("disabledUntil");
+
+        return;
+      }
+
+      const momentFuture = moment.unix(parseInt(disabledUntil));
+      let momentNow = moment.unix(moment().unix());
+
+      let differenceInSeconds = momentNow.diff(momentFuture, "seconds");
+      if (differenceInSeconds === 0) {
+        /* Termina la espera y se activa de nuevo el botón*/
+
+        setShowTimer(false);
+        clearInterval(interval);
+        setDisableButton(false);
+
+        localStorage.removeItem("disabledUntil");
+
+        return;
+      }
+
+      console.log("Se actualiza el timer");
+      setRemainingSeconds(Math.abs(differenceInSeconds));
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, [parsedDeadline]);
+  }, [remainingSeconds]);
+
+  if (remainingSeconds >= 30) {
+    return (
+      <Row>
+        <Col xs={12} className="d-flex justify-content-center">
+          <p style={{ color: "#888" }}>Espera un momento...</p>
+        </Col>
+      </Row>
+    );
+  }
 
   return (
-    <div className="timer">
-      {Object.entries({
-        Days: time / DAY,
-        Hours: (time / HOUR) % 24,
-        Minutes: (time / MINUTE) % 60,
-        Seconds: (time / SECOND) % 60,
-      }).map(([label, value]) => (
-        <div key={label} className="col-4">
-          <div className="box">
-            <p>{`${Math.floor(value)}`.padStart(2, "0")}</p>
-            <span className="text">{label}</span>
-          </div>
-        </div>
-      ))}
-    </div>
+    <Row>
+      <Col xs={12} className="d-flex justify-content-center">
+        <p style={{ color: "#888" }}>
+          Volver a solicitar cambio en:{" "}
+          {`00:${("0" + remainingSeconds).slice(-2)}`}
+        </p>
+      </Col>
+    </Row>
   );
 }
