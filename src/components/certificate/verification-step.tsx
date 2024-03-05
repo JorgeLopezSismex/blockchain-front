@@ -24,7 +24,9 @@ export default function VerificationStep({
     let result =
       label.charAt(0).toUpperCase() + label.slice(1).toLowerCase() + ".";
 
-    result = result.replace("Obeniendo", "Obteniendo");
+    result = result
+      .replace("Obeniendo", "Obteniendo")
+      .replace("merkle root", "Merkle Root");
 
     return result;
   };
