@@ -20,8 +20,20 @@ export default function VerificationStep({
     let icon = faCircleXmark;
   }
 
+  const formatLabel = (label: string) => {
+    let result =
+      label.charAt(0).toUpperCase() + label.slice(1).toLowerCase() + ".";
+
+    result = result.replace("Obeniendo", "Obteniendo");
+
+    return result;
+  };
+
   return (
-    <div key={key} style={{ display: "flex", marginRight: "10px" }}>
+    <div
+      key={key}
+      style={{ display: "flex", alignItems: "center", marginRight: "10px" }}
+    >
       <FontAwesomeIcon icon={icon} style={{ color: `${color}` }} />
       <p
         style={{
@@ -30,7 +42,7 @@ export default function VerificationStep({
           display: "inline-block",
         }}
       >
-        {step.label}
+        {formatLabel(step.label)}
       </p>
     </div>
   );
