@@ -5,67 +5,76 @@ import "moment/locale/es-mx";
 import "react-datetime/css/react-datetime.css";
 
 import { Col, Form, InputGroup } from "react-bootstrap";
+import { useEffect, useState } from "react";
 
 export default function FormDatePicker({
-  sm,
-  md,
-  name,
-  label,
-  placeholder,
-  setFieldValue,
-  minDate,
-  maxDate,
+	sm,
+	md,
+	name,
+	label,
+	placeholder,
+	setFieldValue,
+	minDate,
+	maxDate,
+	value,
 }: {
-  sm: number;
-  md: number;
-  name: string;
-  label: string;
-  placeholder: string;
-  setFieldValue: any;
-  minDate?: Moment;
-  maxDate?: Moment;
+	sm: number;
+	md: number;
+	name: string;
+	label: string;
+	placeholder: string;
+	setFieldValue: any;
+	minDate?: Moment;
+	maxDate?: Moment;
+	value?: string;
 }) {
-  return (
-    <Form.Group className="mb-3" as={Col} sm={sm} md={md} controlId={name}>
-      <Form.Label>{label}</Form.Label>
-      <InputGroup>
-        <Datetime
-          displayTimeZone=""
-          locale="es-mx"
-          timeFormat={false}
-          closeOnSelect={true}
-          onChange={(e) => {
-            setFieldValue(name, moment(e).toISOString());
-          }}
-          inputProps={{
-            name: name,
-            autoComplete: "off",
-            placeholder: placeholder,
-            onChange: (selectedOption) => {
-              console.log(selectedOption);
-              setFieldValue(name, selectedOption);
-            },
-            onKeyDown: (e) => {
-              if (e.key != "Backspace") {
-                return e.preventDefault();
-              }
-            },
-          }}
-          isValidDate={(current) => {
-            let valid = true;
+	return (
+		<Form.Group
+			className="mb-3"
+			as={Col}
+			sm={sm}
+			md={md}
+			controlId={name}
+		>
+			<Form.Label>{label}</Form.Label>
+			<InputGroup>
+				<Datetime
+					displayTimeZone=""
+					locale="es-mx"
+					timeFormat={false}
+					closeOnSelect={true}
+					onChange={e => {
+						setFieldValue(name, moment(e).toISOString());
+					}}
+					inputProps={{
+						name: name,
+						autoComplete: "off",
+						placeholder: placeholder,
+						value,
+						onChange: selectedOption => {
+							setFieldValue(name, selectedOption);
+						},
+						onKeyDown: e => {
+							if (e.key != "Backspace") {
+								return e.preventDefault();
+							}
+						},
+					}}
+					isValidDate={current => {
+						let valid = true;
 
-            if (minDate != undefined) {
-              valid = current < minDate ? false : true;
-            }
+						if (minDate != undefined) {
+							valid = current < minDate ? false : true;
+						}
 
-            if (maxDate != undefined) {
-              valid = current > maxDate ? false : true;
-            }
+						if (maxDate != undefined) {
+							valid = current > maxDate ? false : true;
+						}
 
-            return valid;
-          }}
-        />
-      </InputGroup>
-    </Form.Group>
-  );
+						return valid;
+					}}
+				/>
+			</InputGroup>
+		</Form.Group>
+	);
 }
