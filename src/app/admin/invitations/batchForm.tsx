@@ -1,9 +1,10 @@
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Button } from "react-bootstrap";
 
 import AdminTable from "@/components/admin/AdminTable";
 import FormInputFile from "@/components/form/FormInputFile";
 import AdminFormBackButton from "@/components/admin/AdminFormBackButton";
 import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
+import { useEffect, useState } from "react";
 
 export default function InvitationsBatchForm({
   values,
@@ -12,7 +13,10 @@ export default function InvitationsBatchForm({
   setFieldValue,
   loadingForm,
   batchResultData,
+  setBatchResultData,
   invitationsBatchTableColumns,
+  batchFinished,
+  setBatchFinished,
 }: {
   values: any;
   errors: any;
@@ -20,14 +24,29 @@ export default function InvitationsBatchForm({
   setFieldValue: any;
   loadingForm: boolean;
   batchResultData: any[];
+  setBatchResultData: any;
   invitationsBatchTableColumns: any;
+  batchFinished: boolean;
+  setBatchFinished: any;
 }) {
+  const [fieldKey, setFieldKey] = useState(0);
+
+  const clearForm = () => {
+    setBatchResultData([]);
+
+    setFieldKey(fieldKey + 1);
+    setFieldValue("file", null);
+
+    setBatchFinished(false);
+  };
+
   return (
     <Form noValidate onSubmit={handleSubmit}>
       <Row className="mb-3">
         <FormInputFile
           sm={12}
           md={12}
+          key={fieldKey}
           name="file"
           label="Excel"
           required={true}
@@ -59,7 +78,13 @@ export default function InvitationsBatchForm({
           flexDirection: "row-reverse",
         }}
       >
-        <AdminFormSubmitButton loading={loadingForm} label="Guardar" />
+        {batchFinished ? (
+          <Button type="button" onClick={clearForm}>
+            Enviar nuevo archivo
+          </Button>
+        ) : (
+          <AdminFormSubmitButton loading={loadingForm} label="Guardar" />
+        )}
         <AdminFormBackButton loading={loadingForm} backUrl="../invitations" />
       </div>
     </Form>
