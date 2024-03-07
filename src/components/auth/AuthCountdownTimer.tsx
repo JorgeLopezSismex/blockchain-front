@@ -41,7 +41,6 @@ export default function AuthCountdownTimer({
         return;
       }
 
-      console.log("Se actualiza el timer");
       setRemainingSeconds(Math.abs(differenceInSeconds));
     }, 1000);
 

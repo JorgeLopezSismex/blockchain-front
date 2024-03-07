@@ -16,7 +16,7 @@ import { CertificateData } from "@/types/certificates";
 
 export default function certificatesTableColums(
   permissions: any,
-  verifyCertificate: any,
+  getCertificateData: any,
   setSelectedCertificate: any,
   setShowVerifyModal: any
 ) {
@@ -65,9 +65,8 @@ export default function certificatesTableColums(
               tooltip="Verificar"
               disabled={permissions.READ_INVITATION ? true : false}
               onClick={() => {
-                verifyCertificate();
-                setShowVerifyModal(true);
                 setSelectedCertificate(data);
+                getCertificateData(data.jsonBoby);
               }}
             />
 

@@ -40,6 +40,7 @@ export default function CreateInvitation() {
   const [loadingScreen, setLoadingScreen] = useState(true);
 
   const [batchResultData, setBatchResultData] = useState([] as object[]);
+  const [batchFinished, setBatchFinished] = useState(false);
 
   const { activeEventKey } = useContext(AccordionContext);
 
@@ -95,11 +96,19 @@ export default function CreateInvitation() {
 
     apiFetch("invitations/batch", "POST", values, true).then((res) => {
       if (res.success) {
-        setBatchResultData(res.data);
         setLoadingForm(false);
+        setBatchFinished(true);
+        setBatchResultData(res.data);
+
+        return;
       }
+
+      setBatchFinished(false);
+      return;
     });
   };
+
+  const clearBatchForm = async () => {};
 
   return loadingScreen ? (
     <AdminTableSpinner />
@@ -145,7 +154,7 @@ export default function CreateInvitation() {
               noPadding={true}
               variant="primary"
               title="¿Cómo crear invitaciones por lote?"
-              text='Descarga la plantilla en formato .xlsx, llena las columnas solicitadas (Nombre, Apellido y Correo electrónico). Tras lo anterior, carga el archivo en el formulario, da clic en "validar" y después de recibir el resultado de la validación da clic en enviar para procesar las invitaciones.'
+              text="Descarga la plantilla en formato .xlsx, llena las columnas solicitadas (Nombre, Apellido y Correo electrónico). Tras lo anterior, carga el archivo en el formulario y da clic en guardar para procesar las invitaciones."
             >
               <div className="d-flex justify-content-end">
                 <a
@@ -165,14 +174,17 @@ export default function CreateInvitation() {
                 file: null,
               }}
             >
-              {({ values, errors, handleSubmit, setFieldValue }) => (
+              {({ values, errors, handleSubmit, setFieldValue, resetForm }) => (
                 <InvitationsBatchForm
                   values={values}
                   errors={errors}
                   loadingForm={loadingForm}
                   handleSubmit={handleSubmit}
                   setFieldValue={setFieldValue}
+                  batchFinished={batchFinished}
                   batchResultData={batchResultData}
+                  setBatchFinished={setBatchFinished}
+                  setBatchResultData={setBatchResultData}
                   invitationsBatchTableColumns={invitationsBatchTableColumns}
                 />
               )}

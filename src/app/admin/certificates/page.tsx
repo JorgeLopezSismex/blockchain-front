@@ -22,6 +22,7 @@ import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
 import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
+import ValidationModal from "@/components/certificate/validation-modal";
 
 import { apiFetch } from "@/helpers/api-fetch";
 import { CertificateData } from "@/types/certificates";
@@ -32,13 +33,9 @@ import { getTemplatesOptionList } from "@/utils/select-options/templates";
 import CertificateVerifier from "@/components/admin/AdminCertificateVerifier";
 
 export default function CertificateList() {
-  // const {
-  //   Certificate,
-  // } = require("@blockcerts/cert-verifier-js/dist/verifier-node/index");
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [loadingCertificates, setLoadingCertificates] = useState(true);
-  const [loadingVerification, setLoadingVerification] = useState(false);
-  const [loadingCertificateData, setLoadingCertificateData] = useState(false);
+  const [loadingVerification, setLoadingVerification] = useState(true);
 
   const [steps, setSteps] = useState([] as any);
   const [certificate, setCertificate] = useState({} as any);
@@ -56,6 +53,8 @@ export default function CertificateList() {
 
   const [certificateData, setCertificateData] = useState({} as Certificate);
   const [verificationData, setVerificationData] = useState({} as any);
+
+  const handleClose = () => setShowVerifyModal(false);
 
   useEffect(() => {
     // Permisos
@@ -118,9 +117,10 @@ export default function CertificateList() {
     });
   };
 
-  const verifyCertificate = async () => {
-    setLoadingCertificateData(true);
+  const getCertificateData = async (path: String) => {
     setLoadingVerification(true);
+    setShowVerifyModal(true);
+
     fetch("http://68.178.207.49:8113/certificate-verification", {
       method: "POST",
       headers: {
@@ -131,29 +131,22 @@ export default function CertificateList() {
           "https://raw.githubusercontent.com/JorgeLopezSismex/test-blockchain/main/certificateExterno.json",
       }),
     })
-      .then((response) => {
-        console.log("Esto es el response", response);
-        if (!response.ok) {
+      .then((res) => {
+        if (!res.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json();
+        return res.json();
       })
       .then((json) => {
         if (!json.success) {
           return null;
         }
 
-        setCertificate(json.data.certificate);
         setSteps(json.data.steps);
+        setCertificate(json.data.certificate);
         setVerification(json.data.verification);
 
         setLoadingVerification(false);
-        setLoadingCertificateData(false);
-        setCertificateData(json.data.certificate);
-        setVerificationData(json.data.verification);
-
-        // setSteps([]);
-        const steps = json.data.steps;
       });
   };
 
@@ -247,7 +240,7 @@ export default function CertificateList() {
             defaultData={certificates}
             columns={certificatesTableColums(
               permissions,
-              verifyCertificate,
+              getCertificateData,
               setSelectedCertificate,
               setShowVerifyModal
             )}
@@ -261,7 +254,16 @@ export default function CertificateList() {
         )}
       </AdminCardContainer>
 
-      <AdminModalJorge
+      <ValidationModal
+        steps={steps}
+        show={showVerifyModal}
+        handleClose={handleClose}
+        certificate={certificate}
+        verification={verification}
+        loading={loadingVerification}
+      />
+
+      {/* <AdminModalJorge
         title="Verificar"
         showButtons={true}
         modalLoading={false}
@@ -275,7 +277,51 @@ export default function CertificateList() {
           certificate={certificate}
           verification={verification}
         />
-      </AdminModalJorge>
+      </AdminModalJorge> */}
     </Fragment>
   );
 }
+
+/*
+
+  const verifyCertificate = async () => {
+    setLoadingCertificateData(true);
+    setLoadingVerification(true);
+    fetch("http://68.178.207.49:8113/certificate-verification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        certificatePath:
+          "https://raw.githubusercontent.com/JorgeLopezSismex/test-blockchain/main/certificateExterno.json",
+      }),
+    })
+      .then((response) => {
+        console.log("Esto es el response", response);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((json) => {
+        if (!json.success) {
+          return null;
+        }
+
+        setCertificate(json.data.certificate);
+        setSteps(json.data.steps);
+        setVerification(json.data.verification);
+
+        setLoadingVerification(false);
+        setLoadingCertificateData(false);
+        setCertificateData(json.data.certificate);
+        setVerificationData(json.data.verification);
+
+        // setSteps([]);
+        const steps = json.data.steps;
+      });
+  };
+
+
+*/
