@@ -22,18 +22,7 @@ export const signUpSchema = yup.object().shape({
     .required("Este campo es obligatorio.")
     .email("Por favor, escribe una dirección de correo válida.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
-    .max(150, "Por favor, no escribas más de 150 caracteres.")
-    .test(
-      "Esta dirección de correo es válida.",
-      "Esta dirección de correo ya esta en uso.",
-      async (value, values) => {
-        const res = await apiFetch("authorization/registered-email", "POST", {
-          email: value,
-        });
-
-        return res.success ? true : false;
-      }
-    ),
+    .max(150, "Por favor, no escribas más de 150 caracteres."),
   password: yup
     .string()
     .required("Este campo es obligatorio.")
