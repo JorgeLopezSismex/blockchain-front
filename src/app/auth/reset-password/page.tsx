@@ -142,7 +142,7 @@ export default function ResetPassword() {
 
                   setTimeout(() => {
                     router.replace("/auth/sign-in");
-                  }, 6000);
+                  }, 2500);
                 }
               }}
             >
