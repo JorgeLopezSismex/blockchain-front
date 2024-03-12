@@ -40,9 +40,30 @@ export default function ForgotPassword() {
 
       return;
     }
+    console.log(disabledUntil);
+    console.log(moment.unix(parseInt(disabledUntil)));
+
+    const date = moment.unix(parseInt(disabledUntil));
+    if (!date.isValid()) {
+      setShowTimer(false);
+      setDisableButton(false);
+      localStorage.removeItem("disabledUntil");
+
+      return;
+    }
+
+    const currentDate = moment();
+    if (date.isBefore(currentDate)) {
+      setShowTimer(false);
+      setDisableButton(false);
+      localStorage.removeItem("disabledUntil");
+
+      return;
+    }
 
     setShowTimer(true);
     setDisableButton(true);
+    return;
   }, []);
 
   const forgotPassword = async (values: ForgotPasswordData) => {
