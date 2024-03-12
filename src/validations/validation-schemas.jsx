@@ -22,7 +22,7 @@ export const signUpSchema = yup.object().shape({
     .required("Este campo es obligatorio.")
     .email("Por favor, escribe una dirección de correo válida.")
     .min(5, "Por favor, no escribas menos de 5 caracteres.")
-    .max(150, "Por favor, no escribas más de 150 caracteres."),
+    .max(100, "Por favor, no escribas más de 100 caracteres."),
   password: yup
     .string()
     .required("Este campo es obligatorio.")
