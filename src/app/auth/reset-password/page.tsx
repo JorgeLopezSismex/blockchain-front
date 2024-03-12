@@ -50,8 +50,6 @@ export default function ResetPassword() {
       token: token,
     });
 
-    console.log("Esta es la respuesta", res);
-
     if (!res.success) {
       router.replace("expired");
       return;
