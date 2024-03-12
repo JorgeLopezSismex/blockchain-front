@@ -24,8 +24,8 @@ export default function Expired() {
       </div>
 
       <p>
-        La dirección a la que intenta acceder no es válida, ha expirado ó ya no
-        esta disponible.
+        La dirección a la que intenta acceder no es válida, ha expirado o ya no
+        está disponible.
       </p>
 
       <div
