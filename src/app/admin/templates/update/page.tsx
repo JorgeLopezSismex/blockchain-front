@@ -41,6 +41,7 @@ export default function UpdateTemplate() {
 
   const [design, setDesign] = useState({} as any);
   const [initialValues, setInitialValues] = useState({});
+  const [loadJsonDesign, setLoadJsonDesign] = useState(true);
 
   useEffect(() => {
     // Permisos
@@ -86,7 +87,11 @@ export default function UpdateTemplate() {
       })
       .then((data) => {
         setDesign(data);
-        loadDesign();
+
+        if (loadJsonDesign) {
+          loadDesign();
+        }
+
         setLoadingScreen(false);
       });
   };
@@ -101,6 +106,10 @@ export default function UpdateTemplate() {
       values.design = design;
 
       setLoadingForm(true);
+
+      console.log(values, "Estoso son los valores del update");
+
+      return;
 
       apiFetch(`templates/${id}`, "PUT", values).then((res) => {
         if (res.success) {
@@ -132,6 +141,7 @@ export default function UpdateTemplate() {
     console.log(initialValues, "Estos son los valores iniciales");
     if (emailEditorRef.current) {
       emailEditorRef.current.loadDesign(design);
+      setLoadJsonDesign(false);
     }
   };
 

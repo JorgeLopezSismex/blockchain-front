@@ -32,7 +32,6 @@ export default function TemplatesForm({
 }) {
   return (
     <Form noValidate onSubmit={handleSubmit}>
-      {values.name}
       <Row className="mb-3">
         <FormInput
           md={12}

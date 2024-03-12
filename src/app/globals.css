@@ -40,3 +40,64 @@ nextjs-portal {
   display: none !important;
   background-color: transparent;
 }
+
+/* ------------------------------ Web Comercial ----------------------------- */
+.navbar-link {
+  color: rgb(0, 74, 155);
+  font-weight: bold;
+}
+
+.nav-bar-link-button-img {
+  margin-right: 10px;
+}
+
+.nav-bar-link-button-text {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.section {
+  margin-top: 90px;
+  margin-bottom: 90px;
+}
+
+.background-about-us {
+  background-image: url("../../public/web/about-us.png"); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+  color: white; /* Optional: Change text color for better visibility */
+  padding: 20px; /* Optional: Add padding for better layout */
+}
+
+.background-about-us::before {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.web-button {
+  background-color: rgb(0, 198, 255);
+  padding-inline: 30px;
+}
+
+.web-button-label {
+  font-size: 3px;
+}
+
+.blue-subtitle {
+  text-align: center;
+  color: rgb(0, 74, 155);
+}
+
+.gray-subtitle {
+  text-align: center;
+  color: rgb(111, 111, 111);
+}
+
+.gray-text {
+  color: rgb(111, 111, 111);
+}
+
+.background-what-is {
+  background-image: url("../../public/web/what-is.png");
+}
