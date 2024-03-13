@@ -1,19 +1,15 @@
-import { Col, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
+import Link from "next/link";
+import Image from "next/image";
+
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import { Container, Col, Row } from "react-bootstrap";
 
 import NavBarButton from "./NavBarButton";
 import SocialMediaIcon from "./SocialMediaIcon";
 
-import Link from "next/link";
-import Image from "next/image";
-
-export default function WebNavBar() {
+export default function NavBar() {
   const expand = "md";
 
   return (
@@ -66,10 +62,10 @@ export default function WebNavBar() {
           <Navbar.Brand href="#">
             <Link href={"sdfs"}>
               <Image
-                src="/web/singulardocs-logo.png"
-                alt="SingularDocs"
                 width={176}
                 height={42}
+                alt="SingularDocs"
+                src="/web/singulardocs-logo.png"
               />
             </Link>
           </Navbar.Brand>
@@ -112,25 +108,3 @@ export default function WebNavBar() {
     </Container>
   );
 }
-
-/*
-
-
-
-
-            <Image src="/web/x-icon.png" alt="sdfdfds" width="32" height="32" />
-            <Image
-              src="/web/facebook-icon.png"
-              alt="sdfdfds"
-              width="32"
-              height="32"
-            />
-            <Image
-              src="/web/linkedin-icon.png"
-              alt="sdfdfds"
-              width="32"
-              height="32"
-            />
-
-
-*/

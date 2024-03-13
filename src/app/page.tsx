@@ -3,15 +3,19 @@
 import Image from "next/image";
 
 import "bootstrap/dist/css/bootstrap.css";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, NavbarBrand } from "react-bootstrap";
 import BlueButton from "@/components/web/BlueButton";
 import FeatureCard from "@/components/web/FeatureCard";
 import { Fragment } from "react";
 import FifthSection from "@/components/web/FifthSection";
+import NavBar from "@/components/web/NavBar";
 
 export default function Home() {
   return (
     <Fragment>
+      {/* --------------------------------- NavBar --------------------------------- */}
+      <NavBar></NavBar>
+
       {/* --------------------------- ¿Qué es blockchain? -------------------------- */}
       <div className="section">
         <Container>
@@ -179,7 +183,7 @@ export default function Home() {
             </Col>
           </Row>
         </Container>
-        
+
         <FifthSection />
       </div>
     </Fragment>

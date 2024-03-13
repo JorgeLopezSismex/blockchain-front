@@ -104,6 +104,27 @@ nextjs-portal {
   background-image: url("../../public/web/bg_blue_2.png");
 }
 
+/* ------------------------- Web Comercial - NavBar ------------------------- */
+.nav-bar-link-button-img {
+  margin-right: 10px;
+}
+
+.nav-bar-link-button-text {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-link {
+  color: rgb(0, 74, 155);
+  font-weight: bold;
+}
+
+.navbar-link:hover {
+  color: rgb(0, 198, 255);
+  font-weight: bold;
+}
+
 /* -------------------- Web comercial - Botón azul -------------------- */
 .blue-button {
   font-size: 14px;
