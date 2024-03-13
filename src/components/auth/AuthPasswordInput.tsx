@@ -6,7 +6,8 @@ import Button from "react-bootstrap/Button";
 import { InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
 import { useState } from "react";
 
 export default function AuthPasswordInput({
@@ -21,7 +22,7 @@ export default function AuthPasswordInput({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <Form.Group as={Col} md="12" controlId={name} className="mb-3">
+    <Form.Group as={Col} md="12" controlId={name} className="mb-1">
       <Form.Label>{label}</Form.Label>
       <InputGroup hasValidation>
         <Form.Control
@@ -38,7 +39,7 @@ export default function AuthPasswordInput({
           id={`${name}-button`}
           onClick={() => setShowPassword(!showPassword)}
         >
-          <FontAwesomeIcon icon={faEye} />
+          <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
         </Button>
 
         <Form.Control.Feedback type="invalid">{errors}</Form.Control.Feedback>
