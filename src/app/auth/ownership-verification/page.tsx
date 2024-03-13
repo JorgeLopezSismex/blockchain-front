@@ -40,8 +40,6 @@ export default function OwnershipVerification() {
     apiFetch("verification/validate-ownership-token", "POST", {
       token: token,
     }).then((res) => {
-      console.log("Esta es la respueta del token", res);
-
       if (!res.success) {
         router.replace("expired");
         return;

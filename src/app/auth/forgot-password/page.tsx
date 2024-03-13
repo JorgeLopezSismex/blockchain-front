@@ -40,8 +40,6 @@ export default function ForgotPassword() {
 
       return;
     }
-    console.log(disabledUntil);
-    console.log(moment.unix(parseInt(disabledUntil)));
 
     const date = moment.unix(parseInt(disabledUntil));
     if (!date.isValid()) {

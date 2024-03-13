@@ -1,12 +1,12 @@
 import { Container, Col, Row, Button } from "react-bootstrap";
-import WebButton from "./WebButton";
+import BlueButton from "./BlueButton";
 
 export default function WebStart() {
   return (
     <div className="background-about-us d-flex align-items-center">
       <Container>
-        <Row className="">
-          <Col>
+        <Row className="d-flex justify-content-start">
+          <Col md={10}>
             <h5>Innovate Technology</h5>
             <h1>¿Quienes somos?</h1>
             <p>
@@ -15,7 +15,7 @@ export default function WebStart() {
               generar información segura y accesible, garantizando su
               integridad.
             </p>
-            <WebButton label="Contacto" />
+            <BlueButton label="Contacto" />
           </Col>
         </Row>
       </Container>
