@@ -1,9 +1,9 @@
 import { Container, Col, Row, Button } from "react-bootstrap";
-import WebButton from "./WebButton";
+import BlueButton from "./BlueButton";
 
 export default function WebWhatIs() {
   return (
-    <div>
+    <div className="section">
       <Container>
         <Row className="d-flex justify-content-center">
           <Col md={10} className="d-flex justify-content-center">
@@ -57,7 +57,7 @@ export default function WebWhatIs() {
                   generando así una mayor confianza, eficiencia y oportunidades.
                 </p>
 
-                <WebButton label="Testimonios" />
+                <BlueButton label="Testimonios" />
               </Col>
             </Row>
           </Col>

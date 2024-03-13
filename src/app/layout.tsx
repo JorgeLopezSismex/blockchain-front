@@ -1,8 +1,12 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: "300",
+});
 
 export const metadata: Metadata = {
   title: "Blockchain",
@@ -16,7 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{backgroundColor:"#f4f6f9"}}>{children}</body>
+      <body
+        style={{ backgroundColor: "#f4f6f9" }}
+        className={poppins.className}
+      >
+        {children}
+      </body>
     </html>
   );
 }

@@ -41,63 +41,136 @@ nextjs-portal {
   background-color: transparent;
 }
 
-/* ------------------------------ Web Comercial ----------------------------- */
-.navbar-link {
-  color: rgb(0, 74, 155);
-  font-weight: bold;
-}
-
-.nav-bar-link-button-img {
-  margin-right: 10px;
-}
-
-.nav-bar-link-button-text {
-  color: black;
-  font-weight: bold;
-  text-decoration: none;
-}
-
+/* -------------------- Web comercial - Estilos globales -------------------- */
 .section {
-  margin-top: 90px;
-  margin-bottom: 90px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
-.background-about-us {
-  background-image: url("../../public/web/about-us.png"); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
-  background-size: cover;
-  background-position: center;
-  height: 80vh;
-  color: white; /* Optional: Change text color for better visibility */
-  padding: 20px; /* Optional: Add padding for better layout */
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.align-items-center {
+  align-items: center;
 }
 
-.background-about-us::before {
-  background-color: rgba(0, 0, 0, 0.7);
+.section-title {
+  font-size: 36px;
+  font-weight: bold;
 }
 
-.web-button {
-  background-color: rgb(0, 198, 255);
-  padding-inline: 30px;
-}
-
-.web-button-label {
-  font-size: 3px;
+.section-title-white {
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
 }
 
 .blue-subtitle {
+  font-size: 21px;
+  font-weight: bold;
   text-align: center;
   color: rgb(0, 74, 155);
 }
 
-.gray-subtitle {
+.gray-text-subtitle {
+  font-size: 14px;
   text-align: center;
   color: rgb(111, 111, 111);
 }
 
+.light-blue-subtitle {
+  font-size: 21px;
+  font-weight: bold;
+  text-align: center;
+  color: rgb(73, 196, 246);
+}
+
 .gray-text {
+  font-size: 14px;
+  text-align: start;
   color: rgb(111, 111, 111);
 }
 
-.background-what-is {
-  background-image: url("../../public/web/what-is.png");
+.white-text {
+  color: white;
+  font-size: 14px;
+  text-align: start;
+}
+
+.blue-background-section {
+  background-size: cover;
+  background-position: center;
+  background-image: url("../../public/web/bg_blue_2.png");
+}
+
+/* -------------------- Web comercial - Botón azul -------------------- */
+.blue-button {
+  font-size: 14px;
+  padding-top: 15px;
+  padding-left: 35px;
+  padding-right: 35px;
+  padding-bottom: 15px;
+  border-color: rgb(0, 198, 255);
+  background-color: rgb(0, 198, 255);
+}
+
+.blue-button:hover {
+  border-color: rgb(0, 74, 155);
+  background-color: rgb(0, 74, 155);
+}
+
+/* --------------- Web comercial - Tarjeta de caractarísticas --------------- */
+.feature-container {
+  /* background-color: orange; */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.feture-card-container {
+  padding: 0px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card {
+  margin-bottom: 20px;
+}
+
+.feature-card-body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  /* padding: 20px; */
+  /* style={{ width: "18rem" }} */
+}
+
+.feature-card-icon {
+  margin-bottom: 20px;
+}
+
+.feature-card-title {
+  font-weight: bold;
+}
+
+.feature-card-text {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* ---------------------- Web comercial - Casos de uso ---------------------- */
+.tabs-container {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: rgb(0, 74, 155);
+}
+
+.case-card-title {
+  font-weight: bold;
+  text-align: center;
+  margin-inline: 60px;
+  margin-bottom: 20px;
+}
+
+.case-card-text {
+  text-align: center;
 }

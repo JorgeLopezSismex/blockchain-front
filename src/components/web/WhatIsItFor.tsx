@@ -1,5 +1,5 @@
 import { Container, Col, Row, Button } from "react-bootstrap";
-import WebButton from "./WebButton";
+import BlueButton from "./BlueButton";
 
 export default function WebWhatIsItFor() {
   return (
@@ -49,7 +49,7 @@ export default function WebWhatIsItFor() {
                   con otras personas u organizaciones.
                 </p>
 
-                <WebButton label="Testimonios" />
+                <BlueButton label="Testimonios" />
               </Col>
             </Row>
           </Col>

@@ -1,22 +1,34 @@
-import Card from "react-bootstrap/Card";
+import "../../app/globals.css";
+import Image from "next/image";
+
+import { Card, Col } from "react-bootstrap";
 
 export default function FeatureCard({
   title,
   text,
+  iconPath,
+  iconAlt,
 }: {
   title: string;
   text: string;
+  iconPath: string;
+  iconAlt: string;
 }) {
   return (
-    <Card style={{ width: "18rem" }}>
-      <Card.Body>
-        <img src="../../public/web/lock-icon.png" alt="" />
-        <Card.Title>{title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-        <Card.Text>{text}</Card.Text>
-        <Card.Link href="#">Card Link</Card.Link>
-        <Card.Link href="#">Another Link</Card.Link>
-      </Card.Body>
-    </Card>
+    <Col xs={12} md={3} className="feture-card-container">
+      <Card className="h-100 feature-card">
+        <Card.Body className="feature-card-body">
+          <Image
+            width={108}
+            height={107}
+            alt={iconAlt}
+            src={iconPath}
+            className="feature-card-icon"
+          />
+          <Card.Title className="feature-card-title">{title}</Card.Title>
+          <Card.Text className="feature-card-text">{text}</Card.Text>
+        </Card.Body>
+      </Card>
+    </Col>
   );
 }
