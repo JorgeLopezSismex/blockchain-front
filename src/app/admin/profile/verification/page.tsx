@@ -28,7 +28,7 @@ import { Issuer } from "@mercadopago/sdk-react/coreMethods/util/types";
 import { VerificationData } from "@/types/issuers";
 import IssuersForm from "../../issuers/form";
 
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { stat } from "fs";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 import SubmitedData from "./submited-data";
@@ -172,7 +172,7 @@ export default function Verification() {
           setAlertTitle("Verificación de propiedad en proceso.");
           setAlertVariant("warning");
           setAlertMessage(
-            "Hemos enviado un enlace de verificación de propiedad a la dicreccion de correo electrónico señalada en la cédula fiscal enviada."
+            `Hemos enviado un enlace de verificación de propiedad al correo ${res.legalEmail} el cual, es señalado en la cédula fiscal enviada.`
           );
 
           setLoadingVerificationData(false);
@@ -410,13 +410,17 @@ export default function Verification() {
       )}
 
       <AdminModalJorge
-        showButtons={true}
         show={showModal}
+        handleClose={null}
         title={modalTitle}
-        primaryBtnVariant="danger"
-        handleSubmit={() => alert("hola subit")}
-        modalLoading={true}
-        handleClose={() => alert("hola subit")}
+        showButtons={true}
+        modalLoading={false}
+        noSecondaryButton={true}
+        primaryBtnVariant="primary"
+        handleSubmit={() => {
+          getContacts();
+          setShowModal(false);
+        }}
       >
         {modalText}
       </AdminModalJorge>

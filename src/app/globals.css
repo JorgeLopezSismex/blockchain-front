@@ -73,6 +73,13 @@ nextjs-portal {
   color: rgb(0, 74, 155);
 }
 
+.white-subtitle {
+  font-size: 21px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
+
 .gray-text-subtitle {
   font-size: 14px;
   text-align: center;
@@ -101,7 +108,7 @@ nextjs-portal {
 .blue-background-section {
   background-size: cover;
   background-position: center;
-  background-image: url("../../public/web/bg_blue_2.png");
+  background-image: url("../../public/web/section-backgrounds/what-is-it-for-background.png");
 }
 
 /* ------------------------- Web Comercial - NavBar ------------------------- */
@@ -125,7 +132,7 @@ nextjs-portal {
   font-weight: bold;
 }
 
-/* -------------------- Web comercial - Botón azul -------------------- */
+/* -------------------- Web comercial - Botones -------------------- */
 .blue-button {
   font-size: 14px;
   padding-top: 15px;
@@ -137,6 +144,23 @@ nextjs-portal {
 }
 
 .blue-button:hover {
+  border-color: rgb(0, 74, 155);
+  background-color: rgb(0, 74, 155);
+}
+
+.secondary-button {
+  font-size: 14px;
+  padding-top: 15px;
+  padding-left: 35px;
+  padding-right: 35px;
+  padding-bottom: 15px;
+  color: rgb(0, 198, 255);
+  font-weight: bold;
+  border-color: rgb(0, 198, 255);
+  background-color: transparent;
+}
+
+.secondary-button:hover {
   border-color: rgb(0, 74, 155);
   background-color: rgb(0, 74, 155);
 }
@@ -178,11 +202,52 @@ nextjs-portal {
   font-weight: bold;
 }
 
+/* -------------------------- Web Comercial - Tabs -------------------------- */
+.nav-tabs {
+  border-bottom: none;
+}
+
+.nav-link {
+  background-color: transparent; /* Background color for selected tab */
+  color: white; /* Text color for selected tab */
+  border-color: transparent; /* Border color for selected tab */
+}
+
+.nav-link:hover {
+  background-color: transparent; /* Background color for selected tab */
+  color: white; /* Text color for selected tab */
+  border-color: transparent; /* Border color for selected tab */
+}
+
+.nav-tabs .nav-link.active {
+  color: rgb(0, 198, 255);
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.nav-tabs .nav-link:hover {
+  color: rgb(0, 198, 255);
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.nav-tabs .nav-link {
+  border-bottom: none;
+}
+
 /* ---------------------- Web comercial - Casos de uso ---------------------- */
 .tabs-container {
   padding-top: 15px;
   padding-bottom: 15px;
   background-color: rgb(0, 74, 155);
+}
+
+.case-card-container {
+  margin: 2px;
+}
+
+.case-card {
+  margin-top: 40px;
 }
 
 .case-card-title {
@@ -194,4 +259,94 @@ nextjs-portal {
 
 .case-card-text {
   text-align: center;
+}
+
+/* ----------------------- Web Comercial - Testimonios ---------------------- */
+.gray-section {
+  background-color: rgb(56, 56, 56);
+}
+
+.testimonial-card {
+  padding: 20px;
+  flex-direction: row;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.testimonial-card-image {
+  border-radius: 50%;
+  border-radius: 50%; /* Makes the image circular */
+  border: 6px solid #5e6367; /* Add a border with a thickness of 2 pixels and black color */
+}
+
+.testimonial-text-container {
+  display: inline-flex;
+}
+
+.testimonial-card-text {
+  color: white;
+  text-align: start;
+}
+
+.testimonial-card-title {
+  color: white;
+  font-weight: bold;
+  text-align: start;
+  margin-right: 5px;
+}
+
+.testimonial-card-subtitle {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  color: rgb(0, 198, 255);
+}
+
+/* ------------------------- Web Comercial - Costos ------------------------- */
+.costs-background-section {
+  background-size: cover;
+  background-position: center;
+  background-image: url("../../public/web/section-backgrounds/costs-background.png");
+}
+
+.plan-card {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
+.plan-card-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.plan-card-price-container {
+  margin-bottom: 20px;
+}
+
+.plan-card-price {
+  font-weight: bold;
+  margin-right: 5px;
+  color: rgb(0, 198, 255);
+}
+
+.plan-card-period {
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.plan-card-feature-list {
+  padding: 0px;
+  list-style: none;
+}
+
+.available-feature {
+  font-weight: bold;
+}
+
+.not-available-feature {
+  color: #5e6367;
+  font-weight: bold;
+  text-decoration: line-through;
 }

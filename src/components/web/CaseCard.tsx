@@ -6,18 +6,18 @@ import { Card, Col } from "react-bootstrap";
 export default function CaseCard({
   title,
   text,
-  iconPath,
-  iconAlt,
+  imagePath,
+  imageAlt,
 }: {
   title: string;
   text: string;
-  iconPath: string;
-  iconAlt: string;
+  imagePath: string;
+  imageAlt: string;
 }) {
   return (
-    <Col xs={12} md={4} className="feture-card-container">
-      <Card className="h-100">
-        <Card.Img variant="top" src={iconPath} />
+    <Col xs={12} md={4}>
+      <Card className="case-card">
+        <Card.Img variant="top" src={imagePath} />
         <Card.Body>
           <Card.Title className="case-card-title">{title}</Card.Title>
           <Card.Text className="case-card-text">{text}</Card.Text>

@@ -9,6 +9,9 @@ import FeatureCard from "@/components/web/FeatureCard";
 import { Fragment } from "react";
 import FifthSection from "@/components/web/FifthSection";
 import NavBar from "@/components/web/NavBar";
+import TestimonialCard from "@/components/web/TestimonialCard";
+import PriceCard from "@/components/web/PriceCard";
+import Footer from "@/components/web/Footer";
 
 export default function Home() {
   return (
@@ -186,6 +189,118 @@ export default function Home() {
 
         <FifthSection />
       </div>
+
+      {/* ------------------------------- Testimonios ------------------------------ */}
+      <div className="section gray-section">
+        <Container>
+          <Row className="d-flex justify-content-center">
+            <Col xs={12} className="d-flex justify-content-center">
+              <div className="flex-column align-items-center">
+                <h4 className="section-title-white">Testimonios</h4>
+                <p className="white-subtitle">
+                  Blockchain es un libro mayor compartido e inmutable que
+                  facilita el proceso de registro de transacciones y de
+                  seguimiento de activos en una red de negocios.
+                </p>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <TestimonialCard />
+            <TestimonialCard />
+            <TestimonialCard />
+            <TestimonialCard />
+          </Row>
+        </Container>
+      </div>
+
+      {/* --------------------------------- Costos --------------------------------- */}
+      <div className="section costs-background-section">
+        <Container>
+          <Row className="d-flex justify-content-center">
+            <Col xs={12} className="d-flex justify-content-center">
+              <div className="flex-column align-items-center">
+                <h4 className="section-title-white">Costos</h4>
+                <p className="light-blue-subtitle">
+                  Nuestra plataforma fue creada con el objetivo de
+                  transmitir/traducir los beneficios de blockchain a las
+                  necesidades de la industria, por medio de macanismos claros y
+                  accesibles para todos.
+                </p>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <PriceCard name="Producto 1" price={100} period="MENSUAL">
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 1
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 2
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 3
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 1
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 2
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 3
+              </li>
+            </PriceCard>
+
+            <PriceCard name="Producto 2" price={100} period="MENSUAL">
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 1
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 2
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 3
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 1
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 2
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 3
+              </li>
+            </PriceCard>
+
+            <PriceCard name="Producto 3" price={100} period="MENSUAL">
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 1
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 2
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 3
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 1
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 2
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 3
+              </li>
+            </PriceCard>
+          </Row>
+        </Container>
+      </div>
+
+      {/* --------------------------------- Footer --------------------------------- */}
+      <Footer></Footer>
     </Fragment>
   );
 }

@@ -71,6 +71,10 @@ export default function OwnershipVerification() {
       setToastMessage(res.message);
       setToastTitle("Verificación de propiedad");
 
+      setTimeout(() => {
+        router.replace("/auth/sign-in");
+      }, 2000);
+
       return;
     });
   };
