@@ -184,7 +184,7 @@ export default function Verification() {
           setAlertTitle("Verificación pendiente.");
           setAlertVariant("warning");
           setAlertMessage(
-            "La verificación de porpiedad fue realizada correctamente, completa el siguiente formulario para solicitar la verificación completa y terminar el proceso."
+            "La verificación de propiedad fue realizada correctamente, completa el siguiente formulario para solicitar la verificación completa y terminar el proceso."
           );
 
           getIssuerLegalData();
@@ -201,7 +201,7 @@ export default function Verification() {
           setAlertVariant("warning");
           setAlertTitle("Solicitud de verificación en proceso");
           setAlertMessage(
-            "Tú solicitud de verificación fue enviada exitosamente. La administracion de la plataforma revisará la información y recibirás un correo con la respuesta."
+            "Tu solicitud de verificación fue enviada exitosamente. La administración de la plataforma revisará la información y recibirás un correo con la respuesta."
           );
 
           return;
