@@ -397,7 +397,9 @@ export default function Verification() {
                 issuerVerificationStatus ==
                   "PENDING_OWNERSHIP_VERIFICATION" ? null : issuerVerificationStatus ==
                 "OWNERSHIP_VERIFIED" ? (
-                <VerificationSecondStepForm />
+                <AdminCardContainer xs={12}>
+                  <VerificationSecondStepForm />
+                </AdminCardContainer>
               ) : (
                 <SubmitedData
                   attachments={attachments}
