@@ -28,11 +28,9 @@ import { Issuer } from "@mercadopago/sdk-react/coreMethods/util/types";
 import { VerificationData } from "@/types/issuers";
 import IssuersForm from "../../issuers/form";
 
-import { useRouter } from "next/navigation";
-import { stat } from "fs";
-import { faL } from "@fortawesome/free-solid-svg-icons";
+import { redirect, useRouter } from "next/navigation";
 import SubmitedData from "./submited-data";
-import { TypeH2 } from "react-bootstrap-icons";
+
 import VerificationFirstStepForm from "./first-step-form";
 
 import ActionToast from "@/components/main/ActionToast";
@@ -173,7 +171,7 @@ export default function Verification() {
           setAlertTitle("Verificación de propiedad en proceso.");
           setAlertVariant("warning");
           setAlertMessage(
-            "Hemos enviado un enlace de verificación de propiedad a la dicreccion de correo electrónico señalada en la cédula fiscal enviada."
+            `Hemos enviado un enlace de verificación de propiedad al correo ${res.legalEmail} el cual, es señalado en la cédula fiscal enviada.`
           );
 
           setLoadingVerificationData(false);
@@ -185,17 +183,12 @@ export default function Verification() {
           setAlertTitle("Verificación pendiente.");
           setAlertVariant("warning");
           setAlertMessage(
-            "La verificación de porpiedad fue realizada correctamente, completa el siguiente formulario para solicitar la verificación completa y terminar el proceso."
+            "La verificación de propiedad fue realizada correctamente, completa el siguiente formulario para solicitar la verificación completa y terminar el proceso."
           );
 
           getIssuerLegalData();
           setLoadingVerificationData(false);
           setFullForm(true);
-
-          console.log("Se definen los datos del forumario");
-
-          console.log(res, "Eso es la solucidudad");
-          console.log(res, "Eso es la solucidudad");
 
           setSecondStepInitialValues({
             legalName: res.data.legalName,
@@ -226,7 +219,7 @@ export default function Verification() {
           setAlertVariant("warning");
           setAlertTitle("Solicitud de verificación en proceso");
           setAlertMessage(
-            "Tú solicitud de verificación fue enviada exitosamente. La administracion de la plataforma revisará la información y recibirás un correo con la respuesta."
+            "Tu solicitud de verificación fue enviada exitosamente. La administración de la plataforma revisará la información y recibirás un correo con la respuesta."
           );
 
           return;
@@ -435,7 +428,7 @@ export default function Verification() {
                     setDisableSearchZipCode={null}
                     setSuburbs={setSuburbs}
                     setLoadingSuburbs={setLoadingSuburbs}
-                    setSuburbOptions={null}
+                    setSuburbOptions={setSuburbOptions}
                     getSuburbsOptionList={getSuburbsOptionList}
                     setShowToast={null}
                     setToastTitle={null}
@@ -460,13 +453,17 @@ export default function Verification() {
       )}
 
       <AdminModalJorge
-        showButtons={true}
         show={showModal}
+        handleClose={null}
         title={modalTitle}
-        primaryBtnVariant="danger"
-        handleSubmit={() => alert("hola subit")}
-        modalLoading={true}
-        handleClose={() => alert("hola subit")}
+        showButtons={true}
+        modalLoading={false}
+        noSecondaryButton={true}
+        primaryBtnVariant="primary"
+        handleSubmit={() => {
+          getContacts();
+          setShowModal(false);
+        }}
       >
         {modalText}
       </AdminModalJorge>

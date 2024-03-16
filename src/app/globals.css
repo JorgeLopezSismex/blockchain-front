@@ -41,10 +41,18 @@ nextjs-portal {
   background-color: transparent;
 }
 
+#react-select-2-listbox {
+  z-index: 99999999999999999999;
+}
+
+.Select__control--is-focused {
+  box-shadow: none;
+}
+
 /* -------------------- Web comercial - Estilos globales -------------------- */
 .section {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .flex-column {
@@ -58,6 +66,7 @@ nextjs-portal {
 .section-title {
   font-size: 36px;
   font-weight: bold;
+  text-align: center;
 }
 
 .section-title-white {
@@ -71,6 +80,13 @@ nextjs-portal {
   font-weight: bold;
   text-align: center;
   color: rgb(0, 74, 155);
+}
+
+.white-subtitle {
+  font-size: 21px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
 }
 
 .gray-text-subtitle {
@@ -101,10 +117,62 @@ nextjs-portal {
 .blue-background-section {
   background-size: cover;
   background-position: center;
-  background-image: url("../../public/web/bg_blue_2.png");
+  background-image: url("../../public/web/section-backgrounds/what-is-it-for-background.png");
 }
 
-/* -------------------- Web comercial - Botón azul -------------------- */
+.left-section-image {
+  width: 90%;
+  height: 400px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+/* ------------------------- Web Comercial - NavBar ------------------------- */
+.nav-bar-link-button-img {
+  margin-right: 10px;
+}
+
+.nav-bar-link-button-text {
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-link {
+  color: rgb(0, 74, 155);
+  font-weight: bold;
+}
+
+.navbar-link:hover {
+  color: rgb(0, 198, 255);
+  font-weight: bold;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+  color: rgb(0, 74, 155);
+}
+
+/* --------------------- Web Comercial - ¿Quienes somos? -------------------- */
+.header {
+  width: 100%;
+  height: 70vh;
+  background-size: cover;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("../../public/web/sections/about-us.png");
+}
+
+.primary-text {
+  color: white;
+  font-weight: bold;
+}
+
+.seconday-text {
+  color: white;
+}
+
+/* -------------------- Web comercial - Botones -------------------- */
 .blue-button {
   font-size: 14px;
   padding-top: 15px;
@@ -116,6 +184,23 @@ nextjs-portal {
 }
 
 .blue-button:hover {
+  border-color: rgb(0, 74, 155);
+  background-color: rgb(0, 74, 155);
+}
+
+.secondary-button {
+  font-size: 14px;
+  padding-top: 15px;
+  padding-left: 35px;
+  padding-right: 35px;
+  padding-bottom: 15px;
+  color: rgb(0, 198, 255);
+  font-weight: bold;
+  border-color: rgb(0, 198, 255);
+  background-color: transparent;
+}
+
+.secondary-button:hover {
   border-color: rgb(0, 74, 155);
   background-color: rgb(0, 74, 155);
 }
@@ -157,11 +242,52 @@ nextjs-portal {
   font-weight: bold;
 }
 
+/* -------------------------- Web Comercial - Tabs -------------------------- */
+#blue-navbar .nav-tabs {
+  border-bottom: none;
+}
+
+#blue-navbar .nav-link {
+  background-color: transparent; /* Background color for selected tab */
+  color: white; /* Text color for selected tab */
+  border-color: transparent; /* Border color for selected tab */
+}
+
+#blue-navbar .nav-link:hover {
+  background-color: transparent; /* Background color for selected tab */
+  color: white; /* Text color for selected tab */
+  border-color: transparent; /* Border color for selected tab */
+}
+
+#blue-navbar .nav-tabs .nav-link.active {
+  color: rgb(0, 198, 255);
+  border-color: transparent;
+  background-color: transparent;
+}
+
+#blue-navbar .nav-tabs .nav-link:hover {
+  color: rgb(0, 198, 255);
+  border-color: transparent;
+  background-color: transparent;
+}
+
+#blue-navbar .nav-tabs .nav-link {
+  border-bottom: none;
+}
+
 /* ---------------------- Web comercial - Casos de uso ---------------------- */
 .tabs-container {
   padding-top: 15px;
   padding-bottom: 15px;
   background-color: rgb(0, 74, 155);
+}
+
+.case-card-container {
+  margin: 2px;
+}
+
+.case-card {
+  margin-top: 40px;
 }
 
 .case-card-title {
@@ -173,4 +299,137 @@ nextjs-portal {
 
 .case-card-text {
   text-align: center;
+}
+
+/* ----------------------- Web Comercial - Testimonios ---------------------- */
+.gray-section {
+  background-color: rgb(56, 56, 56);
+}
+
+.testimonial-card {
+  padding: 20px;
+  flex-direction: row;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.testimonial-card-image {
+  border-radius: 50%;
+  border-radius: 50%; /* Makes the image circular */
+  border: 6px solid #5e6367; /* Add a border with a thickness of 2 pixels and black color */
+}
+
+.testimonial-text-container {
+  display: inline-flex;
+}
+
+.testimonial-card-text {
+  color: white;
+  text-align: start;
+}
+
+.testimonial-card-title {
+  color: white;
+  font-weight: bold;
+  text-align: start;
+  margin-right: 5px;
+}
+
+.testimonial-card-subtitle {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  color: rgb(0, 198, 255);
+}
+
+/* ------------------------- Web Comercial - Costos ------------------------- */
+.costs-background-section {
+  background-size: cover;
+  background-position: center;
+  background-image: url("../../public/web/section-backgrounds/costs-background.png");
+}
+
+.plan-card {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
+.plan-card-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.plan-card-price-container {
+  margin-bottom: 20px;
+}
+
+.plan-card-price {
+  font-weight: bold;
+  margin-right: 5px;
+  color: rgb(0, 198, 255);
+}
+
+.plan-card-period {
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.plan-card-feature-list {
+  padding: 0px;
+  list-style: none;
+}
+
+.available-feature {
+  font-weight: bold;
+}
+
+.not-available-feature {
+  color: #5e6367;
+  font-weight: bold;
+  text-decoration: line-through;
+}
+
+/* -------------------------------- Contacto -------------------------------- */
+
+/* --------------------------------- Footer --------------------------------- */
+.footer-container {
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+
+.footer-logo {
+  margin-bottom: 30px;
+}
+
+.footer-icons-container {
+  margin-bottom: 30px;
+}
+
+.blue-footer {
+  background-color: rgb(0, 74, 155);
+}
+
+.footer-list {
+  list-style: none;
+}
+
+.footer-list-item {
+  font-weight: bold;
+  text-decoration: none;
+  color: rgb(0, 74, 155);
+}
+
+.footer-legals-text {
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.validation-error {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #dc3545;
 }

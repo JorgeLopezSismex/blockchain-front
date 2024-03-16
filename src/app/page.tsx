@@ -1,19 +1,53 @@
 "use client";
 
 import Image from "next/image";
-
+import { useState, Fragment } from "react";
 import "bootstrap/dist/css/bootstrap.css";
+
+import NavBar from "@/components/web/NavBar";
 import { Container, Row, Col } from "react-bootstrap";
+
+import Footer from "@/components/web/Footer";
+import PriceCard from "@/components/web/PriceCard";
 import BlueButton from "@/components/web/BlueButton";
 import FeatureCard from "@/components/web/FeatureCard";
-import { Fragment } from "react";
+import ContactForm from "@/components/web/ContactForm";
+import ActionToast from "@/components/main/ActionToast";
 import FifthSection from "@/components/web/FifthSection";
+import TestimonialCard from "@/components/web/TestimonialCard";
 
 export default function Home() {
+  const [showToast, setShowToast] = useState(false);
+  const [toastTitle, setToastTitle] = useState("Título");
+  const [toastMessage, setToastMessage] = useState("Mensaje.");
+  const [toastVariant, setToastVariant] = useState("success");
+
   return (
     <Fragment>
+      {/* --------------------------------- NavBar --------------------------------- */}
+      <NavBar />
+
+      {/* ----------------------------- ¿Quiénes somos? ---------------------------- */}
+      <div id="about-us" className="d-flex align-items-center header">
+        <Container>
+          <Row className="d-flex justify-content-start">
+            <Col md={8}>
+              <h5 className="primary-text">Innovate Technology</h5>
+              <h1 className="primary-text">¿Quiénes somos?</h1>
+              <p className="seconday-text">
+                Somos una empresa confiable que ofrece una plataforma
+                tecnológica basada en blockchain con Etherium con la cual las
+                empresas pueden generar información segura y accesible,
+                garantizando su integridad.
+              </p>
+              <BlueButton label="Contacto" href="#contact" />
+            </Col>
+          </Row>
+        </Container>
+      </div>
+
       {/* --------------------------- ¿Qué es blockchain? -------------------------- */}
-      <div className="section">
+      <div id="what-is-blockchain" className="section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -36,7 +70,20 @@ export default function Home() {
           </Row>
 
           <Row>
-            <Col xs={12} md={6}></Col>
+            <Col
+              xs={12}
+              md={6}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <div className="left-section-image">
+                <Image
+                  layout="fill"
+                  alt="What is?"
+                  objectFit="cover"
+                  src="/web/sections/what-is.png"
+                />
+              </div>
+            </Col>
             <Col xs={12} md={6}>
               <p className="gray-text">
                 Blockchain emerge como una soluciónóptima al proporcinar datos
@@ -64,14 +111,14 @@ export default function Home() {
                 confianza, eficiencia y oportunidades.
               </p>
 
-              <BlueButton label="Testimonios" />
+              <BlueButton label="Testimonios" href="#testimonials" />
             </Col>
           </Row>
         </Container>
       </div>
 
       {/* ---------------------------- ¿Para qué sirve? ---------------------------- */}
-      <div className="section blue-background-section">
+      <div id="what-is-it-for" className="section blue-background-section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -88,7 +135,20 @@ export default function Home() {
           </Row>
 
           <Row>
-            <Col xs={12} md={6}></Col>
+            <Col
+              xs={12}
+              md={6}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <div className="left-section-image">
+                <Image
+                  layout="fill"
+                  alt="Blockchain"
+                  objectFit="cover"
+                  src="/web/sections/blockchain.png"
+                />
+              </div>
+            </Col>
             <Col xs={12} md={6}>
               <p className="white-text">
                 Por medio de nuestra plataforma se pueden crear documentos con
@@ -112,14 +172,14 @@ export default function Home() {
                 personas u organizaciones.
               </p>
 
-              <BlueButton label="Contacto" />
+              <BlueButton label="Contacto" href="#contact" />
             </Col>
           </Row>
         </Container>
       </div>
 
       {/* ------------------- Características de un SingularDocs ------------------- */}
-      <div className="section">
+      <div id="features" className="section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -139,28 +199,28 @@ export default function Home() {
           <Row className="feature-container">
             <FeatureCard
               title="Auténtico"
-              iconPath="/web/lock-icon.png"
+              iconPath="/web/features/lock-icon.png"
               iconAlt=""
               text="La información cargada proviene de un emisor, su información está proporcionada por el mismo y proviene de una sola fuente:"
             />
 
             <FeatureCard
               title="Original"
-              iconPath="/web/original-icon.png"
+              iconPath="/web/features/original-icon.png"
               iconAlt=""
               text="El documento resultante será auténtico y original ya que será 1 sola versión del mismo."
             />
 
             <FeatureCard
               title="Único"
-              iconPath="/web/unique-icon.png"
+              iconPath="/web/features/unique-icon.png"
               iconAlt=""
               text="El resultado de la carga de información y su construcción gráfica, digital y de metadatos es única en el mundo y no podrá existir otro resultado igual al emitido."
             />
 
             <FeatureCard
               title="Inalterable"
-              iconPath="/web/unalterable-icon.png"
+              iconPath="/web/features/unalterable-icon.png"
               iconAlt=""
               text="La información que se haya cargado permanecerá de forma inviolable por el resto de su existencia y de la existencia de la red."
             />
@@ -169,7 +229,7 @@ export default function Home() {
       </div>
 
       {/* ------------------------------ Casos de uso ------------------------------ */}
-      <div className="section">
+      <div id="use-cases" className="section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -179,21 +239,141 @@ export default function Home() {
             </Col>
           </Row>
         </Container>
-        
+
         <FifthSection />
       </div>
+
+      {/* ------------------------------- Testimonios ------------------------------ */}
+      <div id="testimonials" className="section gray-section">
+        <Container>
+          <Row className="d-flex justify-content-center">
+            <Col xs={12} className="d-flex justify-content-center">
+              <div className="flex-column align-items-center">
+                <h4 className="section-title-white">Testimonios</h4>
+                <p className="white-subtitle">
+                  Blockchain es un libro mayor compartido e inmutable que
+                  facilita el proceso de registro de transacciones y de
+                  seguimiento de activos en una red de negocios.
+                </p>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <TestimonialCard />
+            <TestimonialCard />
+            <TestimonialCard />
+            <TestimonialCard />
+          </Row>
+        </Container>
+      </div>
+
+      {/* --------------------------------- Costos --------------------------------- */}
+      {/* <div className="section costs-background-section">
+        <Container>
+          <Row className="d-flex justify-content-center">
+            <Col xs={12} className="d-flex justify-content-center">
+              <div className="flex-column align-items-center">
+                <h4 className="section-title-white">Costos</h4>
+                <p className="light-blue-subtitle">
+                  Nuestra plataforma fue creada con el objetivo de
+                  transmitir/traducir los beneficios de blockchain a las
+                  necesidades de la industria, por medio de macanismos claros y
+                  accesibles para todos.
+                </p>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <PriceCard name="Producto 1" price={100} period="MENSUAL">
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 1
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 2
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 3
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 1
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 2
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 3
+              </li>
+            </PriceCard>
+
+            <PriceCard name="Producto 2" price={100} period="MENSUAL">
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 1
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 2
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 3
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 1
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 2
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 3
+              </li>
+            </PriceCard>
+
+            <PriceCard name="Producto 3" price={100} period="MENSUAL">
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 1
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 2
+              </li>
+              <li className="d-flex justify-content-center available-feature">
+                Incluido 3
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 1
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 2
+              </li>
+              <li className="d-flex justify-content-center not-available-feature">
+                No incluido 3
+              </li>
+            </PriceCard>
+          </Row>
+        </Container>
+      </div> */}
+
+      {/* -------------------------------- Contacto -------------------------------- */}
+
+      <div id="contact" className="section">
+        <ContactForm
+          setShowToast={setShowToast}
+          setToastTitle={setToastTitle}
+          setToastMessage={setToastMessage}
+          setToastVariant={setToastVariant}
+        />
+      </div>
+
+      {/* --------------------------------- Footer --------------------------------- */}
+      <Footer />
+
+      <ActionToast
+        delay={6000}
+        show={showToast}
+        title={toastTitle}
+        variant={toastVariant}
+        message={toastMessage}
+        onClose={() => setShowToast(false)}
+      />
     </Fragment>
   );
 }
-
-/*
-
-<Fragment>
-      <WebNavBar></WebNavBar>
-      <WebStart />
-      <WebWhatIs />
-      <WebWhatIsItFor></WebWhatIsItFor>
-      <Features></Features>
-    </Fragment>
-
-*/

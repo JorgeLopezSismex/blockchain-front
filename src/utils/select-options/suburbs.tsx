@@ -9,8 +9,8 @@ export const getSuburbsOptionList = async (
 ) => {
   try {
     setLoadingSuburbs(true);
-
     if (zipCode == "" || zipCode == null || zipCode == undefined) {
+      console.log("Aqui si llega");
       return [];
     }
 

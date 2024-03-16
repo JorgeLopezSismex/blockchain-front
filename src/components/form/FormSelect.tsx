@@ -27,6 +27,7 @@ export default function FormSelect({
         defaultValue={defaultValue}
         isDisabled={disabled}
         classNamePrefix="Select"
+        placeholder="Selecciona una opción..."
         defaultInputValue={defaultText}
       />
     </Form.Group>

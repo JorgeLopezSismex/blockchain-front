@@ -1,52 +1,54 @@
-import { Col, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import { Container, Col, Row } from "react-bootstrap";
 
 import NavBarButton from "./NavBarButton";
 import SocialMediaIcon from "./SocialMediaIcon";
 
-import Link from "next/link";
-import Image from "next/image";
+export default function NavBar() {
+  const expand = "lg";
+  const [show, setShow] = useState(false);
 
-export default function WebNavBar() {
-  const expand = "md";
+  const toggleOffCanvas = () => {
+    setShow((show) => !show);
+  };
 
   return (
     <Container>
       <Row style={{ marginTop: 20 }}>
         <Col xs={12}>
           <Container className="d-flex align-items-center justify-content-end">
-            <NavBarButton
+            {/* <NavBarButton
               label="Idioma"
               href="/auth/sign-in"
-              iconSrc="/web/lang-icon.png"
-            />
+              iconSrc="/web/icons/lang-icon.png"
+            /> */}
             <NavBarButton
               href="/auth/sign-in"
               label="Iniciar sesión"
-              iconSrc="/web/sign-in-icon.png"
+              iconSrc="/web/icons/sign-in-icon.png"
             />
             <SocialMediaIcon
               width={32}
               height={32}
-              src="/web/x-icon.png"
+              src="/web/socials/x-icon.png"
               alt="SingularDocs en X"
             />
             <SocialMediaIcon
               width={32}
               height={32}
-              src="/web/facebook-icon.png"
+              src="/web/socials/facebook-icon.png"
               alt="SingularDocs en Facebook"
             />
             <SocialMediaIcon
               width={32}
               height={32}
-              src="/web/linkedin-icon.png"
+              src="/web/socials/linkedin-icon.png"
               alt="SingularDocs en Linkedin"
             />
           </Container>
@@ -63,45 +65,59 @@ export default function WebNavBar() {
 
       <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
         <Container fluid>
-          <Navbar.Brand href="#">
-            <Link href={"sdfs"}>
-              <Image
-                src="/web/singulardocs-logo.png"
-                alt="SingularDocs"
-                width={176}
-                height={42}
-              />
-            </Link>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+          <Link href={"/"}>
+            <Image
+              width={200}
+              height={50}
+              alt="SingularDocs"
+              src="/web/singulardocs-logo.png"
+            />
+          </Link>
+          <Navbar.Toggle
+            onClick={toggleOffCanvas}
+            aria-controls={`offcanvasNavbar-expand-${expand}`}
+          />
           <Navbar.Offcanvas
+            show={show}
+            onHide={toggleOffCanvas}
             id={`offcanvasNavbar-expand-${expand}`}
             aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
             placement="end"
           >
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                Offcanvas
-              </Offcanvas.Title>
+              <Link href={"/"}>
+                <Image
+                  width={200}
+                  height={50}
+                  alt="SingularDocs"
+                  src="/web/singulardocs-logo.png"
+                />
+              </Link>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="#action1" className="navbar-link">
+                <Nav.Link href="#about-us" className="navbar-link">
                   ¿Quiénes somos?
                 </Nav.Link>
-                <Nav.Link href="#action2" className="navbar-link">
+                <Nav.Link href="#what-is-blockchain" className="navbar-link">
                   ¿Qué es blockchain?
                 </Nav.Link>
-                <Nav.Link href="#action3" className="navbar-link">
+                <Nav.Link href="#what-is-it-for" className="navbar-link">
                   ¿Para qué sirve?
                 </Nav.Link>
-                <Nav.Link href="#action4" className="navbar-link">
+                {/* <Nav.Link href="#testimonials" className="navbar-link">
+                  Características
+                </Nav.Link> */}
+                {/* <Nav.Link href="#testimonials" className="navbar-link">
+                  Casos de uso
+                </Nav.Link> */}
+                <Nav.Link href="#testimonials" className="navbar-link">
                   Testimonios
                 </Nav.Link>
-                <Nav.Link href="#action5" className="navbar-link">
+                {/* <Nav.Link href="#action5" className="navbar-link">
                   Costos
-                </Nav.Link>
-                <Nav.Link href="#action6" className="navbar-link">
+                </Nav.Link> */}
+                <Nav.Link href="#contact" className="navbar-link">
                   Contacto
                 </Nav.Link>
               </Nav>
@@ -112,25 +128,3 @@ export default function WebNavBar() {
     </Container>
   );
 }
-
-/*
-
-
-
-
-            <Image src="/web/x-icon.png" alt="sdfdfds" width="32" height="32" />
-            <Image
-              src="/web/facebook-icon.png"
-              alt="sdfdfds"
-              width="32"
-              height="32"
-            />
-            <Image
-              src="/web/linkedin-icon.png"
-              alt="sdfdfds"
-              width="32"
-              height="32"
-            />
-
-
-*/

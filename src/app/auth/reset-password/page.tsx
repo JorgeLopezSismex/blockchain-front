@@ -13,6 +13,7 @@ import AuthLink from "@/components/auth/AuthLink";
 import AuthInput from "@/components/auth/AuthInput";
 import AuthButton from "@/components/auth/AuthButton";
 import ActionToast from "@/components/main/ActionToast";
+import AuthPasswordInput from "@/components/auth/AuthPasswordInput";
 
 import { apiFetch } from "@/helpers/api-fetch";
 import { ResetPasswordData } from "@/types/auth";
@@ -147,7 +148,7 @@ export default function ResetPassword() {
               {({ handleSubmit, handleChange, values, touched, errors }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Row className="mb-3">
-                    <AuthInput
+                    {/* <AuthInput
                       name={"password"}
                       type={"password"}
                       label={"Contraseña"}
@@ -155,11 +156,21 @@ export default function ResetPassword() {
                       errors={errors.password}
                       handleChange={handleChange}
                       placeholder={"MiNuevaContraseña1*"}
+                    /> */}
+
+                    <AuthPasswordInput
+                      type={"password"}
+                      name={"password"}
+                      label={"Contraseña"}
+                      value={values.password}
+                      errors={errors.password}
+                      handleChange={handleChange}
+                      placeholder={"Micontraseña123*"}
                     />
                   </Row>
 
                   <Row className="mb-3">
-                    <AuthInput
+                    {/* <AuthInput
                       type={"password"}
                       name={"repeatPassword"}
                       handleChange={handleChange}
@@ -167,6 +178,16 @@ export default function ResetPassword() {
                       value={values.repeatPassword}
                       errors={errors.repeatPassword}
                       placeholder={"MiNuevaContraseña1*"}
+                    /> */}
+
+                    <AuthPasswordInput
+                      type={"password"}
+                      name={"repeatPassword"}
+                      label={"Repetir contraseña"}
+                      value={values.repeatPassword}
+                      errors={errors.repeatPassword}
+                      handleChange={handleChange}
+                      placeholder={"Micontraseña123*"}
                     />
                   </Row>
 

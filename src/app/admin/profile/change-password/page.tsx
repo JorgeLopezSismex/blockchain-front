@@ -15,6 +15,7 @@ import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import FormInput from "@/components/form/FormInput";
 
 import ActionToast from "@/components/main/ActionToast";
+import AuthPasswordInput from "@/components/auth/AuthPasswordInput";
 import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
 import AdminFormBackButton from "@/components/admin/AdminFormBackButton";
 
@@ -104,7 +105,7 @@ export default function ChangePassword() {
             <Fragment>
               <Form noValidate onSubmit={handleSubmit}>
                 <Row className="mb-3">
-                  <FormInput
+                  {/* <FormInput
                     md={12}
                     sm={12}
                     type="password"
@@ -116,9 +117,19 @@ export default function ChangePassword() {
                     value={values.currentPassword}
                     errors={errors.currentPassword}
                     placeholder="Ingresa tu contraseña actual"
+                  /> */}
+
+                  <AuthPasswordInput
+                    type="password"
+                    name="currentPassword"
+                    label="Contraseña actual"
+                    value={values.currentPassword}
+                    errors={errors.currentPassword}
+                    handleChange={handleChange}
+                    placeholder="Ingresa tu contraseña actual"
                   />
 
-                  <FormInput
+                  {/* <FormInput
                     md={12}
                     sm={12}
                     type="password"
@@ -130,9 +141,19 @@ export default function ChangePassword() {
                     errors={errors.newPassword}
                     handleChange={handleChange}
                     placeholder="Ingresa tu nueva contraseña"
+                  /> */}
+
+                  <AuthPasswordInput
+                    type="password"
+                    name="newPassword"
+                    label="Nueva contraseña"
+                    value={values.newPassword}
+                    errors={errors.newPassword}
+                    handleChange={handleChange}
+                    placeholder="Ingresa tu nueva contraseña"
                   />
 
-                  <FormInput
+                  {/* <FormInput
                     md={12}
                     sm={12}
                     type="password"
@@ -143,6 +164,16 @@ export default function ChangePassword() {
                     label="Repetir nueva contraseña"
                     value={values.repeatNewPassword}
                     errors={errors.repeatNewPassword}
+                    placeholder="Repite tu nueva contraseña"
+                  /> */}
+
+                  <AuthPasswordInput
+                    type="password"
+                    name="repeatNewPassword"
+                    label="Repetir nueva contraseña"
+                    value={values.repeatNewPassword}
+                    errors={errors.repeatNewPassword}
+                    handleChange={handleChange}
                     placeholder="Repite tu nueva contraseña"
                   />
 

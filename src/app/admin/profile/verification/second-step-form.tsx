@@ -111,14 +111,17 @@ export default function VerificationSecondStepForm({
               errors={errors.zipCode}
               label={"Código postal"}
               disbaleButton={disableSearchZipCode}
-              handleClick={() =>
-                getSuburbsOptionList(
+              handleClick={async () => {
+                alert("Se consulta el codigo postal");
+                let options = await getSuburbsOptionList(
                   values.zipCode,
                   suburbs,
                   setSuburbs,
                   setLoadingSuburbs
-                )
-              }
+                );
+
+                console.log(options);
+              }}
               handleChange={(event: any) => {
                 let options: any[] = [];
                 let value = event.target.value;

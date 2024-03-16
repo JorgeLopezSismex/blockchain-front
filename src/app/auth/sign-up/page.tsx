@@ -14,6 +14,7 @@ import AuthInput from "@/components/auth/AuthInput";
 import AuthButton from "@/components/auth/AuthButton";
 import ActionToast from "@/components/main/ActionToast";
 import AuthReCaptcha from "@/components/auth/AuthReCaptcha";
+import AuthPasswordInput from "@/components/auth/AuthPasswordInput";
 
 import { SignUpData } from "@/types/auth";
 import { apiFetch } from "@/helpers/api-fetch";
@@ -120,7 +121,7 @@ export default function SignUp() {
                 </Row>
 
                 <Row className="mb-3">
-                  <AuthInput
+                  <AuthPasswordInput
                     type={"password"}
                     name={"password"}
                     label={"Contraseña"}
@@ -132,13 +133,13 @@ export default function SignUp() {
                 </Row>
 
                 <Row className="mb-3">
-                  <AuthInput
+                  <AuthPasswordInput
                     type={"password"}
                     name={"repeatPassword"}
-                    handleChange={handleChange}
                     label={"Repetir contraseña"}
                     value={values.repeatPassword}
                     errors={errors.repeatPassword}
+                    handleChange={handleChange}
                     placeholder={"Micontraseña123*"}
                   />
                 </Row>

@@ -48,7 +48,11 @@ export default function VerificationFirstStepForm({
           return;
         }
 
-        setModalText("Se envio el correo ce verificacion de propiedad");
+        setModalTitle("Verificación de propiedad");
+        setModalText(
+          `Hemos enviado un enlace de verificación de propiedad al correo ${res.data.legalEmail} el cual, es señalado en la cédula fiscal enviada.`
+        );
+
         setShowModal(true);
       }
     );

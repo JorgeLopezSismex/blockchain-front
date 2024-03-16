@@ -12,6 +12,7 @@ import AuthInput from "@/components/auth/AuthInput";
 import AuthButton from "@/components/auth/AuthButton";
 import ActionToast from "@/components/main/ActionToast";
 import AuthReCaptcha from "@/components/auth/AuthReCaptcha";
+import AuthPasswordInput from "@/components/auth/AuthPasswordInput";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 
 import styles from "../styles.module.css";
@@ -146,7 +147,17 @@ export default function SetPassword() {
               }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Row className="mb-3">
-                    <AuthInput
+                    {/* <AuthInput
+                      type={"password"}
+                      name={"password"}
+                      label={"Contraseña"}
+                      value={values.password}
+                      errors={errors.password}
+                      handleChange={handleChange}
+                      placeholder={"Micontraseña123*"}
+                    /> */}
+
+                    <AuthPasswordInput
                       type={"password"}
                       name={"password"}
                       label={"Contraseña"}
@@ -158,7 +169,17 @@ export default function SetPassword() {
                   </Row>
 
                   <Row className="mb-3">
-                    <AuthInput
+                    {/* <AuthInput
+                      type={"password"}
+                      name={"repeatPassword"}
+                      handleChange={handleChange}
+                      label={"Repetir contraseña"}
+                      value={values.repeatPassword}
+                      errors={errors.repeatPassword}
+                      placeholder={"Micontraseña123*"}
+                    /> */}
+
+                    <AuthPasswordInput
                       type={"password"}
                       name={"repeatPassword"}
                       handleChange={handleChange}
