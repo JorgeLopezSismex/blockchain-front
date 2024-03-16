@@ -65,7 +65,7 @@ export default function IssuerDetails() {
           <Link className="breadcrumb-item" href={"../../admin"}>
             Inicio
           </Link>
-          <Link className="breadcrumb-item" href={"../admin/issuers"}>
+          <Link className="breadcrumb-item" href={"../issuers"}>
             Emisores
           </Link>
           <Breadcrumb.Item active>Detalles</Breadcrumb.Item>
