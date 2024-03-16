@@ -11,7 +11,7 @@ export default function TestimonialCard() {
           width={140}
           height={140}
           src="/web/testimonials/photo.jpg"
-          alt="fssdfsd"
+          alt="testimonial"
           className="testimonial-card-image"
         ></Image>
         <div className="card-body">

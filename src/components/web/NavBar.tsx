@@ -26,29 +26,29 @@ export default function NavBar() {
             {/* <NavBarButton
               label="Idioma"
               href="/auth/sign-in"
-              iconSrc="/web/lang-icon.png"
+              iconSrc="/web/icons/lang-icon.png"
             /> */}
             <NavBarButton
               href="/auth/sign-in"
               label="Iniciar sesión"
-              iconSrc="/web/sign-in-icon.png"
+              iconSrc="/web/icons/sign-in-icon.png"
             />
             <SocialMediaIcon
               width={32}
               height={32}
-              src="/web/x-icon.png"
+              src="/web/socials/x-icon.png"
               alt="SingularDocs en X"
             />
             <SocialMediaIcon
               width={32}
               height={32}
-              src="/web/facebook-icon.png"
+              src="/web/socials/facebook-icon.png"
               alt="SingularDocs en Facebook"
             />
             <SocialMediaIcon
               width={32}
               height={32}
-              src="/web/linkedin-icon.png"
+              src="/web/socials/linkedin-icon.png"
               alt="SingularDocs en Linkedin"
             />
           </Container>

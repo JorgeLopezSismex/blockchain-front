@@ -15,7 +15,7 @@ export default function SocialMediaIcon({
   spacing?: boolean;
 }) {
   return (
-    <Link href={"sdfs"}>
+    <Link href={"/socials"}>
       <Image
         src={src}
         alt={alt}

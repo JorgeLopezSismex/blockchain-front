@@ -61,63 +61,63 @@ export default function FifthSection() {
             <Row className="">
               <CaseCard
                 title="Seguimiento de la Cadena de Suministro:"
-                imageAlt="fsdfsdfsdfs"
+                imageAlt="Seguimiento de la Cadena de Suministro"
                 text="Utilizar SingularDocs para rastrear el movimiento de bienes desde su origen hasta su destino. Cada transacción se registra documentos certificados, lo que permite una visibilidad completa y en tiempo real de la cadena de suministro."
                 imagePath="/web/cases/supply-&-logistics/supply-chain.png"
               />
 
               <CaseCard
                 title="Gestión de Inventarios:"
-                imageAlt="fsdfsdfsdfs"
+                imageAlt="Gestión de Inventarios"
                 text="Mejora la gestión de inventarios mediante el registro de información en SingularDocs utilizando documentos confiables e inalterables. Esto facilitaría la coordinación entre diferentes partes de la cadena de suministro, reduciendo la probabilidad de errores y escasez de existencias."
                 imagePath="/web/cases/supply-&-logistics/inventories.png"
               />
 
               <CaseCard
                 title="Autenticidad de Productos:"
-                imageAlt="fsdfsdfsdfs"
+                imageAlt="Autenticidad de Productos"
                 text="Utilizar certificados emitidos a través de SingularDocs para verificar la autenticidad de productos a lo largo de la candena de suministro. Esto es especialmente relevante para productos de alto valor o propensos a la falsificación."
                 imagePath="/web/cases/supply-&-logistics/protocols.png"
               />
 
               <CaseCard
                 title="Contratos Inteligentes en Logística:"
-                imageAlt="fsdfsdfsdfs"
+                imageAlt="Contratos Inteligentes en Logística"
                 text="Implementar contratos inteligentes para automatizar y hacer más eficientes ciertos aspectos de la logística, como la gestión de rutas, la facturación y la programación de entregas."
                 imagePath="/web/cases/supply-&-logistics/logistics.png"
               />
 
               <CaseCard
                 title="Gestión de Devoluciones y Reclamaciones:"
-                imageAlt="fsdfsdfsdfs"
+                imageAlt="Gestión de Devoluciones y Reclamaciones"
                 text="Facilitar el proceso de devoluciones y reclamaciones mediante la transparecia y la trazabilidad proporcionadas por documentos generados en SingularDocs. Los problemas pueden ser identificados y resultos más rápidamente."
                 imagePath="/web/cases/supply-&-logistics/returns.png"
               />
 
               <CaseCard
                 title="Gestión de Activos y Equipos:"
-                imageAlt="fsdfsdfsdfs"
+                imageAlt="Gestión de Activos y Equipos"
                 text="Registrar activos y equipos para realizar un seguimiento eficiente de su ubicación, mantenimiento y estado. Esto ayuda a optimizar la utilización de recursos y prolongar la vida útil de los activos."
                 imagePath="/web/cases/supply-&-logistics/actives.png"
               />
 
               <CaseCard
                 title="Cumplimiento de Normativas y Certificaciones:"
-                imageAlt="fsdfsdfsdfs"
+                imageAlt="Cumplimiento de Normativas y Certificacione"
                 text="Facilitar el cumplimiento de normativas y certificaciones al proporcionar registros transparentes y a prueba de manipuliciones en SingularDocs."
                 imagePath="/web/cases/supply-&-logistics/regulations.png"
               />
 
               <CaseCard
                 title="Pagos y Financiamiento:"
-                imageAlt="fsdfsdfsdfs"
+                imageAlt="Pagos y Financiamiento"
                 text="Utilizar contratos inteligentes para gestionar pagos automáticos basados en el cumplimiento de ciertos hitos en la cadena de suministro. Esto agiliza los pagos y reduce los riesgos financieros."
                 imagePath="/web/cases/supply-&-logistics/payments.png"
               />
 
               <CaseCard
                 title="Gestión de la Cadena de Frío:"
-                imageAlt="fsdfsdfsdfs"
+                imageAlt="Gestión de la Cadena de Frío"
                 text="Registrar la temperatura y condiciones de almacenamiento de productos perecederos en SingularDocs para garantizar el cumplimiento de los requisitos de la cadena de frío y la calidad de los productos."
                 imagePath="/web/cases/supply-&-logistics/cold-chain.png"
               />

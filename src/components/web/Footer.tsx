@@ -30,21 +30,21 @@ export default function Footer() {
                   width={32}
                   height={32}
                   spacing={true}
-                  src="/web/x-icon.png"
+                  src="/web/socials/x-icon.png"
                   alt="SingularDocs en X"
                 />
                 <SocialMediaIcon
                   width={32}
                   height={32}
                   spacing={true}
-                  src="/web/facebook-icon.png"
+                  src="/web/socials/facebook-icon.png"
                   alt="SingularDocs en Facebook"
                 />
                 <SocialMediaIcon
                   width={32}
                   height={32}
                   spacing={true}
-                  src="/web/linkedin-icon.png"
+                  src="/web/socials/linkedin-icon.png"
                   alt="SingularDocs en Linkedin"
                 />
               </Col>

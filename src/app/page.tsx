@@ -199,28 +199,28 @@ export default function Home() {
           <Row className="feature-container">
             <FeatureCard
               title="Auténtico"
-              iconPath="/web/lock-icon.png"
+              iconPath="/web/features/lock-icon.png"
               iconAlt=""
               text="La información cargada proviene de un emisor, su información está proporcionada por el mismo y proviene de una sola fuente:"
             />
 
             <FeatureCard
               title="Original"
-              iconPath="/web/original-icon.png"
+              iconPath="/web/features/original-icon.png"
               iconAlt=""
               text="El documento resultante será auténtico y original ya que será 1 sola versión del mismo."
             />
 
             <FeatureCard
               title="Único"
-              iconPath="/web/unique-icon.png"
+              iconPath="/web/features/unique-icon.png"
               iconAlt=""
               text="El resultado de la carga de información y su construcción gráfica, digital y de metadatos es única en el mundo y no podrá existir otro resultado igual al emitido."
             />
 
             <FeatureCard
               title="Inalterable"
-              iconPath="/web/unalterable-icon.png"
+              iconPath="/web/features/unalterable-icon.png"
               iconAlt=""
               text="La información que se haya cargado permanecerá de forma inviolable por el resto de su existencia y de la existencia de la red."
             />
