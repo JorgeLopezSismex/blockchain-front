@@ -8,13 +8,13 @@ import CaseCard from "./CaseCard";
 
 export default function FifthSection() {
   return (
-    <Tab.Container id="my-tabs" defaultActiveKey="home">
+    <Tab.Container id="my-tabs" defaultActiveKey="supply-&-logistics">
       <div className="tabs-container">
         <Container>
-          <Row className="d-flex justify-content-center">
-            <Col xs={12} className="d-flex justify-content-center">
-              <div className="flex-column align-items-center">
-                <Nav variant="tabs">
+          <Row>
+            <Col xs={12}>
+              <div id="blue-navbar">
+                <Nav variant="tabs" className="d-flex justify-content-center">
                   <Nav.Item>
                     <Nav.Link eventKey="supply-&-logistics">
                       Suministro y Lógistica
@@ -123,6 +123,30 @@ export default function FifthSection() {
               />
             </Row>
           </Container>
+        </Tab.Pane>
+
+        <Tab.Pane eventKey="health">
+          <h1>Salud</h1>
+        </Tab.Pane>
+
+        <Tab.Pane eventKey="real-state">
+          <h1>Inmobiliaria</h1>
+        </Tab.Pane>
+
+        <Tab.Pane eventKey="education">
+          <h1>Educación</h1>
+        </Tab.Pane>
+
+        <Tab.Pane eventKey="entertainment">
+          <h1>Entretenimiento</h1>
+        </Tab.Pane>
+
+        <Tab.Pane eventKey="government">
+          <h1>Gobierno</h1>
+        </Tab.Pane>
+
+        <Tab.Pane eventKey="human-resources">
+          <h1>Recursos Humanos</h1>
         </Tab.Pane>
       </Tab.Content>
     </Tab.Container>

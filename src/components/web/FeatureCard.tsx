@@ -15,7 +15,7 @@ export default function FeatureCard({
   iconAlt: string;
 }) {
   return (
-    <Col xs={12} md={3} className="feture-card-container">
+    <Col xs={12} sm={6} md={3} className="feture-card-container">
       <Card className="h-100 feature-card">
         <Card.Body className="feature-card-body">
           <Image

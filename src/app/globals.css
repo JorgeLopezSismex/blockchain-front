@@ -41,10 +41,18 @@ nextjs-portal {
   background-color: transparent;
 }
 
+#react-select-2-listbox {
+  z-index: 99999999999999999999;
+}
+
+.Select__control--is-focused {
+  box-shadow: none;
+}
+
 /* -------------------- Web comercial - Estilos globales -------------------- */
 .section {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .flex-column {
@@ -58,6 +66,7 @@ nextjs-portal {
 .section-title {
   font-size: 36px;
   font-weight: bold;
+  text-align: center;
 }
 
 .section-title-white {
@@ -111,6 +120,13 @@ nextjs-portal {
   background-image: url("../../public/web/section-backgrounds/what-is-it-for-background.png");
 }
 
+.left-section-image {
+  width: 90%;
+  height: 400px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
 /* ------------------------- Web Comercial - NavBar ------------------------- */
 .nav-bar-link-button-img {
   margin-right: 10px;
@@ -118,6 +134,7 @@ nextjs-portal {
 
 .nav-bar-link-button-text {
   color: black;
+  font-size: 15px;
   font-weight: bold;
   text-decoration: none;
 }
@@ -130,6 +147,29 @@ nextjs-portal {
 .navbar-link:hover {
   color: rgb(0, 198, 255);
   font-weight: bold;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+  color: rgb(0, 74, 155);
+}
+
+/* --------------------- Web Comercial - ¿Quienes somos? -------------------- */
+.header {
+  width: 100%;
+  height: 70vh;
+  background-size: cover;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("../../public/web/sections/about-us.png");
+}
+
+.primary-text {
+  color: white;
+  font-weight: bold;
+}
+
+.seconday-text {
+  color: white;
 }
 
 /* -------------------- Web comercial - Botones -------------------- */
@@ -203,35 +243,35 @@ nextjs-portal {
 }
 
 /* -------------------------- Web Comercial - Tabs -------------------------- */
-.nav-tabs {
+#blue-navbar .nav-tabs {
   border-bottom: none;
 }
 
-.nav-link {
+#blue-navbar .nav-link {
   background-color: transparent; /* Background color for selected tab */
   color: white; /* Text color for selected tab */
   border-color: transparent; /* Border color for selected tab */
 }
 
-.nav-link:hover {
+#blue-navbar .nav-link:hover {
   background-color: transparent; /* Background color for selected tab */
   color: white; /* Text color for selected tab */
   border-color: transparent; /* Border color for selected tab */
 }
 
-.nav-tabs .nav-link.active {
+#blue-navbar .nav-tabs .nav-link.active {
   color: rgb(0, 198, 255);
   border-color: transparent;
   background-color: transparent;
 }
 
-.nav-tabs .nav-link:hover {
+#blue-navbar .nav-tabs .nav-link:hover {
   color: rgb(0, 198, 255);
   border-color: transparent;
   background-color: transparent;
 }
 
-.nav-tabs .nav-link {
+#blue-navbar .nav-tabs .nav-link {
   border-bottom: none;
 }
 
@@ -349,4 +389,47 @@ nextjs-portal {
   color: #5e6367;
   font-weight: bold;
   text-decoration: line-through;
+}
+
+/* -------------------------------- Contacto -------------------------------- */
+
+/* --------------------------------- Footer --------------------------------- */
+.footer-container {
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+
+.footer-logo {
+  margin-bottom: 30px;
+}
+
+.footer-icons-container {
+  margin-bottom: 30px;
+}
+
+.blue-footer {
+  background-color: rgb(0, 74, 155);
+}
+
+.footer-list {
+  list-style: none;
+}
+
+.footer-list-item {
+  font-weight: bold;
+  text-decoration: none;
+  color: rgb(0, 74, 155);
+}
+
+.footer-legals-text {
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.validation-error {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #dc3545;
 }

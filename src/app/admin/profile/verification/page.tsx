@@ -29,15 +29,15 @@ import { VerificationData } from "@/types/issuers";
 import IssuersForm from "../../issuers/form";
 
 import { redirect, useRouter } from "next/navigation";
-import { stat } from "fs";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import SubmitedData from "./submited-data";
-import { TypeH2 } from "react-bootstrap-icons";
+
 import VerificationFirstStepForm from "./first-step-form";
 
 import ActionToast from "@/components/main/ActionToast";
 import AdminModalJorge from "@/components/admin/AdminModalJorge";
 import VerificationSecondStepForm from "./second-step-form";
+
+import { getSuburbsOptionList } from "@/utils/select-options/suburbs";
 
 export default function Verification() {
   const router = useRouter();
@@ -49,6 +49,9 @@ export default function Verification() {
   const [modalText, setModalText] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const [showModal, setShowModal] = useState(false);
+
+  const [suburbs, setSuburbs] = useState([]);
+  const [loadingSuburbs, setLoadingSuburbs] = useState(false);
 
   const [showToast, setShowToast] = useState(false);
   const [toastTitle, setToastTitle] = useState("Título");
@@ -97,6 +100,9 @@ export default function Verification() {
 
   /* CAMBIAR PARA HACER PRUEBAS!!!!!!!! */
   const [fullForm, setFullForm] = useState(true);
+  const [secondStepInitialValues, setSecondStepInitialValues] = useState(
+    {} as any
+  );
 
   useEffect(() => {
     // Permisos
@@ -190,6 +196,25 @@ export default function Verification() {
           getIssuerLegalData();
           setLoadingVerificationData(false);
           setFullForm(true);
+
+          setSecondStepInitialValues({
+            legalName: res.data.legalName,
+            zipCode: res.data.zipCode,
+            country: res.data.country,
+            state: res.data.state,
+            city: res.data.city,
+            suburb: res.data.suburbs,
+            street: res.data.street,
+            internalNumber: res.data.internalNumber,
+            externalNumber: res.data.externalNumber,
+            email: res.data.email,
+            phone: res.data.phone,
+            rfc: res.data.rfc,
+            description: res.data.description,
+            constitutiveAct: null,
+            taxSituationStatement: null,
+          });
+
           return;
         }
 
@@ -398,7 +423,28 @@ export default function Verification() {
                   "PENDING_OWNERSHIP_VERIFICATION" ? null : issuerVerificationStatus ==
                 "OWNERSHIP_VERIFIED" ? (
                 <AdminCardContainer xs={12}>
-                  <VerificationSecondStepForm />
+                  <VerificationSecondStepForm
+                    loadingForm={loadingForm}
+                    setLoadingForm={setLoadingForm}
+                    initialValues={secondStepInitialValues}
+                    loadingSuburbs={false}
+                    suburbs={suburbs}
+                    disbaleForm={false}
+                    disableSearchZipCode={false}
+                    setDisableSuburbs={null}
+                    setDisableSearchZipCode={null}
+                    setSuburbs={setSuburbs}
+                    setLoadingSuburbs={setLoadingSuburbs}
+                    setSuburbOptions={setSuburbOptions}
+                    getSuburbsOptionList={getSuburbsOptionList}
+                    setShowToast={null}
+                    setToastTitle={null}
+                    setToastVariant={null}
+                    setToastMessage={null}
+                    setShowModal={null}
+                    setModalTitle={null}
+                    setModalText={null}
+                  />
                 </AdminCardContainer>
               ) : (
                 <SubmitedData

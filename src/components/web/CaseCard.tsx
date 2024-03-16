@@ -15,7 +15,7 @@ export default function CaseCard({
   imageAlt: string;
 }) {
   return (
-    <Col xs={12} md={4}>
+    <Col xs={12} sm={12} md={4}>
       <Card className="case-card">
         <Card.Img variant="top" src={imagePath} />
         <Card.Body>

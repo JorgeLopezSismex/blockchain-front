@@ -1,26 +1,53 @@
 "use client";
 
 import Image from "next/image";
-
+import { useState, Fragment } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import { Container, Row, Col, NavbarBrand } from "react-bootstrap";
+
+import NavBar from "@/components/web/NavBar";
+import { Container, Row, Col } from "react-bootstrap";
+
+import Footer from "@/components/web/Footer";
+import PriceCard from "@/components/web/PriceCard";
 import BlueButton from "@/components/web/BlueButton";
 import FeatureCard from "@/components/web/FeatureCard";
-import { Fragment } from "react";
+import ContactForm from "@/components/web/ContactForm";
+import ActionToast from "@/components/main/ActionToast";
 import FifthSection from "@/components/web/FifthSection";
-import NavBar from "@/components/web/NavBar";
 import TestimonialCard from "@/components/web/TestimonialCard";
-import PriceCard from "@/components/web/PriceCard";
-import Footer from "@/components/web/Footer";
 
 export default function Home() {
+  const [showToast, setShowToast] = useState(false);
+  const [toastTitle, setToastTitle] = useState("Título");
+  const [toastMessage, setToastMessage] = useState("Mensaje.");
+  const [toastVariant, setToastVariant] = useState("success");
+
   return (
     <Fragment>
       {/* --------------------------------- NavBar --------------------------------- */}
-      <NavBar></NavBar>
+      <NavBar />
+
+      {/* ----------------------------- ¿Quiénes somos? ---------------------------- */}
+      <div id="about-us" className="d-flex align-items-center header">
+        <Container>
+          <Row className="d-flex justify-content-start">
+            <Col md={8}>
+              <h5 className="primary-text">Innovate Technology</h5>
+              <h1 className="primary-text">¿Quiénes somos?</h1>
+              <p className="seconday-text">
+                Somos una empresa confiable que ofrece una plataforma
+                tecnológica basada en blockchain con Etherium con la cual las
+                empresas pueden generar información segura y accesible,
+                garantizando su integridad.
+              </p>
+              <BlueButton label="Contacto" href="#contact" />
+            </Col>
+          </Row>
+        </Container>
+      </div>
 
       {/* --------------------------- ¿Qué es blockchain? -------------------------- */}
-      <div className="section">
+      <div id="what-is-blockchain" className="section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -43,7 +70,20 @@ export default function Home() {
           </Row>
 
           <Row>
-            <Col xs={12} md={6}></Col>
+            <Col
+              xs={12}
+              md={6}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <div className="left-section-image">
+                <Image
+                  layout="fill"
+                  alt="What is?"
+                  objectFit="cover"
+                  src="/web/sections/what-is.png"
+                />
+              </div>
+            </Col>
             <Col xs={12} md={6}>
               <p className="gray-text">
                 Blockchain emerge como una soluciónóptima al proporcinar datos
@@ -71,14 +111,14 @@ export default function Home() {
                 confianza, eficiencia y oportunidades.
               </p>
 
-              <BlueButton label="Testimonios" />
+              <BlueButton label="Testimonios" href="#testimonials" />
             </Col>
           </Row>
         </Container>
       </div>
 
       {/* ---------------------------- ¿Para qué sirve? ---------------------------- */}
-      <div className="section blue-background-section">
+      <div id="what-is-it-for" className="section blue-background-section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -95,7 +135,20 @@ export default function Home() {
           </Row>
 
           <Row>
-            <Col xs={12} md={6}></Col>
+            <Col
+              xs={12}
+              md={6}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <div className="left-section-image">
+                <Image
+                  layout="fill"
+                  alt="Blockchain"
+                  objectFit="cover"
+                  src="/web/sections/blockchain.png"
+                />
+              </div>
+            </Col>
             <Col xs={12} md={6}>
               <p className="white-text">
                 Por medio de nuestra plataforma se pueden crear documentos con
@@ -119,14 +172,14 @@ export default function Home() {
                 personas u organizaciones.
               </p>
 
-              <BlueButton label="Contacto" />
+              <BlueButton label="Contacto" href="#contact" />
             </Col>
           </Row>
         </Container>
       </div>
 
       {/* ------------------- Características de un SingularDocs ------------------- */}
-      <div className="section">
+      <div id="features" className="section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -176,7 +229,7 @@ export default function Home() {
       </div>
 
       {/* ------------------------------ Casos de uso ------------------------------ */}
-      <div className="section">
+      <div id="use-cases" className="section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -191,7 +244,7 @@ export default function Home() {
       </div>
 
       {/* ------------------------------- Testimonios ------------------------------ */}
-      <div className="section gray-section">
+      <div id="testimonials" className="section gray-section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -216,7 +269,7 @@ export default function Home() {
       </div>
 
       {/* --------------------------------- Costos --------------------------------- */}
-      <div className="section costs-background-section">
+      {/* <div className="section costs-background-section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -297,22 +350,30 @@ export default function Home() {
             </PriceCard>
           </Row>
         </Container>
+      </div> */}
+
+      {/* -------------------------------- Contacto -------------------------------- */}
+
+      <div id="contact" className="section">
+        <ContactForm
+          setShowToast={setShowToast}
+          setToastTitle={setToastTitle}
+          setToastMessage={setToastMessage}
+          setToastVariant={setToastVariant}
+        />
       </div>
 
       {/* --------------------------------- Footer --------------------------------- */}
-      <Footer></Footer>
+      <Footer />
+
+      <ActionToast
+        delay={6000}
+        show={showToast}
+        title={toastTitle}
+        variant={toastVariant}
+        message={toastMessage}
+        onClose={() => setShowToast(false)}
+      />
     </Fragment>
   );
 }
-
-/*
-
-<Fragment>
-      <WebNavBar></WebNavBar>
-      <WebStart />
-      <WebWhatIs />
-      <WebWhatIsItFor></WebWhatIsItFor>
-      <Features></Features>
-    </Fragment>
-
-*/

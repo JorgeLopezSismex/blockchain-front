@@ -5,7 +5,7 @@ import { Card, Col } from "react-bootstrap";
 
 export default function TestimonialCard() {
   return (
-    <Col xs={12} md={6}>
+    <Col xs={12} sm={12} md={6}>
       <Card className="testimonial-card">
         <Image
           width={140}
@@ -21,9 +21,11 @@ export default function TestimonialCard() {
           </p>
 
           <div className="testimonial-text-container d-flex align-items-end">
-            <h5 className="testimonial-card-title d-flex align-items-end">
+            <h5 className="testimonial-card-title">
               NOMBRE APELLIDO
-              <h6 className="testimonial-card-subtitle">Social Marketing</h6>
+              <h6 className="testimonial-card-subtitle d-flex align-items-end mb-0">
+                Social Marketing
+              </h6>
             </h5>
           </div>
         </div>
