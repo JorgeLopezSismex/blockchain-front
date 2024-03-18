@@ -241,61 +241,24 @@ export default function Verification() {
   };
 
   const getIssuerLegalData = async () => {
-    apiFetch("issuers/legal-data").then((res) => {
+    apiFetch("issuers/legal-data").then(async (res) => {
       console.log("Estos son los datos legales", res);
       if (!res.success) {
         return;
       }
 
       const legalData = res.data;
-      let state: string | null = null;
-      let city: string | null = null;
-
       const zipCodeParams = new URLSearchParams();
       zipCodeParams.append("zipCode", legalData.zipCode);
-      console.log("1");
-      apiFetch(`zip-code?${zipCodeParams.toString()}`).then((res) => {
-        console.log(res, "Esta es la respuesta del primerzip Code");
-        if (res.success) {
-          var options: any[] = [];
-          const suburbs = res.data;
 
-          state = suburbs[0].d_estado;
-          setCountryKey(countryKey + 1);
+      let options = (await getSuburbsOptionList(
+        res.data.zipCode,
+        suburbs,
+        setSuburbs,
+        setLoadingSuburbs
+      )) as any;
 
-          city = suburbs[0].d_mnpio;
-          console.log(state, "Este es el estado");
-          console.log(city, "Esta es la ciudad", city);
-
-          res.data.map((suburb: any) => {
-            options[options.length] = {
-              value: suburb.d_asenta,
-              label: suburb.d_asenta,
-            };
-          });
-
-          setSuburbOptions(options);
-        }
-
-        setInitialValues({
-          legalName: legalData.legalName,
-          zipCode: legalData.zipCode,
-          country: legalData.country,
-          state: state,
-          city: city,
-          street: "",
-          externalNumber: legalData.externalNumber,
-          internalNumber: legalData.internalNumber,
-          email: legalData.email,
-          phone: "",
-          rfc: legalData.rfc,
-          description: legalData.description,
-          constitutiveAct: null,
-          taxSituationStatement: null,
-        });
-
-        setLoadingVerificationData(false);
-      });
+      setSuburbs(options.suburbs);
     });
   };
 
@@ -420,7 +383,7 @@ export default function Verification() {
                     loadingForm={loadingForm}
                     setLoadingForm={setLoadingForm}
                     initialValues={secondStepInitialValues}
-                    loadingSuburbs={false}
+                    loadingSuburbs={loadingSuburbs}
                     suburbs={suburbs}
                     disbaleForm={false}
                     disableSearchZipCode={false}
@@ -430,13 +393,13 @@ export default function Verification() {
                     setLoadingSuburbs={setLoadingSuburbs}
                     setSuburbOptions={setSuburbOptions}
                     getSuburbsOptionList={getSuburbsOptionList}
-                    setShowToast={null}
-                    setToastTitle={null}
-                    setToastVariant={null}
-                    setToastMessage={null}
-                    setShowModal={null}
-                    setModalTitle={null}
-                    setModalText={null}
+                    setShowToast={setShowToast}
+                    setToastTitle={setToastTitle}
+                    setToastVariant={setToastVariant}
+                    setToastMessage={setToastMessage}
+                    setShowModal={setShowModal}
+                    setModalTitle={setModalTitle}
+                    setModalText={setModalText}
                   />
                 </AdminCardContainer>
               ) : (

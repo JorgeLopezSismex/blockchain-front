@@ -7,18 +7,23 @@ export const getSuburbsOptionList = async (
   setSuburbs: any,
   setLoadingSuburbs: any
 ) => {
+  console.log("hola");
   try {
-    setLoadingSuburbs(true);
+    // setLoadingSuburbs(true);
+
+    console.log("Esto si");
     if (zipCode == "" || zipCode == null || zipCode == undefined) {
       console.log("Aqui si llega");
       return [];
     }
 
+    console.log("Esto no");
     let res = null;
     const zipCodeParams = new URLSearchParams();
     zipCodeParams.append("zipCode", zipCode);
 
     res = await apiFetch(`zip-code?${zipCodeParams.toString()}`);
+    console.log(res);
 
     if (!res.success) {
       return [];
@@ -35,20 +40,16 @@ export const getSuburbsOptionList = async (
       label: item.d_asenta,
     }));
 
+    console.log(options, "Estos oson los optiosn desade la funcion");
+    return {
+      country: "México",
+      state: data[0].d_estado,
+      city: data[0].d_mnpio,
+      suburbs: options,
+    };
+
     setSuburbs(options);
     setLoadingSuburbs(false);
-
-    // console.log("Este es el refrhes", refresh);
-    // if (options.length > 0) {
-    //   setDisableSuburbs(false);
-    // }
-
-    // if (refresh) {
-    //   setSuburbsKey(suburbsKey + 1);
-    // } else {
-    // }
-
-    return options;
   } catch (error) {
     return [];
   }

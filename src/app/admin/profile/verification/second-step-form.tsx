@@ -10,6 +10,7 @@ import AdminFormSubmitButton from "@/components/admin/AdminFormSubmitButton";
 
 import Select from "react-select";
 import { apiFetch } from "@/helpers/api-fetch";
+import { verificationSecondsStepSchema } from "@/validations/verification-validation";
 
 export default function VerificationSecondStepForm({
   loadingForm,
@@ -63,25 +64,31 @@ export default function VerificationSecondStepForm({
       if (!res.success) {
         setToastVariant("danger");
         setToastMessage(res.message);
-        setToastTitle("Verificación de propiedad");
+        setToastTitle("Verificación de emisor");
 
         setShowToast(true);
         setLoadingForm(false);
         return;
       }
 
-      setModalText("Se envio el correo ce verificacion de propiedad");
+      setModalTitle("Solicitud de verificación enviada");
+      setModalText(
+        "Tu solicitud de verificación fue enviada exitosamente. La administración de la plataforma revisará la información y recibirás un correo con la respuesta."
+      );
+
       setShowModal(true);
-      window.location.reload();
+      // window.location.reload();
     });
 
     console.log("Estos son los valores", values);
   };
 
-  console.log(initialValues, "Esto son los initial values");
-
   return (
-    <Formik onSubmit={submitSecondStep} initialValues={initialValues}>
+    <Formik
+      onSubmit={submitSecondStep}
+      initialValues={initialValues}
+      validationSchema={verificationSecondsStepSchema}
+    >
       {({ values, errors, handleChange, handleSubmit, setFieldValue }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Row>
@@ -112,7 +119,7 @@ export default function VerificationSecondStepForm({
               label={"Código postal"}
               disbaleButton={disableSearchZipCode}
               handleClick={async () => {
-                alert("Se consulta el codigo postal");
+                setLoadingSuburbs(true);
                 let options = await getSuburbsOptionList(
                   values.zipCode,
                   suburbs,
@@ -120,7 +127,12 @@ export default function VerificationSecondStepForm({
                   setLoadingSuburbs
                 );
 
-                console.log(options);
+                setFieldValue("country", options.country);
+                setFieldValue("state", options.state);
+                setFieldValue("city", options.city);
+                setSuburbs(options.suburbs);
+
+                setLoadingSuburbs(false);
               }}
               handleChange={(event: any) => {
                 let options: any[] = [];
@@ -132,10 +144,12 @@ export default function VerificationSecondStepForm({
                 setFieldValue("country", "");
                 setFieldValue("state", "");
                 setFieldValue("city", "");
+                setFieldValue("suburbs", options);
+                setSuburbs(options);
 
                 if (value != undefined && value != "" && value != null) {
                   setDisableSearchZipCode(false);
-                  // setDisableSuburbs(false);
+                  setDisableSuburbs(false);
                   return;
                 }
 
@@ -196,10 +210,14 @@ export default function VerificationSecondStepForm({
             >
               <Form.Label>Colonia</Form.Label>
               <Select
-                isDisabled={loadingSuburbs}
-                isLoading={loadingSuburbs}
-                options={suburbs}
                 name="suburb"
+                options={suburbs}
+                isLoading={loadingSuburbs}
+                isDisabled={loadingSuburbs}
+                placeholder="Selecciona una colonia"
+                noOptionsMessage={() =>
+                  "No hay opciones disponibles, intenta buscar un nuevo código postal"
+                }
                 onChange={(e: any) => {
                   if (e == null) {
                     return setFieldValue("suburb", null);
@@ -207,9 +225,30 @@ export default function VerificationSecondStepForm({
 
                   return setFieldValue("suburb", e.value);
                 }}
-                placeholder="Selecciona una colonia"
-                defaultValue={"Del Prado"}
-              ></Select>
+                styles={{
+                  control: (baseStyles, state) => ({
+                    ...baseStyles,
+                    boxShadow: "none",
+                    borderColor:
+                      //@ts-ignore
+                      errors.suburb !== undefined && errors.suburb.trim()
+                        ? "#dc3545"
+                        : "#dee2e6",
+                    "&:hover": {
+                      borderColor:
+                        //@ts-ignore
+                        errors.suburb !== undefined && errors.suburb.trim()
+                          ? "#dc3545"
+                          : "#dee2e6",
+                    },
+                  }),
+                }}
+              />
+
+              {
+                // @ts-ignore
+                <div className="validation-error">{errors.suburb}</div>
+              }
             </Form.Group>
 
             <FormInput
