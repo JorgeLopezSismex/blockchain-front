@@ -105,7 +105,10 @@ export default function issuersTableColumns(
               disabled={
                 !permissions.VERIFY_ISSUER
                   ? true
-                  : data.issuerVerificationStatusKey != "UNVERIFIED"
+                  : data.issuerVerificationStatusKey == "UNVERIFIED"
+                  ? true
+                  : data.issuerVerificationStatusKey == "VERIFIED" ||
+                    data.issuerVerificationStatusKey == "REJECTED"
                   ? true
                   : false
               }
@@ -120,9 +123,12 @@ export default function issuersTableColumns(
               icon={faXmark}
               tooltip="Rechazar"
               disabled={
-                !permissions.REJECT_ISSUER
+                !permissions.VERIFY_ISSUER
                   ? true
-                  : data.issuerVerificationStatusKey != "UNVERIFIED"
+                  : data.issuerVerificationStatusKey == "UNVERIFIED"
+                  ? true
+                  : data.issuerVerificationStatusKey == "VERIFIED" ||
+                    data.issuerVerificationStatusKey == "REJECTED"
                   ? true
                   : false
               }

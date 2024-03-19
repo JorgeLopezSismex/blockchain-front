@@ -35,7 +35,7 @@ export default function IssuerList() {
   const [loadingScreen, setLoadingScreen] = useState(true);
 
   const [issuers, setIssuers] = useState([]);
-  const [selectedIssuer, setSelectedIssuer] = useState({});
+  const [selectedIssuer, setSelectedIssuer] = useState({} as any);
   const [loadingIssuers, setLoadingIssuers] = useState(true);
 
   const [roles, setRoles] = useState([]);
@@ -137,7 +137,9 @@ export default function IssuerList() {
 
   const verifyIssuer = async () => {
     setModalLoading(true);
-    apiFetch("issuers").then((res) => {
+    apiFetch("issuers/verify", "POST", {
+      issuerId: selectedIssuer.issuerId,
+    }).then((res) => {
       if (res.success) {
         setShowVerifyModal(false);
         setModalLoading(false);
@@ -152,6 +154,9 @@ export default function IssuerList() {
         return;
       }
 
+      setShowVerifyModal(false);
+      setModalLoading(false);
+
       setShowToast(true);
       setToastTitle("Emisores");
       setToastVariant("danger");
@@ -159,9 +164,36 @@ export default function IssuerList() {
     });
   };
 
-  const rejectIssuer = async () => {
+  const rejectIssuer = async (values: any, resetForm: any) => {
     setModalLoading(true);
-    apiFetch("issuers")
+    values.rejectReason = values.reason;
+    values.issuerId = selectedIssuer.issuerId;
+
+    apiFetch("issuers/reject", "POST", values).then((res) => {
+      if (res.success) {
+        setShowRejectModal(false);
+        setModalLoading(false);
+
+        getIssuers();
+
+        setShowToast(true);
+        setToastTitle("Emisores");
+        setToastVariant("success");
+        setToastMessage(res.message);
+
+        resetForm({ reason: "" });
+
+        return;
+      }
+
+      setShowRejectModal(false);
+      setModalLoading(false);
+
+      setShowToast(true);
+      setToastTitle("Emisores");
+      setToastVariant("danger");
+      setToastMessage(res.message);
+    });
   };
 
   return loadingScreen ? (
@@ -334,7 +366,9 @@ export default function IssuerList() {
       </AdminModalJorge>
 
       <Formik
-        onSubmit={rejectIssuer}
+        onSubmit={(values, { resetForm }) => {
+          rejectIssuer(values, resetForm);
+        }}
         initialValues={{ reason: "" }}
         validationSchema={rejectIssuerScheme}
       >
