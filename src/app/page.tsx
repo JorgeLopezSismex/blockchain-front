@@ -86,10 +86,10 @@ export default function Home() {
             </Col>
             <Col xs={12} md={6}>
               <p className="gray-text">
-                Blockchain emerge como una soluciónóptima al proporcinar datos
+                Blockchain emerge como una solución óptima al proporcinar datos
                 inmediatos, compartidos y totalmente transparentes almacenados
                 en un registro distribuido e inmutable al que sólo los miembros
-                autorizados pueden acceder, este beneficio simplifica el proceso
+                autorizados pueden acceder. Este beneficio simplifica el proceso
                 de generar transacciones y rastrear activos en el entorno
                 empresarial.
               </p>
@@ -127,7 +127,7 @@ export default function Home() {
                 <p className="light-blue-subtitle">
                   Nuestra plataforma fue creada con el objetivo de
                   transmitir/traducir los beneficios de blockchain a las
-                  necesidades de la industria, por medio de macanismos claros y
+                  necesidades de la industria, por medio de mecanismos claros y
                   accesibles para todos.
                 </p>
               </div>
@@ -201,7 +201,7 @@ export default function Home() {
               title="Auténtico"
               iconPath="/web/features/lock-icon.png"
               iconAlt=""
-              text="La información cargada proviene de un emisor, su información está proporcionada por el mismo y proviene de una sola fuente:"
+              text="La información cargada proviene de un emisor, su información está proporcionada por el mismo y proviene de una sola fuente."
             />
 
             <FeatureCard
@@ -244,7 +244,7 @@ export default function Home() {
       </div>
 
       {/* ------------------------------- Testimonios ------------------------------ */}
-      <div id="testimonials" className="section gray-section">
+      {/* <div id="testimonials" className="section gray-section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -266,7 +266,7 @@ export default function Home() {
             <TestimonialCard />
           </Row>
         </Container>
-      </div>
+      </div> */}
 
       {/* --------------------------------- Costos --------------------------------- */}
       {/* <div className="section costs-background-section">

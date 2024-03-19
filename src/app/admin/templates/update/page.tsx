@@ -105,12 +105,9 @@ export default function UpdateTemplate() {
       values.html = html;
       values.design = design;
 
+      console.log(values);
+
       setLoadingForm(true);
-
-      console.log(values, "Estoso son los valores del update");
-
-      return;
-
       apiFetch(`templates/${id}`, "PUT", values).then((res) => {
         if (res.success) {
           setShowToast(true);
@@ -138,10 +135,11 @@ export default function UpdateTemplate() {
   };
 
   const loadDesign = async () => {
-    console.log(initialValues, "Estos son los valores iniciales");
-    if (emailEditorRef.current) {
-      emailEditorRef.current.loadDesign(design);
-      setLoadJsonDesign(false);
+    if (loadJsonDesign) {
+      if (emailEditorRef.current) {
+        emailEditorRef.current.loadDesign(design);
+        setLoadJsonDesign(false);
+      }
     }
   };
 
