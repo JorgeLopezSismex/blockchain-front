@@ -60,7 +60,7 @@ export default function ContactsForm({
           value={values.email}
           errors={errors.email}
           handleChange={handleChange}
-          placeholder="Apellido(s) del miembro"
+          placeholder="Correo electrónico del miembro"
         />
 
         <FormInput
@@ -74,7 +74,7 @@ export default function ContactsForm({
           value={values.position}
           errors={errors.position}
           handleChange={handleChange}
-          placeholder="Apellido(s) del miembro"
+          placeholder="Posición del miembro"
         />
       </Row>
 

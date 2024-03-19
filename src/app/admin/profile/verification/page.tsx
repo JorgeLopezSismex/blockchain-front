@@ -124,9 +124,14 @@ export default function Verification() {
           setHasContacts(true);
           setLoadingScreen(false);
           getVerificationData();
+
+          return;
         }
 
         // No tiene contactos.
+
+        setHasContacts(false);
+        setLoadingScreen(false);
         return;
       }
     });
@@ -340,9 +345,9 @@ export default function Verification() {
                 />
               ) : (
                 <AdminAlert
-                  text="asdasda"
                   variant="warning"
-                  title="No cuentas con ningun contacto"
+                  title="No cuentas con ningún contacto"
+                  text="Para comenzar el proceso de verificación, es necesario que añadas por lo menos un contacto. Esto ayudará a agilizar el proceso de verificación por parte de la administración de SingularDocs."
                 >
                   <div className="d-flex justify-content-end">
                     <Button
