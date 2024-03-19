@@ -15,12 +15,15 @@ import ContactForm from "@/components/web/ContactForm";
 import ActionToast from "@/components/main/ActionToast";
 import FifthSection from "@/components/web/FifthSection";
 import TestimonialCard from "@/components/web/TestimonialCard";
+import NoticeOfPrivacy from "@/components/web/NoticeOfPrivacy";
 
 export default function Home() {
   const [showToast, setShowToast] = useState(false);
   const [toastTitle, setToastTitle] = useState("Título");
   const [toastMessage, setToastMessage] = useState("Mensaje.");
   const [toastVariant, setToastVariant] = useState("success");
+
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
   return (
     <Fragment>
@@ -364,7 +367,7 @@ export default function Home() {
       </div>
 
       {/* --------------------------------- Footer --------------------------------- */}
-      <Footer />
+      <Footer setShowPrivacyModal={setShowPrivacyModal} />
 
       <ActionToast
         delay={6000}
@@ -373,6 +376,11 @@ export default function Home() {
         variant={toastVariant}
         message={toastMessage}
         onClose={() => setShowToast(false)}
+      />
+
+      <NoticeOfPrivacy
+        showPrivacyModal={showPrivacyModal}
+        setShowPrivacyModal={setShowPrivacyModal}
       />
     </Fragment>
   );

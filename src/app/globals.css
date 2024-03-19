@@ -433,3 +433,16 @@ nextjs-portal {
   font-size: 0.875rem;
   color: #dc3545;
 }
+
+/* --------------------------- Aviso de privacidad -------------------------- */
+.privacy-title {
+  font-weight: bold;
+}
+
+.privacy-date {
+  text-align: center;
+}
+
+.privacy-link {
+  cursor: pointer;
+}

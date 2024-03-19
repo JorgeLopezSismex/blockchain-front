@@ -5,7 +5,15 @@ import Link from "next/link";
 import SocialMediaIcon from "./SocialMediaIcon";
 import { Fragment } from "react";
 
-export default function Footer() {
+export default function Footer({
+  setShowPrivacyModal,
+}: {
+  setShowPrivacyModal: any;
+}) {
+  const showPrivacy = () => {
+    setShowPrivacyModal(true);
+  };
+
   return (
     <Fragment>
       <Container className="footer-container">
@@ -93,9 +101,9 @@ export default function Footer() {
             </ul>
           </Col>
           <Col md={2}>
-            <a className="footer-list-item" href="#contact">
+            <p onClick={showPrivacy} className="privacy-link footer-list-item">
               - Aviso de privacidad
-            </a>
+            </p>
           </Col>
         </Row>
       </Container>
