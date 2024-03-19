@@ -138,7 +138,16 @@ export default function FifthSection() {
         </Tab.Pane>
 
         <Tab.Pane eventKey="entertainment">
-          <h1>Entretenimiento</h1>
+          <Container>
+            <Row>
+              <CaseCard
+                title="Venta de boletos:"
+                imageAlt="Gestión de la Cadena de Frío"
+                text="Utiliza SingularDocs para la venta de boletos de eventos, garantizando la autenticidad de los tickets y evitando la reventa fraudulenta."
+                imagePath="/web/cases/supply-&-logistics/cold-chain.png"
+              />
+            </Row>
+          </Container>
         </Tab.Pane>
 
         <Tab.Pane eventKey="government">
@@ -146,7 +155,16 @@ export default function FifthSection() {
         </Tab.Pane>
 
         <Tab.Pane eventKey="human-resources">
-          <h1>Recursos Humanos</h1>
+          <Container>
+            <Row>
+              <CaseCard
+                title="Empleo:"
+                imageAlt="Gestión de la Cadena de Frío"
+                text="Simplifica la gestión de contratos laborales mediante la emisión y verificación de certificados respaldados por blockchain."
+                imagePath="/web/cases/supply-&-logistics/cold-chain.png"
+              />
+            </Row>
+          </Container>
         </Tab.Pane>
       </Tab.Content>
     </Tab.Container>
