@@ -250,14 +250,14 @@ export default function TemplateList() {
       </AdminCardContainer>
 
       <AdminModalJorge
-        size={"lg"}
+        size={"xl"}
         showButtons={true}
         show={showDetailsModal}
-        title="Detalles de plantilla"
-        primaryBtnVariant="danger"
-        handleSubmit={deleteTemplate}
+        noSecondaryButton={true}
+        primaryBtnVariant="primary"
         modalLoading={modalLoading}
-        noSecondaryButton={false}
+        title="Detalles de plantilla"
+        handleSubmit={() => setShowDetailsModal(false)}
         handleClose={() => setShowDetailsModal(false)}
       >
         {loadingHtml ? (
