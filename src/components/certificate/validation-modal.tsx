@@ -70,32 +70,28 @@ export default function ValidationModal({
           ) : (
             <Fragment>
               <Row>
-                <Col xs={4} md={4} className="d-flex justify-content-center">
+                <Col xs={12} md={4} className="d-flex justify-content-center">
                   <img
                     alt=""
                     src={`${certificate.issuer.image}`}
-                    style={{ maxWidth: "80%", maxHeight: "80%" }}
+                    style={{
+                      marginBottom: 20,
+                      maxWidth: "190px",
+                      maxHeight: "190px",
+                    }}
                   />
                 </Col>
-                <Col xs={8} md={8}>
+                <Col xs={12} md={8}>
                   <h5>{certificate.name}</h5>
                   <h5>{certificate.recipientFullName}</h5>
                   <p>{`Emitido el ${moment(certificate.issuedOn).format(
                     "MMMM D, YYYY"
                   )} por ${certificate.issuer.name}`}</p>
-                </Col>
-              </Row>
 
-              <Row className="justify-content-center">
-                <Col xs={12} md={10} lg={6} className="">
                   {localSteps.map((step: any, index: number) => (
                     <VerificationStep key={index} step={step} />
                   ))}
-                </Col>
-              </Row>
 
-              <Row className="justify-content-center">
-                <Col xs={12} md={10} lg={6} className="">
                   {finished ? (
                     <VerificationResult
                       reloadValidation={null}
@@ -110,6 +106,14 @@ export default function ValidationModal({
                   )}
                 </Col>
               </Row>
+
+              {/* <Row className="justify-content-center">
+                <Col xs={12} md={10} lg={6} className=""></Col>
+              </Row>
+
+              <Row className="justify-content-center">
+                <Col xs={12} md={10} lg={6} className=""></Col>
+              </Row> */}
             </Fragment>
           )}
         </Container>

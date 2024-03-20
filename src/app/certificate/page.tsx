@@ -102,6 +102,7 @@ export default function Certificate() {
               <Row>
                 <Col xs={12} className="d-flex justify-content-center">
                   <VerificationResult
+                    margin={true}
                     certificate={certificate}
                     verification={verification}
                     showReloadValidation={true}

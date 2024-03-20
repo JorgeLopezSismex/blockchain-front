@@ -10,11 +10,13 @@ export default function VerificationResult({
   certificate,
   showReloadValidation,
   reloadValidation,
+  margin,
 }: {
   verification: any;
   certificate: any;
   showReloadValidation: boolean;
   reloadValidation: any;
+  margin?: boolean;
 }) {
   const [variant, setVariant] = useState("danger");
   const [resultString, setResultString] = useState("");
@@ -43,7 +45,11 @@ export default function VerificationResult({
     <Alert
       key={"success"}
       variant={variant}
-      style={{ width: "100%", margin: 10 }}
+      style={
+        !margin
+          ? { width: "100%", marginTop: 10 }
+          : { width: "100%", margin: 10 }
+      }
     >
       <h5>
         <FontAwesomeIcon
