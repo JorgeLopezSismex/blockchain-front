@@ -16,8 +16,8 @@ import Breadcrumb from "react-bootstrap/Breadcrumb";
 import AdminTable from "@/components/admin/AdminTable";
 import ActionToast from "@/components/main/ActionToast";
 import FormTextarea from "@/components/form/FormTextarea";
-import FormDatePicker from "@/components/form/FormDatePicker";
-import FormAsyncSelect from "@/components/form/FormAsyncSelect";
+import FilterDatePicker from "@/components/form/FilterDatePicker";
+import FilterAsyncSelect from "@/components/form/FilterAsyncSelect";
 import AdminModalJorge from "@/components/admin/AdminModalJorge";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
@@ -145,24 +145,35 @@ export default function Invitations() {
 
   const getFilteredInvitations = async (values: any) => {
     const invitationsParams = new URLSearchParams();
-    if (values.issuerId != null) {
-      invitationsParams.append("issuerId", values.issuerId);
+
+    const filters = JSON.parse(JSON.stringify(values), (key, value) => {
+      return value === "" ? null : value;
+    });
+
+    if (filters.issuerId != null) {
+      invitationsParams.append("issuerId", filters.issuerId);
     }
 
-    if (values.invitationStatusId != null) {
-      invitationsParams.append("invitationStatusId", values.invitationStatusId);
+    if (filters.invitationStatusId != null) {
+      invitationsParams.append(
+        "invitationStatusId",
+        filters.invitationStatusId
+      );
     }
 
-    if (values.createdAtFrom != null) {
-      invitationsParams.append("createdAtFrom", values.createdAtFrom);
+    if (filters.createdAtFrom != null) {
+      const date = moment(filters.createdAtFrom, "DD/MM/YYYY");
+
+      const formattedDate = date.toISOString();
+      invitationsParams.append("createdAtFrom", formattedDate);
     }
 
-    if (values.createdAtTo != null) {
-      invitationsParams.append("createdAtTo", values.createdAtTo);
-    }
+    if (filters.createdAtTo != null) {
+      const date = moment(filters.createdAtTo, "DD/MM/YYYY");
 
-    console.log("Estos son los valores", values);
-    console.log("Estos son los filtros", invitationsParams);
+      const formattedDate = date.toISOString();
+      invitationsParams.append("createdAtTo", formattedDate);
+    }
 
     setLoadingInvitations(true);
     apiFetch(`invitations?${invitationsParams.toString()}`).then((res) => {
@@ -249,28 +260,36 @@ export default function Invitations() {
         <Formik
           onSubmit={getFilteredInvitations}
           initialValues={{
-            issuerId: null,
-            invitationStatusId: null,
-            createdAtFrom: null,
-            createdAtTo: null,
+            issuerId: "",
+            invitationStatusId: "",
+            createdAtFrom: "",
+            createdAtTo: "",
           }}
         >
-          {({ handleChange, handleSubmit, setFieldValue, values, errors }) => (
+          {({
+            values,
+            errors,
+            resetForm,
+            handleChange,
+            handleSubmit,
+            setFieldValue,
+          }) => (
             <Form noValidate onSubmit={handleSubmit}>
               <Row className="mb-3">
-                <FormAsyncSelect
+                <FilterAsyncSelect
                   md={6}
                   sm={12}
                   errors={null}
                   label="Emisor"
                   name="issuerId"
                   disabled={false}
+                  value={values.issuerId}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un emisor"
                   getOptions={() => getIssuerOptionList()}
                 />
 
-                <FormAsyncSelect
+                <FilterAsyncSelect
                   md={6}
                   sm={12}
                   errors={null}
@@ -278,24 +297,27 @@ export default function Invitations() {
                   disabled={false}
                   name="invitationStatusId"
                   setFieldValue={setFieldValue}
+                  value={values.invitationStatusId}
                   placeholder="Selecciona un estado"
                   getOptions={() => getInvitationStatusOptionList()}
                 />
 
-                <FormDatePicker
+                <FilterDatePicker
                   md={6}
                   sm={12}
                   name="createdAtFrom"
+                  value={values.createdAtFrom}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona una fecha"
                   maxDate={moment(values.createdAtTo)}
                   label="Fecha de creación del registro mínima"
                 />
 
-                <FormDatePicker
+                <FilterDatePicker
                   md={6}
                   sm={12}
                   name="createdAtTo"
+                  value={values.createdAtTo}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona una fecha"
                   minDate={moment(values.createdAtFrom)}
@@ -304,6 +326,23 @@ export default function Invitations() {
               </Row>
 
               <div className="d-flex justify-content-end">
+                <Button
+                  variant="outline-secondary"
+                  style={{ marginRight: 10 }}
+                  onClick={() => {
+                    resetForm({
+                      values: {
+                        issuerId: "",
+                        invitationStatusId: "",
+                        createdAtFrom: "",
+                        createdAtTo: "",
+                      },
+                    });
+                  }}
+                >
+                  Limpiar
+                </Button>
+
                 <AdminFormSubmitButton
                   label="Filtrar"
                   loading={loadingInvitations}
