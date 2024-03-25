@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useState, Fragment, useEffect } from "react";
@@ -92,10 +93,12 @@ export default function ResetPassword() {
   return (
     <Fragment>
       <div className="d-flex justify-content-center">
-        <img
-          alt="SingularDocs logo"
+        <Image
+          width={235}
+          height={62.5}
+          alt="SingularDocs"
+          style={{ marginBottom: 20 }}
           src="/images/singulardocs_logo.png"
-          style={{ width: "60%", marginBottom: 20 }}
         />
       </div>
 
