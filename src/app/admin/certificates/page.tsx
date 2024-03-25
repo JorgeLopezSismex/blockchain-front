@@ -14,8 +14,8 @@ import Button from "react-bootstrap/Button";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 
 import AdminTable from "@/components/admin/AdminTable";
-import FormDatePicker from "@/components/form/FormDatePicker";
-import FormAsyncSelect from "@/components/form/FormAsyncSelect";
+import FilterDatePicker from "@/components/form/FilterDatePicker";
+import FilterAsyncSelect from "@/components/form/FilterAsyncSelect";
 import AdminModalJorge from "@/components/admin/AdminModalJorge";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
@@ -91,20 +91,31 @@ export default function CertificateList() {
 
   const getFilteredCertificates = async (values: any) => {
     const certificatesParams = new URLSearchParams();
-    if (values.issuerId != null) {
-      certificatesParams.append("issuerId", values.issuerId);
+
+    const filters = JSON.parse(JSON.stringify(values), (key, value) => {
+      return value === "" ? null : value;
+    });
+
+    if (filters.issuerId != null) {
+      certificatesParams.append("issuerId", filters.issuerId);
     }
 
-    if (values.templateId != null) {
-      certificatesParams.append("templateId", values.templateId);
+    if (filters.templateId != null) {
+      certificatesParams.append("templateId", filters.templateId);
     }
 
     if (values.createdAtFrom != null) {
-      certificatesParams.append("createdAtFrom", values.createdAtFrom);
+      const date = moment(filters.createdAtFrom, "DD/MM/YYYY");
+
+      const formattedDate = date.toISOString();
+      certificatesParams.append("createdAtFrom", formattedDate);
     }
 
     if (values.createdAtTo != null) {
-      certificatesParams.append("createdAtTo", values.createdAtTo);
+      const date = moment(filters.createdAtTo, "DD/MM/YYYY");
+
+      const formattedDate = date.toISOString();
+      certificatesParams.append("createdAtTo", formattedDate);
     }
 
     setLoadingCertificates(true);
@@ -167,53 +178,64 @@ export default function CertificateList() {
         <Formik
           onSubmit={getFilteredCertificates}
           initialValues={{
-            issuerId: null,
-            templateId: null,
-            createdAtFrom: null,
-            createdAtTo: null,
+            issuerId: "",
+            templateId: "",
+            createdAtFrom: "",
+            createdAtTo: "",
           }}
         >
-          {({ values, errors, handleChange, handleSubmit, setFieldValue }) => (
+          {({
+            values,
+            errors,
+            resetForm,
+            handleChange,
+            handleSubmit,
+            setFieldValue,
+          }) => (
             <Form noValidate onSubmit={handleSubmit}>
               <Row className="mb-3">
-                <FormAsyncSelect
+                <FilterAsyncSelect
                   md={6}
                   sm={12}
                   errors={null}
                   label="Emisor"
                   name="issuerId"
                   disabled={false}
+                  value={values.issuerId}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un emisor"
                   getOptions={() => getIssuerOptionList()}
                 />
 
-                <FormAsyncSelect
+                <FilterAsyncSelect
                   md={6}
                   sm={12}
                   errors={null}
                   disabled={false}
                   label="Plantilla"
                   name="templateId"
+                  value={values.templateId}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona una plantilla"
                   getOptions={() => getTemplatesOptionList()}
                 />
 
-                <FormDatePicker
+                <FilterDatePicker
                   md={6}
                   sm={12}
                   name="createdAtFrom"
+                  value={values.createdAtFrom}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona una fecha"
                   maxDate={moment(values.createdAtTo)}
                   label="Fecha de creación del certificado mínima"
                 />
 
-                <FormDatePicker
+                <FilterDatePicker
                   md={6}
                   sm={12}
                   name="createdAtTo"
+                  value={values.createdAtTo}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona una fecha"
                   minDate={moment(values.createdAtFrom)}
@@ -221,6 +243,23 @@ export default function CertificateList() {
                 />
 
                 <div className="d-flex justify-content-end">
+                  <Button
+                    variant="outline-secondary"
+                    style={{ marginRight: 10 }}
+                    onClick={() => {
+                      resetForm({
+                        values: {
+                          issuerId: "",
+                          templateId: "",
+                          createdAtFrom: "",
+                          createdAtTo: "",
+                        },
+                      });
+                    }}
+                  >
+                    Limpiar
+                  </Button>
+
                   <AdminFormSubmitButton
                     label="Filtrar"
                     loading={loadingCertificates}

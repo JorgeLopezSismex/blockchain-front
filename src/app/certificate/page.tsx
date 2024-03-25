@@ -44,7 +44,7 @@ export default function Certificate() {
       },
       body: JSON.stringify({
         certificatePath:
-          "https://raw.githubusercontent.com/JorgeLopezSismex/test-blockchain/main/certificateExterno.json",
+          "https://raw.githubusercontent.com/JorgeLopezSismex/test-blockchain/main/certificate.json",
       }),
     })
       .then((res) => {

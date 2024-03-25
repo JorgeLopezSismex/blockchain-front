@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Formik } from "formik";
+import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
 import { Breadcrumb, Row, Form } from "react-bootstrap";
@@ -19,6 +20,7 @@ import ContactsForm from "../form";
 import { createContactScheme } from "@/validations/contacts-validation";
 
 export default function CreateContact() {
+  const router = useRouter();
   const [loadingForm, setLoadingForm] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
 
@@ -65,7 +67,9 @@ export default function CreateContact() {
         setToastVariant("success");
         setToastMessage(res.message);
 
-        return;
+        return setTimeout(() => {
+          router.push("../contacts");
+        }, 3000);
       }
 
       setShowToast(true);

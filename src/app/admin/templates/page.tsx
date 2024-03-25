@@ -14,10 +14,10 @@ import Breadcrumb from "react-bootstrap/Breadcrumb";
 
 import AdminTable from "@/components/admin/AdminTable";
 import ActionToast from "@/components/main/ActionToast";
-import FormDatePicker from "@/components/form/FormDatePicker";
-import FormAsyncSelect from "@/components/form/FormAsyncSelect";
 import AdminModalJorge from "@/components/admin/AdminModalJorge";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
+import FilterDatePicker from "@/components/form/FilterDatePicker";
+import FilterAsyncSelect from "@/components/form/FilterAsyncSelect";
 import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 import AdminCardContainer from "@/components/admin/AdminCardContainer";
 import AdminFilterContainer from "@/components/admin/AdminFilterContainer";
@@ -88,16 +88,27 @@ export default function TemplateList() {
 
   const getFilteredTemplates = async (values: any) => {
     const templatesParams = new URLSearchParams();
-    if (values.issuerId != null) {
-      templatesParams.append("issuerId", values.issuerId);
+
+    const filters = JSON.parse(JSON.stringify(values), (key, value) => {
+      return value === "" ? null : value;
+    });
+
+    if (filters.issuerId != null) {
+      templatesParams.append("issuerId", filters.issuerId);
     }
 
-    if (values.createdAtFrom != null) {
-      templatesParams.append("createdAtFrom", values.createdAtFrom);
+    if (filters.createdAtFrom != null) {
+      const date = moment(filters.createdAtFrom, "DD/MM/YYYY");
+
+      const formattedDate = date.toISOString();
+      templatesParams.append("createdAtFrom", formattedDate);
     }
 
-    if (values.createdAtTo != null) {
-      templatesParams.append("createdAtTo", values.createdAtTo);
+    if (filters.createdAtTo != null) {
+      const date = moment(filters.createdAtTo, "DD/MM/YYYY");
+
+      const formattedDate = date.toISOString();
+      templatesParams.append("createdAtTo", formattedDate);
     }
 
     setLoadingTemplates(true);
@@ -173,40 +184,50 @@ export default function TemplateList() {
         <Formik
           onSubmit={getFilteredTemplates}
           initialValues={{
-            issuerId: null,
-            createdAtFrom: null,
-            createdAtTo: null,
+            issuerId: "",
+            createdAtFrom: "",
+            createdAtTo: "",
           }}
         >
-          {({ values, errors, handleChange, handleSubmit, setFieldValue }) => (
+          {({
+            values,
+            errors,
+            resetForm,
+            handleChange,
+            handleSubmit,
+            setFieldValue,
+          }) => (
             <Form noValidate onSubmit={handleSubmit}>
               <Row className="mb-3">
-                <FormAsyncSelect
+                <FilterAsyncSelect
                   md={12}
                   sm={12}
                   errors={null}
                   label="Emisor"
                   name="issuerId"
                   disabled={false}
+                  value={values.issuerId}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona un emisor"
                   getOptions={() => getIssuerOptionList()}
                 />
 
-                <FormDatePicker
+                <FilterDatePicker
                   md={6}
                   sm={12}
                   name="createdAtFrom"
+                  value={values.createdAtFrom}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona una fecha"
                   maxDate={moment(values.createdAtTo)}
                   label="Fecha de creación de la plantilla mínima"
                 />
 
-                <FormDatePicker
+                <FilterDatePicker
                   md={6}
                   sm={12}
                   name="createdAtTo"
+                  value={values.createdAtTo}
                   setFieldValue={setFieldValue}
                   placeholder="Selecciona una fecha"
                   minDate={moment(values.createdAtFrom)}
@@ -214,6 +235,22 @@ export default function TemplateList() {
                 />
 
                 <div className="d-flex justify-content-end">
+                  <Button
+                    variant="outline-secondary"
+                    style={{ marginRight: 10 }}
+                    onClick={() => {
+                      resetForm({
+                        values: {
+                          issuerId: "",
+                          createdAtFrom: "",
+                          createdAtTo: "",
+                        },
+                      });
+                    }}
+                  >
+                    Limpiar
+                  </Button>
+
                   <AdminFormSubmitButton
                     label="Filtrar"
                     loading={loadingTemplates}
