@@ -215,7 +215,7 @@ export default function Home() {
               title="Original"
               iconPath="/web/features/original-icon.png"
               iconAlt=""
-              text="El documento resultante será auténtico y original ya que será 1 sola versión del mismo."
+              text="El documento resultante será auténtico y original, ya que será 1 sola versión del mismo."
             />
 
             <FeatureCard

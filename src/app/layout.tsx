@@ -10,7 +10,8 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "SinguarDocs",
-  description: "Plataforma para la creación de certificados digitales en blockchain",
+  description:
+    "Plataforma para la creación de certificados digitales en blockchain",
   icons: {
     icon: "/web/singulardocs-icon.png",
   },
@@ -23,6 +24,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+      </head>
       <body
         style={{ backgroundColor: "#f4f6f9" }}
         className={poppins.className}
