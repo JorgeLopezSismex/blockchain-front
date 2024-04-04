@@ -43,7 +43,7 @@ export default function Certificate() {
   const getCertificateData = async () => {
     setLoading(true);
 
-    apiFetch(`certificates/by-verification-id/${id}`).then((res) => {
+    apiFetch(`certificates/by-verification-id-sdsfsfsd/${id}`).then((res) => {
       if (!res.success) {
         return null;
       }
@@ -109,8 +109,15 @@ export default function Certificate() {
       <Container>
         {loading ? (
           <Row>
-            <Col xs={12}>
+            <Col
+              xs={12}
+              className="d-flex justify-content-center"
+              style={{ marginTop: 20 }}
+            >
               <AdminTableSpinner />
+            </Col>
+            <Col xs={12} className="d-flex justify-content-center">
+              <h1>Próximamente...</h1>
             </Col>
           </Row>
         ) : (
