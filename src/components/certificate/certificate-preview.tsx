@@ -12,13 +12,22 @@ export default function CertificatePreview({
           <div
             dangerouslySetInnerHTML={{ __html: htmlString }}
             style={{
-              marginTop: 50,
-              paddingTop: 40,
-              marginBottom: 50,
-              paddingBottom: 50,
-              paddingInline: 90,
+              boxShadow: "0 1px 5px rgba(0,0,0,.55)",
+              padding: 20,
+              
+
+
+              margin: "0 auto",
+              minWidth: 600,
+              // paddingBottom: 50,
+              // paddingInline: 90,
+              
+              
+              textAlign: "center",
+              wordWrap: "break-word",
               border: "2px solid #ccc",
-              boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+              boxSizing: "border-box",
+              
             }}
           />
         </Col>

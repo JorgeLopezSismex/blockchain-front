@@ -16,6 +16,9 @@ import ActionToast from "@/components/main/ActionToast";
 import FifthSection from "@/components/web/FifthSection";
 import TestimonialCard from "@/components/web/TestimonialCard";
 import NoticeOfPrivacy from "@/components/web/NoticeOfPrivacy";
+import { Card } from "react-bootstrap";
+import NavScrollExample from "@/components/web/NavBarScroll";
+import OffcanvasExample from "@/components/web/NavBarScroll";
 
 export default function Home() {
   const [showToast, setShowToast] = useState(false);
@@ -29,6 +32,7 @@ export default function Home() {
     <Fragment>
       {/* --------------------------------- NavBar --------------------------------- */}
       <NavBar />
+      {/* <OffcanvasExample></OffcanvasExample> */}
 
       {/* ----------------------------- ¿Quiénes somos? ---------------------------- */}
       <div id="about-us" className="d-flex align-items-center header">
@@ -39,7 +43,7 @@ export default function Home() {
               <h1 className="primary-text">¿Quiénes somos?</h1>
               <p className="seconday-text">
                 Somos una empresa confiable que ofrece una plataforma
-                tecnológica basada en blockchain con Etherium con la cual las
+                tecnológica basada en blockchain con Ethereum con la cual las
                 empresas pueden generar información segura y accesible,
                 garantizando su integridad.
               </p>
@@ -64,7 +68,7 @@ export default function Home() {
 
                 <p className="gray-text-subtitle">
                   La relevancia de blockchain se fundamenta en la esencia de que
-                  los negocios operan en base a información. La velocidad y
+                  los negocios operan a base de información. La velocidad y
                   precisión con la que se obtiene esta información impacta
                   directamente en su rendimiento.
                 </p>
@@ -89,9 +93,9 @@ export default function Home() {
             </Col>
             <Col xs={12} md={6}>
               <p className="gray-text">
-                Blockchain emerge como una solución óptima al proporcinar datos
+                Blockchain emerge como una solución óptima al proporcionar datos
                 inmediatos, compartidos y totalmente transparentes almacenados
-                en un registro distribuido e inmutable al que sólo los miembros
+                en un registro distribuido e inmutable al que solo los miembros
                 autorizados pueden acceder. Este beneficio simplifica el proceso
                 de generar transacciones y rastrear activos en el entorno
                 empresarial.
@@ -114,7 +118,7 @@ export default function Home() {
                 confianza, eficiencia y oportunidades.
               </p>
 
-              <BlueButton label="Testimonios" href="#testimonials" />
+              {/* <BlueButton label="Testimonios" href="#testimonials" /> */}
             </Col>
           </Row>
         </Container>
@@ -160,14 +164,14 @@ export default function Home() {
               </p>
 
               <p className="white-text">
-                Adicionalmente nuestra plataforma cuenta con mecanismos útiles
+                Adicionalmente, nuestra plataforma cuenta con mecanismos útiles
                 para almacenar de forma segura y distribuir los documentos
                 certificados a todos los involucrados.
               </p>
 
               <p className="white-text">
                 Con la ayuda de nuestra plataforma se puede consultar toda la
-                información relacionada al certificado: ¿cuándo fue hecho?,
+                información relacionada con el certificado: ¿cuándo fue hecho?,
                 ¿quién lo solicitó?, ¿para quién está dirigido?, fecha de
                 caducidad (si es que la tiene), fecha de revocación (en caso de
                 que lo esté), además de contar con los mecanismos necesarios

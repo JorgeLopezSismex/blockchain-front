@@ -1,6 +1,8 @@
 "use client";
 
+import "../globals.css";
 import "bootstrap/dist/css/bootstrap.css";
+import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
 import Row from "react-bootstrap/Row";
@@ -16,9 +18,14 @@ import VerificationResult from "@/components/certificate/verification-result";
 
 import { TypeH1 } from "react-bootstrap-icons";
 import CustomLoader from "@/components/certificate/custom-loader";
+import { apiFetch } from "@/helpers/api-fetch";
 
 export default function Certificate() {
   const expand = "xs";
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
@@ -35,6 +42,18 @@ export default function Certificate() {
 
   const getCertificateData = async () => {
     setLoading(true);
+
+    apiFetch(`certificates/by-verification-id/${id}`).then((res) => {
+      if (!res.success) {
+        return null;
+      }
+
+      getVerification(res.data);
+    });
+  };
+
+  const getVerification = async (certificateUrl: string) => {
+    setLoading(true);
     setShowModal(true);
 
     fetch("http://68.178.207.49:8113/certificate-verification", {
@@ -43,8 +62,7 @@ export default function Certificate() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        certificatePath:
-          "https://raw.githubusercontent.com/JorgeLopezSismex/test-blockchain/main/certificate.json",
+        certificatePath: certificateUrl,
       }),
     })
       .then((res) => {
@@ -62,6 +80,8 @@ export default function Certificate() {
         setCertificate(json.data.certificate);
         setVerification(json.data.verification);
 
+        console.log(json);
+
         setLoading(false);
       });
   };
@@ -75,7 +95,7 @@ export default function Certificate() {
         style={{ backgroundColor: "#004A98" }}
       >
         <Container>
-          <Navbar.Brand style={{ color: "white" }} href="#">
+          <Navbar.Brand style={{ color: "white" }} href="/">
             <img
               height="30"
               alt="React Bootstrap logo"
@@ -86,10 +106,7 @@ export default function Certificate() {
         </Container>
       </Navbar>
 
-      <Container
-        style={{ height: "100vh" }}
-        className="d-flex justify-content-center"
-      >
+      <Container>
         {loading ? (
           <Row>
             <Col xs={12}>
@@ -110,9 +127,19 @@ export default function Certificate() {
                   />
                 </Col>
                 <Col xs={12} className="d-md-none">
-                  <CertificatePreview
+                  {/* <CertificatePreview
                     htmlString={certificate.certificateJson.displayHtml}
-                  />
+                  /> */}
+
+                  <section className="fullscreen-certificate-content">
+                    <div className="fullscreen-certificate-certificate certificate-fixed-width">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: certificate.certificateJson.displayHtml,
+                        }}
+                      />
+                    </div>
+                  </section>
                 </Col>
                 <Col xs={12}>
                   <CertificateData certificate={certificate}></CertificateData>
@@ -120,9 +147,19 @@ export default function Certificate() {
               </Row>
             </Col>
             <Col xs={12} md={8} className="d-none d-md-block">
-              <CertificatePreview
+              {/* <CertificatePreview
                 htmlString={certificate.certificateJson.displayHtml}
-              />
+              /> */}
+
+              <section className="fullscreen-certificate-content">
+                <div className="fullscreen-certificate-certificate certificate-fixed-width">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: certificate.certificateJson.displayHtml,
+                    }}
+                  />
+                </div>
+              </section>
             </Col>
           </Row>
         )}
@@ -139,3 +176,18 @@ export default function Certificate() {
     </Fragment>
   );
 }
+
+/*
+
+<section className="fullscreen-certificate-content">
+            <div className="fullscreen-certificate-certificate certificate-fixed-width">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: certificate.certificateJson.displayHtml,
+                }}
+              />
+            </div>
+          </section>
+
+
+*/

@@ -23,21 +23,39 @@ export default function VerificationResult({
   const [loadingCertificate, setLoadingCertificate] = useState(true);
 
   useEffect(() => {
-    if (certificate != undefined) {
-      setLoadingCertificate(false);
-      setResultString(
-        verification.message.description.replace(
-          "${chain}",
-          certificate.signers[0].chain.name
-        )
-      );
-    }
+    // if (certificate != undefined) {
+    //   setLoadingCertificate(false);
+    //   setResultString(
+    //     verification.message.description.replace(
+    //       "${chain}",
+    //       certificate.signers[0].chain.name
+    //     )
+    //   );
+    // }
 
     if (verification.status == "success") {
       setVariant("success");
+      setLoadingCertificate(false);
+
+      if (verification.message != undefined) {
+        setResultString(
+          verification.message.description.replace(
+            "${chain}",
+            certificate.signers[0].chain.name
+          )
+        );
+      }
+
+      return;
     }
 
-    if (verification.status == "success") {
+    if (verification.status == "failure") {
+      setVariant("danger");
+      setLoadingCertificate(false);
+
+      setResultString(verification.message);
+
+      return;
     }
   }, [resultString]);
 
@@ -57,7 +75,9 @@ export default function VerificationResult({
           icon={faShieldHalved}
           style={{ marginRight: 10 }}
         />
-        {verification.message.label}
+        {verification.message == undefined
+          ? "Error"
+          : verification.message.label}
       </h5>
       <p>{resultString}</p>
 
@@ -80,11 +100,3 @@ export default function VerificationResult({
     </Alert>
   );
 }
-
-/*
-
-{!showReloadValidation ? null : (
-        
-      )}
-
-*/

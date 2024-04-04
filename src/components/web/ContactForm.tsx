@@ -9,6 +9,7 @@ import Select from "react-select";
 
 import { contactSchema } from "@/validations/validation-schemas";
 import { error } from "console";
+import { apiFetch } from "@/helpers/api-fetch";
 
 export default function ContactForm({
   setShowToast,
@@ -25,16 +26,32 @@ export default function ContactForm({
     { value: "Precios", label: "Precios" },
     { value: "Blockchain", label: "Blockchain" },
     { value: "Certificados", label: "Certificados" },
+    { value: "Información general", label: "Información general" },
   ];
 
   const [loadingForm, setLoadingForm] = useState(false);
 
   const submitContactForm = async (values: any) => {
     setLoadingForm(true);
-    setShowToast(true);
-    setToastVariant("success");
-    setToastTitle("Contacto");
-    setToastMessage("Mensaje enviado correctamente.");
+    apiFetch("users/contact", "POST", values).then((res) => {
+      if (res.success) {
+        setLoadingForm(false);
+        setShowToast(true);
+        setToastVariant("success");
+        setToastTitle("Contacto");
+        setToastMessage("Mensaje enviado correctamente.");
+
+        return;
+      }
+
+      setLoadingForm(false);
+      setShowToast(true);
+      setToastVariant("danger");
+      setToastTitle("Contacto");
+      setToastMessage("Ocurrió un error al enviar el mensaje.");
+
+      return;
+    });
   };
 
   return (
@@ -96,7 +113,7 @@ export default function ContactForm({
                       name={"category"}
                       options={options}
                       isClearable={true}
-                      isSearchable={true}
+                      isSearchable={false}
                       defaultValue={null}
                       onChange={(e) => {
                         if (e == null) {
@@ -106,6 +123,7 @@ export default function ContactForm({
                         return setFieldValue("category", e.value);
                       }}
                       isDisabled={false}
+                      noOptionsMessage={() => "Sin opciones."}
                       classNamePrefix="Select"
                       placeholder="Selecciona una opción..."
                     />

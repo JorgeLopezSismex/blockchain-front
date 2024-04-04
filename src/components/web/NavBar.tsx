@@ -14,20 +14,26 @@ export default function NavBar() {
   const expand = "lg";
   const [show, setShow] = useState(false);
 
+  const movileToggleOffCanvas = () => {
+    if (show) {
+      setShow(false);
+    }
+  };
+
   const toggleOffCanvas = () => {
     setShow((show) => !show);
   };
 
   return (
     <Container>
-      <Row style={{ marginTop: 20 }}>
+      {/* <Row style={{ marginTop: 20 }}>
         <Col xs={12}>
           <Container className="d-flex align-items-center justify-content-end">
-            {/* <NavBarButton
+            <NavBarButton
               label="Idioma"
               href="/auth/sign-in"
               iconSrc="/web/icons/lang-icon.png"
-            /> */}
+            />
             <NavBarButton
               href="/auth/sign-in"
               label="Iniciar sesión"
@@ -53,7 +59,7 @@ export default function NavBar() {
             />
           </Container>
         </Col>
-      </Row>
+      </Row> */}
 
       <Row>
         <Col xs={12}>
@@ -63,10 +69,16 @@ export default function NavBar() {
         </Col>
       </Row>
 
-      <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
+      <Navbar
+        fixed="top"
+        key={expand}
+        expand={expand}
+        className="bg-body-tertiary mb-3"
+      >
         <Container fluid>
           <Link href={"/"}>
             <Image
+              style={{ marginLeft: 20, marginTop: 10, marginBottom: 10 }}
               width={200}
               height={50}
               alt="SingularDocs"
@@ -75,14 +87,13 @@ export default function NavBar() {
           </Link>
           <Navbar.Toggle
             onClick={toggleOffCanvas}
-            aria-controls={`offcanvasNavbar-expand-${expand}`}
+            aria-controls={"navbarScroll"}
           />
           <Navbar.Offcanvas
             show={show}
             onHide={toggleOffCanvas}
-            id={`offcanvasNavbar-expand-${expand}`}
+            id={"navbarScroll"}
             aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-            placement="end"
           >
             <Offcanvas.Header closeButton>
               <Link href={"/"}>
@@ -95,14 +106,29 @@ export default function NavBar() {
               </Link>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="#about-us" className="navbar-link">
+              <Nav
+                className="justify-content-end flex-grow-1 pe-3"
+                navbarScroll
+              >
+                <Nav.Link
+                  href="#about-us"
+                  className="navbar-link"
+                  onClick={movileToggleOffCanvas}
+                >
                   ¿Quiénes somos?
                 </Nav.Link>
-                <Nav.Link href="#what-is-blockchain" className="navbar-link">
+                <Nav.Link
+                  className="navbar-link"
+                  href="#what-is-blockchain"
+                  onClick={movileToggleOffCanvas}
+                >
                   ¿Qué es blockchain?
                 </Nav.Link>
-                <Nav.Link href="#what-is-it-for" className="navbar-link">
+                <Nav.Link
+                  href="#what-is-it-for"
+                  className="navbar-link"
+                  onClick={movileToggleOffCanvas}
+                >
                   ¿Para qué sirve?
                 </Nav.Link>
                 {/* <Nav.Link href="#testimonials" className="navbar-link">
@@ -111,9 +137,9 @@ export default function NavBar() {
                 {/* <Nav.Link href="#testimonials" className="navbar-link">
                   Casos de uso
                 </Nav.Link> */}
-                <Nav.Link href="#testimonials" className="navbar-link">
+                {/* <Nav.Link href="#testimonials" className="navbar-link">
                   Testimonios
-                </Nav.Link>
+                </Nav.Link> */}
                 {/* <Nav.Link href="#action5" className="navbar-link">
                   Costos
                 </Nav.Link> */}

@@ -32,7 +32,7 @@ export default function Footer({
                 </Link>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col xs={12} className="footer-icons-container">
                 <SocialMediaIcon
                   width={32}
@@ -56,7 +56,7 @@ export default function Footer({
                   alt="SingularDocs en Linkedin"
                 />
               </Col>
-            </Row>
+            </Row> */}
           </Col>
           <Col md={4}>
             <ul className="footer-list">
@@ -85,11 +85,11 @@ export default function Footer({
                   - ¿Casos de uso?
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a className="footer-list-item" href="#testimonials">
                   - Testimonios
                 </a>
-              </li>
+              </li> */}
               {/* <li className="footer-list-item">
                 <a href="#costs">- Costos</a>
               </li> */}

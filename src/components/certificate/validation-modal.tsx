@@ -31,6 +31,7 @@ export default function ValidationModal({
 
   useEffect(() => {
     let interval: any;
+
     if (!loading) {
       if (index < steps.length) {
         interval = setInterval(() => {
@@ -76,8 +77,8 @@ export default function ValidationModal({
                     src={`${certificate.issuer.image}`}
                     style={{
                       marginBottom: 20,
-                      maxWidth: "190px",
-                      maxHeight: "190px",
+                      maxWidth: "150px",
+                      maxHeight: "150px",
                     }}
                   />
                 </Col>
