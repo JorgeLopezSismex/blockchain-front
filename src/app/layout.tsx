@@ -9,8 +9,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "SinguarDocs",
-  description: "Plataforma para la creación de certificados digitales en blockchain",
+  title: "SingularDocs",
+  description:
+    "Plataforma para la creación de certificados digitales en blockchain",
   icons: {
     icon: "/web/singulardocs-icon.png",
   },

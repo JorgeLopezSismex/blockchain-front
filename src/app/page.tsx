@@ -43,7 +43,7 @@ export default function Home() {
               <h1 className="primary-text">¿Quiénes somos?</h1>
               <p className="seconday-text">
                 Somos una empresa confiable que ofrece una plataforma
-                tecnológica basada en blockchain con Ethereum con la cual las
+                tecnológica basada en blockchain con Ethereum con la cual las
                 empresas pueden generar información segura y accesible,
                 garantizando su integridad.
               </p>
@@ -215,7 +215,7 @@ export default function Home() {
               title="Original"
               iconPath="/web/features/original-icon.png"
               iconAlt=""
-              text="El documento resultante será auténtico y original ya que será 1 sola versión del mismo."
+              text="El documento resultante será auténtico y original, ya que será 1 sola versión del mismo."
             />
 
             <FeatureCard

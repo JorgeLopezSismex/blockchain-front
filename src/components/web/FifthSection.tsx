@@ -76,7 +76,7 @@ export default function FifthSection() {
               <CaseCard
                 title="Autenticidad de Productos:"
                 imageAlt="Autenticidad de Productos"
-                text="Utilizar certificados emitidos a través de SingularDocs para verificar la autenticidad de productos a lo largo de la candena de suministro. Esto es especialmente relevante para productos de alto valor o propensos a la falsificación."
+                text="Utilizar certificados emitidos a través de SingularDocs para verificar la autenticidad de productos a lo largo de la cadena de suministro. Esto es especialmente relevante para productos de alto valor o propensos a la falsificación."
                 imagePath="/web/cases/supply-&-logistics/protocols.png"
               />
 
@@ -90,7 +90,7 @@ export default function FifthSection() {
               <CaseCard
                 title="Gestión de Devoluciones y Reclamaciones:"
                 imageAlt="Gestión de Devoluciones y Reclamaciones"
-                text="Facilitar el proceso de devoluciones y reclamaciones mediante la transparecia y la trazabilidad proporcionadas por documentos generados en SingularDocs. Los problemas pueden ser identificados y resultos más rápidamente."
+                text="Facilitar el proceso de devoluciones y reclamaciones mediante la transparencia y la trazabilidad proporcionadas por documentos generados en SingularDocs. Los problemas pueden ser identificados y resueltos más rápidamente."
                 imagePath="/web/cases/supply-&-logistics/returns.png"
               />
 
@@ -104,7 +104,7 @@ export default function FifthSection() {
               <CaseCard
                 title="Cumplimiento de Normativas y Certificaciones:"
                 imageAlt="Cumplimiento de Normativas y Certificacione"
-                text="Facilitar el cumplimiento de normativas y certificaciones al proporcionar registros transparentes y a prueba de manipuliciones en SingularDocs."
+                text="Facilitar el cumplimiento de normativas y certificaciones al proporcionar registros transparentes y a prueba de manipulaciones en SingularDocs."
                 imagePath="/web/cases/supply-&-logistics/regulations.png"
               />
 
