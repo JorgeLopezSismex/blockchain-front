@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import { useState, Fragment } from "react";
 import "bootstrap/dist/css/bootstrap.css";
@@ -26,16 +27,29 @@ export default function Home() {
   const [toastMessage, setToastMessage] = useState("Mensaje.");
   const [toastVariant, setToastVariant] = useState("success");
 
+  const aboutUsSection = useRef(null);
+  const blockchainSection = useRef(null);
+  const whatIsItForSection = useRef(null);
+  const featuresSection = useRef(null);
+  const useCasesSection = useRef(null);
+  const contactSection = useRef(null);
+
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
   return (
     <Fragment>
-      {/* --------------------------------- NavBar --------------------------------- */}
-      <NavBar />
-      {/* <OffcanvasExample></OffcanvasExample> */}
+      <NavBar
+        aboutUsSection={aboutUsSection}
+        blockchainSection={blockchainSection}
+        whatIsItForSection={whatIsItForSection}
+        contactSection={contactSection}
+      />
 
-      {/* ----------------------------- ¿Quiénes somos? ---------------------------- */}
-      <div id="about-us" className="d-flex align-items-center header">
+      <div
+        id="about-us"
+        ref={aboutUsSection}
+        className="section d-flex align-items-center header"
+      >
         <Container>
           <Row className="d-flex justify-content-start">
             <Col md={8}>
@@ -53,8 +67,7 @@ export default function Home() {
         </Container>
       </div>
 
-      {/* --------------------------- ¿Qué es blockchain? -------------------------- */}
-      <div id="what-is-blockchain" className="section">
+      <div id="what-is-blockchain" ref={blockchainSection} className="section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -124,8 +137,11 @@ export default function Home() {
         </Container>
       </div>
 
-      {/* ---------------------------- ¿Para qué sirve? ---------------------------- */}
-      <div id="what-is-it-for" className="section blue-background-section">
+      <div
+        ref={whatIsItForSection}
+        id="what-is-it-fo-section"
+        className="section blue-background-section"
+      >
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -185,8 +201,7 @@ export default function Home() {
         </Container>
       </div>
 
-      {/* ------------------- Características de un SingularDocs ------------------- */}
-      <div id="features" className="section">
+      <div id="features" ref={featuresSection} className="section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -235,8 +250,7 @@ export default function Home() {
         </Container>
       </div>
 
-      {/* ------------------------------ Casos de uso ------------------------------ */}
-      <div id="use-cases" className="section">
+      <div id="use-cases" ref={useCasesSection} className="section">
         <Container>
           <Row className="d-flex justify-content-center">
             <Col xs={12} className="d-flex justify-content-center">
@@ -359,9 +373,7 @@ export default function Home() {
         </Container>
       </div> */}
 
-      {/* -------------------------------- Contacto -------------------------------- */}
-
-      <div id="contact" className="section">
+      <div id="contact" className="section" ref={contactSection}>
         <ContactForm
           setShowToast={setShowToast}
           setToastTitle={setToastTitle}
@@ -370,8 +382,15 @@ export default function Home() {
         />
       </div>
 
-      {/* --------------------------------- Footer --------------------------------- */}
-      <Footer setShowPrivacyModal={setShowPrivacyModal} />
+      <Footer
+        aboutUsSection={aboutUsSection}
+        blockchainSection={blockchainSection}
+        whatIsItForSection={whatIsItForSection}
+        featuresSection={featuresSection}
+        useCasesSection={useCasesSection}
+        contactSection={contactSection}
+        setShowPrivacyModal={setShowPrivacyModal}
+      />
 
       <ActionToast
         delay={6000}

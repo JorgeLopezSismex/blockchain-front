@@ -45,6 +45,10 @@ nextjs-portal {
   z-index: 99999999999999999999;
 }
 
+.Select__menu .css-1nmdiq5-menu {
+  z-index: 99999999999999999999;
+}
+
 .Select__control--is-focused {
   box-shadow: none;
 }
@@ -128,6 +132,15 @@ nextjs-portal {
 }
 
 /* ------------------------- Web Comercial - NavBar ------------------------- */
+.hola {
+  background-color: white;
+}
+
+.nav-bar-brand-icon {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 .nav-bar-link-button-img {
   margin-right: 10px;
 }
@@ -140,8 +153,11 @@ nextjs-portal {
 }
 
 .navbar-link {
-  color: rgb(0, 74, 155);
+  margin: 5px;
+  cursor: pointer;
   font-weight: bold;
+  text-decoration: none;
+  color: rgb(0, 74, 155);
 }
 
 .navbar-link:hover {
