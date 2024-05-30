@@ -14,8 +14,9 @@ export type CertificateData = {
   userEmail: string;
   issuerId: number;
   issuerName: string;
-  jsonBoby: string;
+  jsonBody: string;
   templateId: number;
   templateName: string;
+  verificationId: string | null;
   createdAt: string;
 };

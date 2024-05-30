@@ -11,12 +11,14 @@ export default function VerificationResult({
   showReloadValidation,
   reloadValidation,
   margin,
+  steps,
 }: {
   verification: any;
   certificate: any;
   showReloadValidation: boolean;
   reloadValidation: any;
   margin?: boolean;
+  steps: [];
 }) {
   const [variant, setVariant] = useState("danger");
   const [resultString, setResultString] = useState("");
@@ -50,11 +52,7 @@ export default function VerificationResult({
     }
 
     if (verification.status == "failure") {
-      setVariant("danger");
-      setLoadingCertificate(false);
-
       setResultString(verification.message);
-
       return;
     }
   }, [resultString]);
@@ -77,7 +75,9 @@ export default function VerificationResult({
         />
         {verification.message == undefined
           ? "Error"
-          : verification.message.label}
+          : verification.message.label != undefined
+          ? verification.message.label
+          : "Certificado no válido"}
       </h5>
       <p>{resultString}</p>
 

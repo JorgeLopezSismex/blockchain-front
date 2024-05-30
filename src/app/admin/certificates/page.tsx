@@ -11,9 +11,13 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 
+import { InputGroup } from "react-bootstrap";
+
 import AdminTable from "@/components/admin/AdminTable";
+import ActionToast from "@/components/main/ActionToast";
 import FilterDatePicker from "@/components/form/FilterDatePicker";
 import FilterAsyncSelect from "@/components/form/FilterAsyncSelect";
 import AdminModalJorge from "@/components/admin/AdminModalJorge";
@@ -31,6 +35,12 @@ import certificatesTableColums from "@/table-columns/certificates";
 import { getIssuerOptionList } from "@/utils/select-options/issuers";
 import { getTemplatesOptionList } from "@/utils/select-options/templates";
 import CertificateVerifier from "@/components/admin/AdminCertificateVerifier";
+import ShareModal from "@/components/admin/AdminCertificateShare";
+import FormInputButtonAddon from "@/components/form/FormInputButtonAddon";
+import AuthPasswordInput from "@/components/auth/AuthPasswordInput";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 export default function CertificateList() {
   const [loadingScreen, setLoadingScreen] = useState(true);
@@ -42,7 +52,11 @@ export default function CertificateList() {
   const [verification, setVerification] = useState({} as any);
 
   const [certificates, setCertificates] = useState([]);
+  const [showShareModal, setShowShareModal] = useState(false);
   const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+
+  const [verificationLink, setVerificationLink] = useState("123");
 
   const [permissions, setPermissions] = useState(
     {} as CertificatesPermissionsData
@@ -55,6 +69,12 @@ export default function CertificateList() {
   const [verificationData, setVerificationData] = useState({} as any);
 
   const handleClose = () => setShowVerifyModal(false);
+  const handleShareClose = () => setShowShareModal(false);
+
+  const [showToast, setShowToast] = useState(false);
+  const [toastTitle, setToastTitle] = useState("Título");
+  const [toastMessage, setToastMessage] = useState("Mensaje.");
+  const [toastVariant, setToastVariant] = useState("success");
 
   useEffect(() => {
     // Permisos
@@ -135,11 +155,11 @@ export default function CertificateList() {
     fetch("http://68.178.207.49:8113/certificate-verification", {
       method: "POST",
       headers: {
+        "Accept-Language": "es-MX",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        certificatePath:
-          "https://raw.githubusercontent.com/JorgeLopezSismex/test-blockchain/main/certificateExterno.json",
+        certificatePath: path,
       }),
     })
       .then((res) => {
@@ -173,7 +193,6 @@ export default function CertificateList() {
           <Breadcrumb.Item active>Certificados</Breadcrumb.Item>
         </Breadcrumb>
       </AdminPageHeader>
-
       <AdminFilterContainer>
         <Formik
           onSubmit={getFilteredCertificates}
@@ -270,7 +289,6 @@ export default function CertificateList() {
           )}
         </Formik>
       </AdminFilterContainer>
-
       <AdminCardContainer xs={12}>
         {loadingCertificates ? (
           <AdminTableSpinner />
@@ -281,7 +299,14 @@ export default function CertificateList() {
               permissions,
               getCertificateData,
               setSelectedCertificate,
-              setShowVerifyModal
+              setShowDetailsModal,
+              setShowVerifyModal,
+              setShowShareModal,
+              setVerificationLink,
+              setShowToast,
+              setToastTitle,
+              setToastMessage,
+              setToastVariant
             )}
           >
             {!permissions.CREATE_CERTIFICATE ? null : (
@@ -293,6 +318,72 @@ export default function CertificateList() {
         )}
       </AdminCardContainer>
 
+      <AdminModalJorge
+        size="lg"
+        modalLoading={false}
+        show={showDetailsModal}
+        title="Detalles del certificado"
+        handleSubmit={() => setShowDetailsModal(false)}
+        handleClose={() => setShowDetailsModal(false)}
+      >
+        <Container>
+          <Row>
+            <Col xs={12} md={6} className="mb-3">
+              <h6>
+                <b>Emisor</b>
+              </h6>
+              {selectedCertificate.issuerName}
+            </Col>
+
+            <Col xs={12} md={6} className="mb-3">
+              <h6>
+                <b>Destinatario</b>
+              </h6>
+              {selectedCertificate.userEmail}
+            </Col>
+
+            <Col xs={12} md={6} className="mb-3">
+              <h6>
+                <b>Plantilla</b>
+              </h6>
+              {selectedCertificate.templateName}
+            </Col>
+
+            <Col xs={12} md={6} className="mb-3">
+              <h6>
+                <b>Fecha-Hora de creación</b>
+              </h6>
+              {moment(selectedCertificate.createdAt).format(
+                "DD/MM/YYYY hh:mm:ss"
+              )}
+            </Col>
+
+            <Col xs={12} md={12} className="mb-3">
+              <h6>
+                <b>Id de verificación</b>
+              </h6>
+              {selectedCertificate.verificationId}
+            </Col>
+
+            <Col xs={12} md={12} className="mb-3">
+              <h6>
+                <b>Hash de transacción</b>
+              </h6>
+              {selectedCertificate.transactionHash}
+            </Col>
+
+            <Col xs={12} md={12} className="mb-3">
+              <h6>
+                <b>Enlace al archivo .json</b>
+              </h6>
+              <a target="_blank" href={selectedCertificate.jsonBody}>
+                {selectedCertificate.jsonBody}
+              </a>
+            </Col>
+          </Row>
+        </Container>
+      </AdminModalJorge>
+
       <ValidationModal
         steps={steps}
         show={showVerifyModal}
@@ -302,65 +393,63 @@ export default function CertificateList() {
         loading={loadingVerification}
       />
 
-      {/* <AdminModalJorge
-        title="Verificar"
-        showButtons={true}
+      <AdminModalJorge
+        size="lg"
+        showButtons={false}
         modalLoading={false}
-        show={showVerifyModal}
-        handleClose={() => setShowVerifyModal(false)}
-        handleSubmit={() => setShowVerifyModal(false)}
+        show={showShareModal}
+        title="Compartir certificado"
+        handleSubmit={() => setShowShareModal(false)}
+        handleClose={() => setShowShareModal(false)}
       >
-        <CertificateVerifier
-          steps={steps}
-          loading={loadingVerification}
-          certificate={certificate}
-          verification={verification}
-        />
-      </AdminModalJorge> */}
+        <Container>
+          <Row>
+            <Col xs={12} className="mb-3">
+              <Form.Group as={Col} md="12" controlId="sf" className="mb-1">
+                <Form.Label>Enlace de verificación</Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    readOnly
+                    disabled
+                    name=""
+                    type="text"
+                    value={verificationLink}
+                    placeholder="Enlace de verificación"
+                    onChange={() => null}
+                  />
+
+                  <Button
+                    variant="primary"
+                    id="verification-link-btn"
+                    onClick={() => {
+                      navigator.clipboard.writeText(verificationLink);
+                      setShowShareModal(false);
+
+                      setToastVariant("success");
+                      setToastTitle("Certificados");
+                      setToastMessage(
+                        "Enlace de verificación copiado al portapales."
+                      );
+                      setShowToast(true);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faCopy} />
+                  </Button>
+                </InputGroup>
+              </Form.Group>
+            </Col>
+          </Row>
+        </Container>
+      </AdminModalJorge>
+
+      <ActionToast
+        delay={3000}
+        show={showToast}
+        title={toastTitle}
+        message={toastMessage}
+        variant={toastVariant}
+        onClose={() => setShowToast(false)}
+      />
     </Fragment>
   );
 }
-
-/*
-
-  const verifyCertificate = async () => {
-    setLoadingCertificateData(true);
-    setLoadingVerification(true);
-    fetch("http://68.178.207.49:8113/certificate-verification", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        certificatePath:
-          "https://raw.githubusercontent.com/JorgeLopezSismex/test-blockchain/main/certificateExterno.json",
-      }),
-    })
-      .then((response) => {
-        console.log("Esto es el response", response);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((json) => {
-        if (!json.success) {
-          return null;
-        }
-
-        setCertificate(json.data.certificate);
-        setSteps(json.data.steps);
-        setVerification(json.data.verification);
-
-        setLoadingVerification(false);
-        setLoadingCertificateData(false);
-        setCertificateData(json.data.certificate);
-        setVerificationData(json.data.verification);
-
-        // setSteps([]);
-        const steps = json.data.steps;
-      });
-  };
-
-
-*/

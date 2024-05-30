@@ -1,16 +1,28 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Container, Col, Row } from "react-bootstrap";
 
+import { useRef } from "react";
+
 import NavBarButton from "./NavBarButton";
 import SocialMediaIcon from "./SocialMediaIcon";
 
-export default function NavBar() {
+export default function NavBar({
+  aboutUsSection,
+  blockchainSection,
+  whatIsItForSection,
+  contactSection,
+}: {
+  aboutUsSection: any;
+  blockchainSection: any;
+  whatIsItForSection: any;
+  contactSection: any;
+}) {
   const expand = "lg";
   const [show, setShow] = useState(false);
 
@@ -24,133 +36,91 @@ export default function NavBar() {
     setShow((show) => !show);
   };
 
+  const scrollToSection = (ref: any) => {
+    window.scrollTo({
+      top: ref.current.offsetTop - 97,
+      behavior: "smooth",
+    });
+
+    if (show) {
+      setShow(false);
+    }
+  };
+
   return (
-    <Container>
-      {/* <Row style={{ marginTop: 20 }}>
-        <Col xs={12}>
-          <Container className="d-flex align-items-center justify-content-end">
-            <NavBarButton
-              label="Idioma"
-              href="/auth/sign-in"
-              iconSrc="/web/icons/lang-icon.png"
-            />
-            <NavBarButton
-              href="/auth/sign-in"
-              label="Iniciar sesión"
-              iconSrc="/web/icons/sign-in-icon.png"
-            />
-            <SocialMediaIcon
-              width={32}
-              height={32}
-              src="/web/socials/x-icon.png"
-              alt="SingularDocs en X"
-            />
-            <SocialMediaIcon
-              width={32}
-              height={32}
-              src="/web/socials/facebook-icon.png"
-              alt="SingularDocs en Facebook"
-            />
-            <SocialMediaIcon
-              width={32}
-              height={32}
-              src="/web/socials/linkedin-icon.png"
-              alt="SingularDocs en Linkedin"
-            />
-          </Container>
-        </Col>
-      </Row> */}
-
-      <Row>
-        <Col xs={12}>
-          <Container>
-            <hr />
-          </Container>
-        </Col>
-      </Row>
-
-      <Navbar
-        fixed="top"
-        key={expand}
-        expand={expand}
-        className="bg-body-tertiary mb-3"
-      >
-        <Container fluid>
-          <Link href={"/"}>
-            <Image
-              style={{ marginLeft: 20, marginTop: 10, marginBottom: 10 }}
-              width={200}
-              height={50}
-              alt="SingularDocs"
-              src="/web/singulardocs-logo.png"
-            />
-          </Link>
-          <Navbar.Toggle
-            onClick={toggleOffCanvas}
-            aria-controls={"navbarScroll"}
+    <Navbar
+      sticky="top"
+      key={expand}
+      expand={expand}
+      className="bg-body-tertiary"
+    >
+      <Container>
+        <Link href={"/"}>
+          <Image
+            width={256}
+            height={61}
+            alt="SingularDocs"
+            src="/web/singulardocs-logo.png"
+            style={{ marginTop: 10, marginBottom: 10 }}
           />
-          <Navbar.Offcanvas
-            show={show}
-            onHide={toggleOffCanvas}
-            id={"navbarScroll"}
-            aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-          >
-            <Offcanvas.Header closeButton>
-              <Link href={"/"}>
-                <Image
-                  width={200}
-                  height={50}
-                  alt="SingularDocs"
-                  src="/web/singulardocs-logo.png"
-                />
-              </Link>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              <Nav
-                className="justify-content-end flex-grow-1 pe-3"
-                navbarScroll
+        </Link>
+
+        <Navbar.Toggle
+          onClick={toggleOffCanvas}
+          aria-controls={`offcanvasNavbar-expand-${expand}`}
+        />
+
+        <Navbar.Offcanvas
+          show={show}
+          placement="end"
+          onHide={toggleOffCanvas}
+          id={`offcanvasNavbar-expand-${expand}`}
+          aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+              <Image
+                width={256}
+                height={61}
+                alt="SingularDocs"
+                src="/web/singulardocs-logo.png"
+                style={{ marginTop: 10, marginBottom: 10 }}
+              />
+            </Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <Nav className="justify-content-end flex-grow-1 pe-3">
+              <Navbar.Text
+                className="navbar-link"
+                onClick={() => scrollToSection(aboutUsSection)}
               >
-                <Nav.Link
-                  href="#about-us"
-                  className="navbar-link"
-                  onClick={movileToggleOffCanvas}
-                >
-                  ¿Quiénes somos?
-                </Nav.Link>
-                <Nav.Link
-                  className="navbar-link"
-                  href="#what-is-blockchain"
-                  onClick={movileToggleOffCanvas}
-                >
-                  ¿Qué es blockchain?
-                </Nav.Link>
-                <Nav.Link
-                  href="#what-is-it-for"
-                  className="navbar-link"
-                  onClick={movileToggleOffCanvas}
-                >
-                  ¿Para qué sirve?
-                </Nav.Link>
-                {/* <Nav.Link href="#testimonials" className="navbar-link">
-                  Características
-                </Nav.Link> */}
-                {/* <Nav.Link href="#testimonials" className="navbar-link">
-                  Casos de uso
-                </Nav.Link> */}
-                {/* <Nav.Link href="#testimonials" className="navbar-link">
-                  Testimonios
-                </Nav.Link> */}
-                {/* <Nav.Link href="#action5" className="navbar-link">
-                  Costos
-                </Nav.Link> */}
-                <Nav.Link href="#contact" className="navbar-link">
-                  Contacto
-                </Nav.Link>
-              </Nav>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas>
-        </Container>
-      </Navbar>
-    </Container>
+                ¿Quiénes somos?
+              </Navbar.Text>
+
+              <Navbar.Text
+                className="navbar-link"
+                onClick={() => scrollToSection(blockchainSection)}
+              >
+                ¿Qué es blockchain?
+              </Navbar.Text>
+
+              <Navbar.Text
+                className="navbar-link"
+                onClick={() => scrollToSection(whatIsItForSection)}
+              >
+                ¿Para qué sirve?
+              </Navbar.Text>
+
+              <Navbar.Text
+                className="navbar-link"
+                onClick={() => scrollToSection(contactSection)}
+              >
+                Contacto
+              </Navbar.Text>
+            </Nav>
+          </Offcanvas.Body>
+        </Navbar.Offcanvas>
+      </Container>
+    </Navbar>
   );
 }

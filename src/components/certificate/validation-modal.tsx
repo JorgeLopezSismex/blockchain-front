@@ -95,6 +95,7 @@ export default function ValidationModal({
 
                   {finished ? (
                     <VerificationResult
+                      steps={steps}
                       reloadValidation={null}
                       certificate={certificate}
                       verification={verification}

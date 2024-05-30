@@ -21,13 +21,7 @@ export default function VerificationStep({
   }
 
   const formatLabel = (label: string) => {
-    let result =
-      label.charAt(0).toUpperCase() + label.slice(1).toLowerCase() + ".";
-
-    result = result
-      .replace("Obeniendo", "Obteniendo")
-      .replace("merkle root", "Merkle Root");
-
+    let result = label.charAt(0).toUpperCase() + label.slice(1).toLowerCase();
     return result;
   };
 

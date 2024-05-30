@@ -1,15 +1,14 @@
+import { useEffect, useState } from "react";
+
 import { Formik } from "formik";
-import { Container, Col, Row, Form } from "react-bootstrap";
+import Select from "react-select";
+import { Container, Col, Row, Form, Button } from "react-bootstrap";
+
 import FormInput from "@/components/form/FormInput";
 import FormTextarea from "@/components/form/FormTextarea";
-import FormSelect from "../form/FormSelect";
-import { Button } from "react-bootstrap";
-import { useState } from "react";
-import Select from "react-select";
 
-import { contactSchema } from "@/validations/validation-schemas";
-import { error } from "console";
 import { apiFetch } from "@/helpers/api-fetch";
+import { contactSchema } from "@/validations/validation-schemas";
 
 export default function ContactForm({
   setShowToast,
@@ -30,27 +29,71 @@ export default function ContactForm({
   ];
 
   const [loadingForm, setLoadingForm] = useState(false);
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string;
 
-  const submitContactForm = async (values: any) => {
-    setLoadingForm(true);
-    apiFetch("users/contact", "POST", values).then((res) => {
-      if (res.success) {
-        setLoadingForm(false);
-        setShowToast(true);
-        setToastVariant("success");
-        setToastTitle("Contacto");
-        setToastMessage("Mensaje enviado correctamente.");
+  useEffect(() => {
+    const loadScriptByUrl = (id: string, url: string, callback: any) => {
+      const scriptExist = document.getElementById(id);
 
-        return;
+      if (!scriptExist) {
+        var script = document.createElement("script");
+
+        script.id = id;
+        script.src = url;
+        script.type = "text/javascript";
+
+        script.onload = function () {
+          if (callback) callback();
+        };
+
+        document.body.appendChild(script);
       }
 
-      setLoadingForm(false);
-      setShowToast(true);
-      setToastVariant("danger");
-      setToastTitle("Contacto");
-      setToastMessage("Ocurrió un error al enviar el mensaje.");
+      if (scriptExist && callback) callback();
+    };
 
-      return;
+    loadScriptByUrl(
+      "recaptcha-key",
+      `https://www.google.com/recaptcha/api.js?render=${siteKey}`,
+      function () {
+        console.log("Script loaded!");
+      }
+    );
+  }, []);
+
+  const submitForm = async (values: any) => {
+    setLoadingForm(true);
+    var currentWindow = window as any;
+
+    currentWindow.grecaptcha.ready(() => {
+      currentWindow.grecaptcha
+        .execute(siteKey, { action: "submit" })
+        .then((token?: string) => {
+          if (token == undefined) {
+            return console.error("Error en reCaptcha");
+          }
+
+          values.recaptcha = token;
+          apiFetch("users/contact", "POST", values).then((res) => {
+            if (res.success) {
+              setLoadingForm(false);
+              setShowToast(true);
+              setToastVariant("success");
+              setToastTitle("Contacto");
+              setToastMessage("Mensaje enviado correctamente.");
+
+              return;
+            }
+
+            setLoadingForm(false);
+            setShowToast(true);
+            setToastVariant("danger");
+            setToastTitle("Contacto");
+            setToastMessage("Ocurrió un error al enviar el mensaje.");
+
+            return;
+          });
+        });
     });
   };
 
@@ -65,7 +108,7 @@ export default function ContactForm({
       </Row>
 
       <Formik
-        onSubmit={submitContactForm}
+        onSubmit={submitForm}
         validationSchema={contactSchema}
         initialValues={{ email: "", category: "", comments: "" }}
       >

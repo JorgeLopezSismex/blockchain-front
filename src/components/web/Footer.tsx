@@ -6,104 +6,121 @@ import SocialMediaIcon from "./SocialMediaIcon";
 import { Fragment } from "react";
 
 export default function Footer({
+  aboutUsSection,
+  blockchainSection,
+  whatIsItForSection,
+  featuresSection,
+  useCasesSection,
+  contactSection,
   setShowPrivacyModal,
 }: {
+  aboutUsSection: any;
+  blockchainSection: any;
+  whatIsItForSection: any;
+  featuresSection: any;
+  useCasesSection: any;
+  contactSection: any;
   setShowPrivacyModal: any;
 }) {
+  const scrollToSection = (ref: any) => {
+    window.scrollTo({
+      top: ref.current.offsetTop - 97,
+      behavior: "smooth",
+    });
+  };
+
   const showPrivacy = () => {
     setShowPrivacyModal(true);
   };
 
+  const currentYear = new Date().getFullYear();
+
   return (
-    <Fragment>
-      <Container className="footer-container">
+    <div>
+      <Container>
         <Row>
-          <Col md={5}>
+          <Col md={4} className="mb-3">
             <Row>
-              <Col xs={12}>
+              <Col xs={8} md={10}>
                 <Link href={"/"}>
                   <Image
                     width={353}
                     height={84}
                     alt="SingularDocs"
+                    layout="responsive"
                     className="footer-logo"
                     src="/web/singulardocs-logo.png"
                   />
                 </Link>
               </Col>
             </Row>
-            {/* <Row>
-              <Col xs={12} className="footer-icons-container">
-                <SocialMediaIcon
-                  width={32}
-                  height={32}
-                  spacing={true}
-                  src="/web/socials/x-icon.png"
-                  alt="SingularDocs en X"
-                />
-                <SocialMediaIcon
-                  width={32}
-                  height={32}
-                  spacing={true}
-                  src="/web/socials/facebook-icon.png"
-                  alt="SingularDocs en Facebook"
-                />
-                <SocialMediaIcon
-                  width={32}
-                  height={32}
-                  spacing={true}
-                  src="/web/socials/linkedin-icon.png"
-                  alt="SingularDocs en Linkedin"
-                />
-              </Col>
-            </Row> */}
+
+            <Row>
+              <Col xs={12}></Col>
+            </Row>
           </Col>
-          <Col md={4}>
-            <ul className="footer-list">
-              <li>
-                <a className="footer-list-item" href="#about-us">
-                  - ¿Quiénes somos?
-                </a>
-              </li>
-              <li>
-                <a className="footer-list-item" href="#what-is-blockchain">
-                  - ¿Qué es blockchain?
-                </a>
-              </li>
-              <li>
-                <a className="footer-list-item" href="#what-is-it-for">
-                  - ¿Para qué sirve?
-                </a>
-              </li>
-              <li>
-                <a className="footer-list-item" href="#features">
-                  - Características de un SingularDocs
-                </a>
-              </li>
-              <li>
-                <a className="footer-list-item" href="#use-cases">
-                  - ¿Casos de uso?
-                </a>
-              </li>
-              {/* <li>
-                <a className="footer-list-item" href="#testimonials">
-                  - Testimonios
-                </a>
-              </li> */}
-              {/* <li className="footer-list-item">
-                <a href="#costs">- Costos</a>
-              </li> */}
-              <li>
-                <a className="footer-list-item" href="#contact">
-                  - Contacto
-                </a>
-              </li>
-            </ul>
+
+          <Col md={4} className="mb-3">
+            <div>
+              <span
+                className="navbar-link"
+                style={{ display: "block" }}
+                onClick={() => scrollToSection(aboutUsSection)}
+              >
+                - ¿Quiénes somos?
+              </span>
+              <span
+                className="navbar-link"
+                style={{ display: "block" }}
+                onClick={() => scrollToSection(blockchainSection)}
+              >
+                - ¿Qué es blockchain?
+              </span>
+              <span
+                className="navbar-link"
+                style={{ display: "block" }}
+                onClick={() => scrollToSection(whatIsItForSection)}
+              >
+                - ¿Para qué sirve?
+              </span>
+              <span
+                className="navbar-link"
+                style={{ display: "block" }}
+                onClick={() => scrollToSection(featuresSection)}
+              >
+                - Características de un SingularDocs
+              </span>
+              <span
+                className="navbar-link"
+                style={{ display: "block" }}
+                onClick={() => scrollToSection(useCasesSection)}
+              >
+                - Casos de uso
+              </span>
+              {/* <span className="navbar-link" style={{ display: "block" }}>
+              - Testimonios
+            </span> */}
+              {/* <span className="navbar-link" style={{ display: "block" }}>
+              - Costos
+            </span> */}
+              <span
+                className="navbar-link"
+                style={{ display: "block" }}
+                onClick={() => scrollToSection(contactSection)}
+              >
+                - Contacto
+              </span>
+            </div>
           </Col>
-          <Col md={2}>
-            <p onClick={showPrivacy} className="privacy-link footer-list-item">
+
+          <Col md={4} className="mb-3">
+            <span
+              onClick={showPrivacy}
+              className="navbar-link"
+              style={{ display: "block" }}
+            >
               - Aviso de privacidad
-            </p>
+            </span>
           </Col>
         </Row>
       </Container>
@@ -113,12 +130,12 @@ export default function Footer({
           <Row>
             <Col xs={12}>
               <p className="d-flex align-items-center footer-legals-text">
-                Links legales 2024 Derechos reservados SingularDocs
+                {`©    ${currentYear} - Derechos reservados`}
               </p>
             </Col>
           </Row>
         </Container>
       </div>
-    </Fragment>
+    </div>
   );
 }
