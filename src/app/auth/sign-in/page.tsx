@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, Fragment } from "react";
 
 import * as formik from "formik";
 import "bootstrap/dist/css/bootstrap.css";
+import Cookie from "js-cookie";
 
 import { Col, Row, Form } from "react-bootstrap";
 
@@ -20,178 +21,189 @@ import AdminTableSpinner from "@/components/admin/AdminTableSpinner";
 
 import { apiFetch } from "@/helpers/api-fetch";
 import { signInSchema } from "../../../validations/validation-schemas";
-
+import * as yup from "yup";
 import styles from "../styles.module.css";
 
 export default function SignIn() {
-  const { Formik } = formik;
-  const router = useRouter();
-  const [recaptchaKey, setRecaptchaKey] = useState(1);
+	const { Formik } = formik;
+	const router = useRouter();
+	const [recaptchaKey, setRecaptchaKey] = useState(1);
 
-  const [loading, setLoading] = useState(false);
-  const [loadingCheck, setLoadingCheck] = useState(true);
-  const [loadignReCaptcha, setLoadingReCaptcha] = useState(true);
+	const [loading, setLoading] = useState(false);
+	const [loadingCheck, setLoadingCheck] = useState(true);
+	const [loadingReCaptcha, setLoadingReCaptcha] = useState(true);
 
-  const [showToast, setShowToast] = useState(false);
-  const [toastTitle, setToastTitle] = useState("Título");
-  const [toastMessage, setToastMessage] = useState("Mensaje.");
-  const [toastVariant, setToastVariant] = useState("success");
+	const [showToast, setShowToast] = useState(false);
+	const [toastTitle, setToastTitle] = useState("Título");
+	const [toastMessage, setToastMessage] = useState("Mensaje.");
+	const [toastVariant, setToastVariant] = useState("success");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token != null) {
-      checkSignIn(token);
-    }
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token != null) {
+			checkSignIn(token);
+		}
 
-    return setLoadingCheck(false);
-  }, []);
+		return setLoadingCheck(false);
+	}, []);
 
-  const checkSignIn = async (token: string) => {
-    const res = await apiFetch("authorization/check-sign-in", "POST", {
-      token: token,
-    });
+	const checkSignIn = async (token: string) => {
+		const res = await apiFetch("authorization/check-sign-in", "POST", {
+			token: token,
+		});
 
-    if (!res.success) {
-      localStorage.removeItem("token");
-      return;
-    }
+		if (!res.success) {
+			localStorage.removeItem("token");
+			return;
+		}
 
-    router.replace("/admin");
-    return;
-  };
+		router.replace("/admin");
+		return;
+	};
 
-  const signIn = async (values: object) => {
-    setLoading(true);
-    const res = await apiFetch("authorization/sign-in", "POST", values);
+	const signIn = async (values: yup.InferType<typeof signInSchema>) => {
+		const res = await apiFetch("authorization/sign-in", "POST", values);
 
-    if (!res.success) {
-      setLoading(false);
-      setShowToast(true);
+		if (!res.success) {
+			setLoading(false);
+			setShowToast(true);
 
-      setToastVariant("danger");
-      setToastTitle("Autenticación");
-      setToastMessage(res.message);
+			setToastVariant("danger");
+			setToastTitle("Autenticación");
+			setToastMessage(res.message);
 
-      setRecaptchaKey(recaptchaKey + 1);
-      return;
-    }
+			setRecaptchaKey(recaptchaKey + 1);
+			return;
+		}
 
-    localStorage.setItem("token", res.data);
-    router.replace("/admin");
-    return;
-  };
+		localStorage.setItem("token", res.data);
+		Cookie.set("_session", res.data, {
+			expires: values.rememberMe ? 14 : 6,
+		});
+		router.push("/admin");
+		return;
+	};
 
-  return (
-    <Fragment>
-      <div className="d-flex justify-content-center">
-        <Image
-          width={235}
-          height={62.5}
-          alt="SingularDocs"
-          style={{ marginBottom: 20 }}
-          src="/images/singulardocs_logo.png"
-        />
-      </div>
+	return (
+		<Fragment>
+			<div className="d-flex justify-content-center">
+				<Image
+					width={235}
+					height={62.5}
+					alt="SingularDocs"
+					style={{ marginBottom: 20 }}
+					src="/images/singulardocs_logo.png"
+				/>
+			</div>
 
-      <div className="d-flex justify-content-center">
-        <h3>Iniciar sesión</h3>
-      </div>
+			<div className="d-flex justify-content-center">
+				<h3>Iniciar sesión</h3>
+			</div>
 
-      <div className={styles.authFormTitle}>
-        {loadingCheck ? (
-          <Row style={{ marginTop: 30, marginBottom: 30 }}>
-            <Col xs={12} className="d-flex justify-content-center">
-              <AdminTableSpinner />
-            </Col>
-          </Row>
-        ) : (
-          <Fragment>
-            <Formik
-              onSubmit={signIn}
-              validationSchema={signInSchema}
-              initialValues={{
-                email: "",
-                password: "",
-                rememberMe: false,
-                reCaptcha: "",
-              }}
-            >
-              {({
-                handleSubmit,
-                handleChange,
-                setFieldValue,
-                values,
-                errors,
-              }) => (
-                <Form noValidate onSubmit={handleSubmit}>
-                  <Row className="mb-3">
-                    <AuthInput
-                      type={"text"}
-                      name={"email"}
-                      value={values.email}
-                      errors={errors.email}
-                      handleChange={handleChange}
-                      label={"Correo electrónico"}
-                      placeholder={"ejemplo@gmail.com"}
-                    />
-                  </Row>
+			<div className={styles.authFormTitle}>
+				{loadingCheck ? (
+					<Row style={{ marginTop: 30, marginBottom: 30 }}>
+						<Col
+							xs={12}
+							className="d-flex justify-content-center"
+						>
+							<AdminTableSpinner />
+						</Col>
+					</Row>
+				) : (
+					<Fragment>
+						<Formik
+							onSubmit={signIn}
+							validationSchema={signInSchema}
+							initialValues={{
+								email: "",
+								password: "",
+								rememberMe: false,
+								reCaptcha: "",
+							}}
+						>
+							{({
+								handleSubmit,
+								handleChange,
+								setFieldValue,
+								values,
+								errors,
+							}) => (
+								<Form
+									noValidate
+									onSubmit={handleSubmit}
+								>
+									<Row className="mb-3">
+										<AuthInput
+											type={"text"}
+											name={"email"}
+											value={values.email}
+											errors={errors.email}
+											handleChange={handleChange}
+											label={"Correo electrónico"}
+											placeholder={"ejemplo@gmail.com"}
+										/>
+									</Row>
 
-                  <Row className="mb-3">
-                    <AuthPasswordInput
-                      type={"password"}
-                      name={"password"}
-                      label={"Contraseña"}
-                      value={values.password}
-                      errors={errors.password}
-                      handleChange={handleChange}
-                      placeholder={"Micontraseña123*"}
-                    />
-                  </Row>
+									<Row className="mb-3">
+										<AuthPasswordInput
+											type={"password"}
+											name={"password"}
+											label={"Contraseña"}
+											value={values.password}
+											errors={errors.password}
+											handleChange={handleChange}
+											placeholder={"Micontraseña123*"}
+										/>
+									</Row>
 
-                  <Row>
-                    <AuthCheck
-                      errors={errors}
-                      text={"Recordarme"}
-                      name={"rememberMe"}
-                      handleChange={handleChange}
-                    />
-                  </Row>
+									<Row>
+										<AuthCheck
+											errors={errors}
+											text={"Recordarme"}
+											name={"rememberMe"}
+											handleChange={handleChange}
+										/>
+									</Row>
 
-                  <AuthReCaptcha
-                    key={recaptchaKey}
-                    errors={errors.reCaptcha}
-                    setFieldValue={setFieldValue}
-                    setLoadingReCaptcha={setLoadingReCaptcha}
-                  />
+									<AuthReCaptcha
+										keyNumber={recaptchaKey}
+										errors={errors.reCaptcha}
+										setFieldValue={setFieldValue}
+										setLoadingReCaptcha={setLoadingReCaptcha}
+									/>
 
-                  <Row className="mb-3">
-                    <AuthButton text={"Iniciar sesión"} loading={loading} />
-                  </Row>
-                </Form>
-              )}
-            </Formik>
+									<Row className="mb-3">
+										<AuthButton
+											text={"Iniciar sesión"}
+											loading={loading}
+										/>
+									</Row>
+								</Form>
+							)}
+						</Formik>
 
-            <AuthLink
-              link={"forgot-password"}
-              text={"¿Olvidaste tu contraseña?"}
-            />
-            <br />
-            <AuthLink
-              link={"sign-up"}
-              text={"¿No tienes cuenta? - Regístrate aquí"}
-            />
-          </Fragment>
-        )}
-      </div>
+						<AuthLink
+							link={"forgot-password"}
+							text={"¿Olvidaste tu contraseña?"}
+						/>
+						<br />
+						<AuthLink
+							link={"sign-up"}
+							text={"¿No tienes cuenta? - Regístrate aquí"}
+						/>
+					</Fragment>
+				)}
+			</div>
 
-      <ActionToast
-        delay={3000}
-        show={showToast}
-        title={toastTitle}
-        message={toastMessage}
-        variant={toastVariant}
-        onClose={() => setShowToast(false)}
-      />
-    </Fragment>
-  );
+			<ActionToast
+				delay={3000}
+				show={showToast}
+				title={toastTitle}
+				message={toastMessage}
+				variant={toastVariant}
+				onClose={() => setShowToast(false)}
+			/>
+		</Fragment>
+	);
 }

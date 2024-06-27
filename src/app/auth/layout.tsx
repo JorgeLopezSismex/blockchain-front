@@ -10,24 +10,37 @@ import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 
 export default function AuthLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <Container fluid style={{ height: "100vh" }}>
-      <Row fluid style={{ height: "100vh" }}>
-        <Col md={4} lg={6} className={styles.sample}></Col>
-        <Col md={8} lg={6}>
-          <div className="login d-flex align-items-center py-5">
-            <Container>
-              <Row>
-                <div className="col-md-9 col-lg-8 mx-auto">{children}</div>
-              </Row>
-            </Container>
-          </div>
-        </Col>
-      </Row>
-    </Container>
-  );
+	return (
+		<Container
+			fluid="true"
+			style={{ height: "100vh" }}
+		>
+			<Row
+				fluid="true"
+				style={{ height: "100vh" }}
+			>
+				<Col
+					md={4}
+					lg={6}
+					className={styles.sample}
+				></Col>
+				<Col
+					md={8}
+					lg={6}
+				>
+					<div className="login d-flex align-items-center py-5">
+						<Container>
+							<Row>
+								<div className="col-md-9 col-lg-8 mx-auto">{children}</div>
+							</Row>
+						</Container>
+					</div>
+				</Col>
+			</Row>
+		</Container>
+	);
 }
